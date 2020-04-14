@@ -1,22 +1,27 @@
 #include <stdio.h>
 
+#define estados 7
+#define posCaracter 6
+
+int estMatriz [estados][posCaracter];
+
+void rellenarMatriz();
+
+
 
 int main()
     {
-       
-    string estados; // vector de salida p nombres (siguiendo q de i)
-                    //primerpos si entra, directo; y desp ver en dependencia a pos de estados
+    char *estSalida[]={"vacio","decimal","octal","","hexadecimal","octal","desconocido"}; //vector p salida 
 
-    int estMatriz[7][6];
-
-    cargar matriz //hacer funcion aparte por referencia
-
-
+    rellenarMatriz(); //no manda parametros porq matriz es var global/externa
+   
 
     int i=0; //variable p variar estado
     int j=0; //variable p q se mueva en dependencia a caracter q entra 
 
-    abrir archivo //lectura
+    FILE* archivo;
+    archivo=fopen("entrada.txt","r");
+
 
     while (no sea final del archivo){  
         leer caracter                                            
@@ -46,4 +51,40 @@ int main()
     }    
      
     return 0;
+}
+
+
+void  rellenarMatriz(){
+    int i;
+    int j;
+    estMatriz [2][2]= estMatriz [5][2]=6;
+    for(j=0;j<3;j++){
+        estMatriz [6][j]=6;
+    }
+    estMatriz [2][0]= estMatriz [2][1]=estMatriz [5][0]= estMatriz [5][1]=5;
+    for(i=0;i<7;i++){
+        for(j=3;j<6;j++){
+           estMatriz [i][j]=6; 
+        }
+    }
+   
+   
+   
+    for(i=0;i<2;i++){
+        for(j=0;j<3;j++){
+            estMatriz [i][j]=1; 
+        }
+    }
+    estMatriz [0][0]=2;
+  
+    estMatriz [2][3]=3;
+
+     estMatriz [3][4]= estMatriz [4][4]= 4; //???
+    for(i=3;i<5;i++){
+        for(j=0;j<3;j++){
+            estMatriz [i][j]=4;
+        }
+    }
+   
+    
 }
