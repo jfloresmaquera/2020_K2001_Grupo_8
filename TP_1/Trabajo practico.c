@@ -1,57 +1,71 @@
 #include <stdio.h>
 
-#define estados 7
+
+#define cantEstados 7
 #define posCaracter 6
 
-int estMatriz [estados][posCaracter];
-
 void rellenarMatriz();
+int selecColumna (char caracter);
 
+int estMatriz [cantEstados][posCaracter];
 
 
 int main()
     {
-    char *estSalida[]={"vacio","decimal","octal","","hexadecimal","octal","desconocido"}; //vector p salida 
-
-    rellenarMatriz(); //no manda parametros porq matriz es var global/externa
+    rellenarMatriz(); 
    
+    int estado=0; //variable p variar estado
+    int columna=0; //variable p que se mueva en dependencia a caracter q entra 
 
-    int i=0; //variable p variar estado
-    int j=0; //variable p q se mueva en dependencia a caracter q entra 
+    FILE* archivoEntrada;
+    archivoEntrada = fopen ("entrada.txt","r");
+    FILE* archivoSalida;
+    archivoSalida = fopen ("salida.txt","wb+"); //si no esta lo crea
+    char caracterLeido;
 
-    FILE* archivo;
-    archivo=fopen("entrada.txt","r");
-
-
-    while (no sea final del archivo){  
-        leer caracter                                            
-        while(caracter != , y no sea fin de archiv){ //esto lo podemos hacer en otra funcion q devuelva valor y lo ponemos en j
-            switch caracter{
-                case "0"
-                    j=0
-                    break
-                case "1"
-                case "7"   
-                    j=1
-                    break
-                    .
-                    .
-            }
-            i=matriz [i] [j]
-            escribir en archivo caracter //en archivo de salida 
-            leer devuelta        
+    while ((caracterLeido = fgetc (archivoEntrada))!= EOF) //lectura hasta el final del archivo
+    {  
+        while(caracterLeido!=',' && caracterLeido!= EOF)
+        { 
+           
+        columna= selecColumna(caracterLeido); //selecciona columna de caract leido
+        estado = estMatriz [estado] [columna];
+        archivoSalida = fputc (caracterLeido, "salida.txt");//en archivo de salida  
+        caracterLeido = fgetc (archivoEntrada);        
 
         } //sale del while cuando termina la palabra y ya esta escrito lo q entro en arch salida
-        
-        if (leer =,){
-            guardar " es "+ vector [posicion q diga hexa octal o des usando i] +","
+         //ya llego al ultimo caracter y ahora tengo que guardar en el archivo de salida 
+                
+        //de posicion a tipo que representa 
+          
+        switch (estado)
+        {
+          case '0':
+                fwrite (" es vacio, ", sizeof (" es vacio, "),1, "salida.txt");
+                break;
+          case '1':
+                fwrite (" es decimal, ", sizeof (" es decimal, "),1, "salida.txt");
+                break;
+          case '2':
+                fwrite (" es octal, ", sizeof (" es octal, "),1, "salida.txt");
+                break;
+          case '4':
+                fwrite (" es hexadecimal, ", sizeof (" es hexadecimal, "),1, "salida.txt");
+                  break;
+          case '5':
+                fwrite (" palabra no reconocida, ", sizeof (" palabra no reconocida, "),1, "salida.txt");
+                break;
+            default:
+                break;
         }
-    i=0
+        
+        estado=0;
     
-    }    
+    }  
      
     return 0;
 }
+
 
 
 void  rellenarMatriz(){
@@ -66,10 +80,7 @@ void  rellenarMatriz(){
         for(j=3;j<6;j++){
            estMatriz [i][j]=6; 
         }
-    }
-   
-   
-   
+    }   
     for(i=0;i<2;i++){
         for(j=0;j<3;j++){
             estMatriz [i][j]=1; 
@@ -85,6 +96,78 @@ void  rellenarMatriz(){
             estMatriz [i][j]=4;
         }
     }
+}
+
+int selecColumna (char caracter){
+    int estado;
    
     
+     if  (caracter==48)
+       {
+           //48 es 0 en ascii
+           estado=0;
+       } else if (caracter>=49 && caracter <=55)
+       {
+           // 1-7
+           estado=1;
+       } else if (caracter == 56 || caracter == 57)
+       {
+           // 8 o 9
+           estado = 2;
+       } else if (caracter == 120 || caracter == 88)
+       {
+           //x o X
+           estado = 3;
+       } else if ((caracter>=65 && caracter <= 70) || (caracter >=97 && caracter <=102 ))
+       {
+           //a-f y A-F
+           estado = 4;
+       }   else
+       {
+           estado = 5;
+       }
+
+
+
+    return estado;
+       
+    /* switch (caracter){
+        case'0':
+            estado=0;
+            break;
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+            estado=1;
+            break;        
+        case '8':
+        case '9':
+            estado=2;
+            break;
+        case 'x':
+        case 'X':
+            estado=3;
+            break;
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f':
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+            estado=4;
+            break;
+        default: 
+            estado=5;              
+    }
+    return estado; */
 }
