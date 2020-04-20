@@ -1,11 +1,13 @@
 #include <stdio.h>
-
+#include <stdbool.h> // duda 
 
 #define cantEstados 7
 #define posCaracter 6
 
 void rellenarMatriz();
 int selecColumna (char caracter);
+//int seleccionEstado (char caracter); duda 
+//bool noReconoceCaracter (char caracter); duda
 
 int estMatriz [cantEstados][posCaracter];
 
@@ -20,55 +22,63 @@ int main()
     FILE* archivoEntrada;
     archivoEntrada = fopen ("entrada.txt","r");
     FILE* archivoSalida;
-    archivoSalida = fopen ("salida.txt","wb+"); //si no esta lo crea
+    archivoSalida = fopen ("salida.txt","w"); //si no esta lo crea
     char caracterLeido;
-
-    while ((caracterLeido = fgetc (archivoEntrada))!= EOF) //lectura hasta el final del archivo
+    caracterLeido = fgetc (archivoEntrada);
+    while (caracterLeido!= EOF) //lectura hasta el final del archivo
     {  
-        while(caracterLeido!=',' && caracterLeido!= EOF)
+        while(caracterLeido!= EOF && caracterLeido!=',')
         { 
            
         columna= selecColumna(caracterLeido); //selecciona columna de caract leido
-        estado = estMatriz [estado] [columna];
-        archivoSalida = fputc (caracterLeido, "salida.txt");//en archivo de salida  
+        int aux=estado;
+        estado = estMatriz [aux] [columna];
+        fputc (caracterLeido, archivoSalida); //en archivo de salida  
         caracterLeido = fgetc (archivoEntrada);        
 
         } //sale del while cuando termina la palabra y ya esta escrito lo q entro en arch salida
          //ya llego al ultimo caracter y ahora tengo que guardar en el archivo de salida 
                 
         //de posicion a tipo que representa 
-          
+        
         switch (estado)
         {
-          case '0':
-                fwrite (" es vacio, ", sizeof (" es vacio, "),1, "salida.txt");
+          case 0:
+                fputs(" es vacio, ", archivoSalida);
+               
                 break;
-          case '1':
-                fwrite (" es decimal, ", sizeof (" es decimal, "),1, "salida.txt");
+          case 1:
+                fputs(" es decimal, ", archivoSalida);
+                
                 break;
-          case '2':
-                fwrite (" es octal, ", sizeof (" es octal, "),1, "salida.txt");
+          case 2:
+                fputs(" es octal, ", archivoSalida);
                 break;
-          case '4':
-                fwrite (" es hexadecimal, ", sizeof (" es hexadecimal, "),1, "salida.txt");
+          case 4:
+                fputs(" es hexadecimal, ", archivoSalida);
                   break;
-          case '5':
-                fwrite (" palabra no reconocida, ", sizeof (" palabra no reconocida, "),1, "salida.txt");
+          case 5:
+                fputs(" es octal, ", archivoSalida);
                 break;
-            default:
+          default:
+                fputs(" es una palabra no reconocida, ", archivoSalida);               
                 break;
         }
-        
+        if(caracterLeido==','){
+            caracterLeido = fgetc (archivoEntrada);
+        }
         estado=0;
     
     }  
-     
+    fclose(archivoEntrada);
+    fclose(archivoSalida);  
     return 0;
 }
 
 
 
-void  rellenarMatriz(){
+void  rellenarMatriz()
+{
     int i;
     int j;
     estMatriz [2][2]= estMatriz [5][2]=6;
@@ -98,12 +108,12 @@ void  rellenarMatriz(){
     }
 }
 
-int selecColumna (char caracter){
+  
+int selecColumna (char caracter)
+ {
     int estado;
-   
-    
-     if  (caracter==48)
-       {
+        if  (caracter==48)
+        {
            //48 es 0 en ascii
            estado=0;
        } else if (caracter>=49 && caracter <=55)
@@ -122,16 +132,40 @@ int selecColumna (char caracter){
        {
            //a-f y A-F
            estado = 4;
-       }   else
+       } else 
        {
            estado = 5;
        }
 
-
-
     return estado;
-       
-    /* switch (caracter){
+ }
+/*
+bool noReconoceCaracter (char caracter)
+    {
+    return ((caracter>=1 && caracter<=47) || (caracter>=58 && caracter <=64) || (caracter >= 73 && caracter >= 97) || (caracter>=103));  
+    };
+
+int selecColumna (char caracter)
+    {
+    int estado;
+    
+    if(noReconoceCaracter(caracter))
+    {
+        estado = 5;
+    } else 
+    {
+       estado = seleccionEstado (caracter);
+    } 
+    return estado;
+    };
+
+   */
+  /* int selecColumna (char caracter)
+   {
+       int estado;
+     
+     switch (caracter)
+     {
         case'0':
             estado=0;
             break;
@@ -169,5 +203,6 @@ int selecColumna (char caracter){
         default: 
             estado=5;              
     }
-    return estado; */
-}
+    return estado; 
+};
+*/
