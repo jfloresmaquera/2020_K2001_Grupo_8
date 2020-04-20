@@ -39,24 +39,24 @@ int main()
         switch (estado)
         {
           case 0:
-                fputs(" es vacio.\n ", archivoSalida);
+                fputs(" es vacio.\n", archivoSalida);
                
                 break;
           case 1:
-                fputs(" es decimal.\n ", archivoSalida);
+                fputs(" es decimal.\n", archivoSalida);
                 
                 break;
           case 2:
-                fputs(" es octal.\n ", archivoSalida);
+                fputs(" es octal.\n", archivoSalida);
                 break;
           case 4:
-                fputs(" es hexadecimal.\n ", archivoSalida);
+                fputs(" es hexadecimal.\n", archivoSalida);
                   break;
           case 5:
-                fputs(" es octal.\n ", archivoSalida);
+                fputs(" es octal.\n", archivoSalida);
                 break;
           case 6:
-                fputs(" es una palabra no reconocida. \n", archivoSalida);               
+                fputs(" es una palabra no reconocida.\n", archivoSalida);               
                 break;
           default:
                 break;
