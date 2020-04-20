@@ -1,14 +1,10 @@
 #include <stdio.h>
-#include <stdbool.h> // duda 
 
 #define cantEstados 7
 #define posCaracter 6
 
 void rellenarMatriz();
 int selecColumna (char caracter);
-//int seleccionEstado (char caracter); duda 
-//bool noReconoceCaracter (char caracter); duda
-
 int estMatriz [cantEstados][posCaracter];
 
 
@@ -16,52 +12,53 @@ int main()
     {
     rellenarMatriz(); 
    
-    int estado=0; //variable p variar estado
-    int columna=0; //variable p que se mueva en dependencia a caracter q entra 
+    int estado=0; //variable para variar estado
+    int columna=0; //variable para que se mueva en dependencia a caracter q ingresa 
 
     FILE* archivoEntrada;
     archivoEntrada = fopen ("entrada.txt","r");
     FILE* archivoSalida;
-    archivoSalida = fopen ("salida.txt","w"); //si no esta lo crea
+    archivoSalida = fopen ("salida.txt","w"); //si no existe, lo crea.Si existe, lo sobreescribe
     char caracterLeido;
     caracterLeido = fgetc (archivoEntrada);
-    while (caracterLeido!= EOF) //lectura hasta el final del archivo
+    while (caracterLeido!= EOF) //lectura hasta el final del archivo de entrada
     {  
         while(caracterLeido!= EOF && caracterLeido!=',')
         { 
            
-        columna= selecColumna(caracterLeido); //selecciona columna de caract leido
+        columna= selecColumna(caracterLeido); //selecciona columna en base a caracter leido
         int aux=estado;
         estado = estMatriz [aux] [columna];
-        fputc (caracterLeido, archivoSalida); //en archivo de salida  
+        fputc (caracterLeido, archivoSalida); //escribe en archivo de salida caracter leido
         caracterLeido = fgetc (archivoEntrada);        
 
-        } //sale del while cuando termina la palabra y ya esta escrito lo q entro en arch salida
-         //ya llego al ultimo caracter y ahora tengo que guardar en el archivo de salida 
-                
-        //de posicion a tipo que representa 
-        
+        } 
+        //sale del while cuando termina la palabra:1)Ya escribió palabra en archivo salida 2)leyó la coma de fin de palabra
+
+
         switch (estado)
         {
           case 0:
-                fputs(" es vacio, ", archivoSalida);
+                fputs(" es vacio.\n ", archivoSalida);
                
                 break;
           case 1:
-                fputs(" es decimal, ", archivoSalida);
+                fputs(" es decimal.\n ", archivoSalida);
                 
                 break;
           case 2:
-                fputs(" es octal, ", archivoSalida);
+                fputs(" es octal.\n ", archivoSalida);
                 break;
           case 4:
-                fputs(" es hexadecimal, ", archivoSalida);
+                fputs(" es hexadecimal.\n ", archivoSalida);
                   break;
           case 5:
-                fputs(" es octal, ", archivoSalida);
+                fputs(" es octal.\n ", archivoSalida);
+                break;
+          case 6:
+                fputs(" es una palabra no reconocida. \n", archivoSalida);               
                 break;
           default:
-                fputs(" es una palabra no reconocida, ", archivoSalida);               
                 break;
         }
         if(caracterLeido==','){
@@ -69,7 +66,7 @@ int main()
         }
         estado=0;
     
-    }  
+    }  //vuelve a iniciar el ciclo para categorizar la siguiente palabra
     fclose(archivoEntrada);
     fclose(archivoSalida);  
     return 0;
@@ -100,7 +97,7 @@ void  rellenarMatriz()
   
     estMatriz [2][3]=3;
 
-     estMatriz [3][4]= estMatriz [4][4]= 4; //???
+     estMatriz [3][4]= estMatriz [4][4]= 4; 
     for(i=3;i<5;i++){
         for(j=0;j<3;j++){
             estMatriz [i][j]=4;
@@ -109,7 +106,7 @@ void  rellenarMatriz()
 }
 
   
-int selecColumna (char caracter)
+int selecColumna (char caracter) 
  {
     int estado;
         if  (caracter==48)
@@ -139,70 +136,3 @@ int selecColumna (char caracter)
 
     return estado;
  }
-/*
-bool noReconoceCaracter (char caracter)
-    {
-    return ((caracter>=1 && caracter<=47) || (caracter>=58 && caracter <=64) || (caracter >= 73 && caracter >= 97) || (caracter>=103));  
-    };
-
-int selecColumna (char caracter)
-    {
-    int estado;
-    
-    if(noReconoceCaracter(caracter))
-    {
-        estado = 5;
-    } else 
-    {
-       estado = seleccionEstado (caracter);
-    } 
-    return estado;
-    };
-
-   */
-  /* int selecColumna (char caracter)
-   {
-       int estado;
-     
-     switch (caracter)
-     {
-        case'0':
-            estado=0;
-            break;
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-            estado=1;
-            break;        
-        case '8':
-        case '9':
-            estado=2;
-            break;
-        case 'x':
-        case 'X':
-            estado=3;
-            break;
-        case 'a':
-        case 'b':
-        case 'c':
-        case 'd':
-        case 'e':
-        case 'f':
-        case 'A':
-        case 'B':
-        case 'C':
-        case 'D':
-        case 'E':
-        case 'F':
-            estado=4;
-            break;
-        default: 
-            estado=5;              
-    }
-    return estado; 
-};
-*/
