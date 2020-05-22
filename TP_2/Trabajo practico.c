@@ -36,7 +36,7 @@ int caracter;//a que columna corresponde(en relacion al caracter leido de la exp
 int estado;
 int cima;//cima de la pila (1 si hay una r y 0 si hay un $)
 char elementoSuperior; //variable donde se guarda la cima
-int tamano_maximo=50;
+int tamano_maximo=49;
 
 //La matriz se rellena columna por columna primero delante y luego atras
 //ejemplo:{{(0,0,0),(0,0,1)},{(0,1,0),(0,1,1)},{(0,2,0),(0,2,1)}... y como es un struck se le incertan los datos en vez de () con {}
@@ -95,6 +95,8 @@ int main()
         }
         printf("Ingrese el caracter Y/y si desea ingresar otra expresion, sino ingrese N/n\n");
         scanf(" %s",&caractSalida);    //salida del programa
+        char c;
+        while ((c = fgetc(stdin)) != '\n' && c != EOF);
     }while(caractSalida=='y'||caractSalida=='Y');
     return 0;
 }    
