@@ -85,10 +85,10 @@ int main()
         
         if(estado==3||tope->dato!='$'){  //condiciones  para que una expresion sea invalida
             printf("La expresion %s",expresion);
-            printf(" es invalida \n");
+            printf("es invalida \n");
         }else{
             printf("La expresion %s",expresion);
-            printf(" es valida \n");
+            printf("es valida \n");
         }
         while(tope!=NULL){                      //elimina toda la pila hasta q tope sea null
             char inservible=eliminar(&tope);
