@@ -1,136 +1,104 @@
 #include <stdio.h>
+#include <malloc.h> 
+#include <string.h>  
 
 #define cantEstado 4
 #define valorPila 2
 #define posicionCaracter 6
 
-void rellenarAutomata ();
-int selecColumna (char caracter);
+typedef struct{ //relleno de matriz
+    int estadoSig;
+    char elemento[2];  
+}datoTT;
+
+typedef struct pila{ //contenido de la pila
+    char dato;
+    struct pila *sig;
+}Pila;
+
+typedef Pila * PilaPtr; // Puntero para acceder a la pila
 
 
-char expresion [50];
-//esatdo: qx
-// cimaPila : $, R
-// caracter : [1-9, +, -, *, /, (, )]
-//la pila siempre va a tener AL menos un elemento que es el $
-//arranca en TT q0
+//defimos funciones
+int selecColumna (char); //Selecciona la columna dependiendo del caracter leido de la expresión
+void insertar(PilaPtr *tope, char dato); //mandas puntero y lo q queres agregar
+char eliminar(PilaPtr *tope);//elimina ultimo nodo y devuelve su dato
+int cimaPila(PilaPtr *tope); //ya devuelve 0=$ o 1=R para saber a cual de las dos matrices entrar
 
-struct Nodo
- {
-     Nodo* sig;
-     int info; 
- }
+//definimos datos globales
+datoTT auxCopiaDatosMatriz;
 
- void push (Nodo*& p, int v)
+char caractSalida; //char de condicion de salida
+char expresion [50]; //almacena la expresion 
+
+int recExpr;//es i para recorrer la palabra
+int caracter;//a que columna corresponde(en relacion al caracter leido de la expresión)
+int estado;
+int cima;//cima de la pila (1 si hay una r y 0 si hay un $)
+char elementoSuperior; //variable donde se guarda la cima
+int tamano_maximo=50;
+
+//La matriz se rellena columna por columna primero delante y luego atras
+//ejemplo:{{(0,0,0),(0,0,1)},{(0,1,0),(0,1,1)},{(0,2,0),(0,2,1)}... y como es un struck se le incertan los datos en vez de () con {}
+datoTT tt[posicionCaracter][cantEstado][valorPila]={
+     {{{3,"$"},{3,"R"}},{{1,"$"},{1,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna1
+     {{{1,"$"},{1,"R"}},{{1,"$"},{1,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna2
+     {{{3,"$"},{3,"R"}},{{0,"$"},{0,"R"}},{{0,"$"},{0,"R"}},{{3,"$"},{3,"R"}}},    //columna3
+     {{{0,"R$"},{0,"RR"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},  //columna4
+     {{{3,"$"},{3,"R"}},{{3,"$"},{2,"Ɛ"}},{{3,"$"},{2,"Ɛ"}},{{3,"$"},{3,"R"}}},    //columna5
+     {{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna6
+     
+};
+
+
+
+int main()
 {
-   Nodo* q = new Nodo();
-   q->info=v;
-   q->sig=p;
-   p=q;
-}
-
-int pop (Nodo*& p)
-{
-   Node* aux=p;
-   p=p->sig;
-   int ret = aux->info;
-   delete aux;
-   return ret;
-}
-
-struct datoTT{
-    int nuevoEstado;
-    int elemPush;
-}
-
-datoTT TT [cantEstado][valorPila][posicionCaracter];
-
-
-TT = {      { {3},{1,0},{3},{0,10},{3},{3} },
-            { {3},{1,1},{3},{0,11},{3},{3} }, 
-            { {1,0},{1,0},{0,0},{3},{3},{3} }, 
-            { {1,1},{1,1},{0,1},{3},{2,-1},{3} }, 
-            { {3},{3},{0,0},{3},{3},{3} }, 
-            { {3},{3},{0,1},{3},{2,-1},{3} },  
-            { {3},{3},{3},{3},{3},{3} },
-            { {3},{3},{3},{3},{3},{3} } 
-     }
-
-
-void free(Node*& p)
-{
-   while (p->sig!=NULL)
-      {
-         Node* aux = p;
-         delete p;
-         p=aux->sig;
-
-      }
-}
-
-
-
-int main ()
-{
-    int estado=0;
-    int cimaPila;
-    int caracter;
-    DatoTT aux;
-    /*while(escape){*/
-        estado=0;
-        Nodo* pila = NULL;  
-        push (pila,0);      
-           
-        
-        printf("Introduzca una expresion: ");
-        scanf("%s", &expresion);
-        int i=0;
-        while(expresion[i]!='\0' && estado != 3 )
-        {
-            if(expresion[i]!=32) // distinto del espacio
-            {
-                caracter = selecColumna(caracterLeido);
-                cimaPila = pop (pila);
-                aux = TT [estado][cimaPila][caracter];
-                estado = aux.nuevoEstado;
-                switch (aux.elemPush)
-                {
-                    case 0:
-                        push (pila,0);
-                        break;
-                    case 1:
-                        push (pila,1);
-                        break;
-                    case 10:
-                        push (pila,0);
-                        push (pila,1);
-                        break;
-                    case 11:
-                        push (pila,1);
-                        push (pila,1);
-                        break;
-                    default:
-                        break;
-                }
-
-            }          
-            i++;
-        }
-    if(estado != 3){
-        printf("La expresion %s ", expresion); 
-        printf("es correcta \n"); 
-    }
-    else{
-        printf("La expresion %s ", expresion); 
-        printf("es incorrecta \n");
-    }
-    free (pila);
-    getch();
-    /*}*/
     
-
-}
-
+    do{
+        PilaPtr tope=NULL; 
+        recExpr=0;
+        estado=0;
+        insertar(&tope,'$'); //elemento base de la pila
+        printf("Ingrese la expresion que desea averiguar si es valida o invalida\n");
+        fgets(expresion, tamano_maximo, stdin);   
+        while(expresion[recExpr]!='\n' && estado!=3) {
+            if(expresion[recExpr]!=32){ // 32 representa espacio en ascii 
+                caracter=selecColumna(expresion[recExpr]); //devuelve la columna en la entra el caracter en al matriz
+                cima=cimaPila(&tope);//averigua si se debe analizar en matriz delantera o trasera ( , ,0) o ( , ,1)
+                auxCopiaDatosMatriz=tt[caracter][estado][cima];
+                estado=auxCopiaDatosMatriz.estadoSig;
+                
+                elementoSuperior=eliminar(&tope);     //Pop obligatorio
+                insertar(&tope,elementoSuperior);     //Push obligatorio
+                
+                //strcmp esta definido en  #include <string.h> y es capaz de comparar cadenas, dando 0 si son iguales   
+                if((strcmp(auxCopiaDatosMatriz.elemento,"RR")==0) || (strcmp(auxCopiaDatosMatriz.elemento,"R$")==0)){
+                    insertar(&tope,'R');
+                }
+                if(strcmp(auxCopiaDatosMatriz.elemento,"Ɛ")==0){
+                    char inservible=eliminar(&tope); 
+                }
+            }          
+            recExpr++;
+        }   
+        
+        if(estado==3||tope->dato!='$'){  //condiciones  para que una expresion sea invalida
+            printf("La expresion %s",expresion);
+            printf(" es invalida \n");
+        }else{
+            printf("La expresion %s",expresion);
+            printf(" es valida \n");
+        }
+        while(tope!=NULL){                      //elimina toda la pila hasta q tope sea null
+            char inservible=eliminar(&tope);
+        }
+        printf("Ingrese el caracter Y/y si desea ingresar otra expresion, sino ingrese N/n\n");
+        scanf(" %s",&caractSalida);    //salida del programa
+    }while(caractSalida=='y'||caractSalida=='Y');
+    return 0;
+}    
+    
 
 int selecColumna (char caracter) 
  {
@@ -139,7 +107,7 @@ int selecColumna (char caracter)
         {
            //48 es 0 en ascii
            columnaCaracter=0;
-       } else if (caracter>=49 && caracter <=7)
+       } else if (caracter>=49 && caracter <=57)
        {
            // 1-9
            columnaCaracter=1;
@@ -162,3 +130,35 @@ int selecColumna (char caracter)
 
     return columnaCaracter;
  }
+
+
+void insertar(PilaPtr *tope, char dato){
+    PilaPtr nuevo; 
+    nuevo=(PilaPtr) malloc(sizeof(Pila));//reservar memoria
+    nuevo->dato=dato;
+    nuevo->sig=*tope;   
+    *tope=nuevo;
+
+}
+
+char eliminar(PilaPtr *tope){
+    PilaPtr temp;
+    char dato;
+    temp=*tope;
+    dato=temp->dato;
+    *tope=(*tope)->sig;
+    free(temp);
+    return dato;
+}
+
+int cimaPila(PilaPtr *tope){
+    
+    char aux;
+    aux=(*tope)->dato;
+    if(aux=='$'){
+        return 0;
+    }else{
+        return 1;
+    }
+    
+}
