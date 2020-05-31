@@ -92,7 +92,6 @@ int main()
                     case 0:
                         printf("La expresion %s",expresion);
                         printf("es invalida, esta incompleta. \n");
-
                         break;
                     case 3:
                         printf("La expresion %s",expresion);
@@ -120,6 +119,10 @@ int main()
                         break;
                     default:
                         break;
+                }
+                if (tope->dato!='$' && estado!=7){
+                    printf("La expresion %s", expresion);
+                    printf("es invalida, falta cerrar al menos un parentesis. \n");
                 }
         }
         else
