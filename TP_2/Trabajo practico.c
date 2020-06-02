@@ -43,11 +43,11 @@ int tamano_maximo=49;
 //La matriz se rellena columna por columna primero delante y luego atras
 //ejemplo:{{(0,0,0),(0,0,1)},{(0,1,0),(0,1,1)},{(0,2,0),(0,2,1)}... y como es un struck se le incertan los datos en vez de () con {}
 datoTT tt[posicionCaracter][cantEstado][valorPila]={
-     {{{4,"$"},{4,"R"}},{{1,"$"},{1,"R"}},{{4,"$"},{4,"R"}}},    //columna1
-     {{{1,"$"},{1,"R"}},{{1,"$"},{1,"R"}},{{5,"$"},{5,"R"}}},    //columna2
+     {{{4,"$"},{4,"R"}},{{1,"$"},{1,"R"}},{{7,"$"},{7,"R"}}},    //columna1
+     {{{1,"$"},{1,"R"}},{{1,"$"},{1,"R"}},{{7,"$"},{7,"R"}}},    //columna2
      {{{6,"$"},{6,"R"}},{{0,"$"},{0,"R"}},{{0,"$"},{0,"R"}}},    //columna3
      {{{0,"R$"},{0,"RR"}},{{7,"$"},{7,"R"}},{{7,"$"},{7,"R"}}},  //columna4
-     {{{8,"$"},{8,"R"}},{{8,"$"},{2,"Ɛ"}},{{8,"$"},{2,"Ɛ"}}},    //columna5
+     {{{8,"$"},{8,"R"}},{{8,"$"},{2,"Ɛ"}},{{7,"$"},{2,"Ɛ"}}},    //columna5
      {{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}},{{3,"$"},{3,"R"}}},    //columna6   
 };
 
@@ -84,14 +84,14 @@ int main()
             recExpr++;
         }  
    
-        //deteccionError(estado); 
-        if(estado >= 3 || tope->dato!='$' || estado==0)
-        { 
+        //deteccionError(estado);       
+        if(estado >= 3 || estado==0)
+        {           
             switch (estado)
                 {
                     case 0:
                         printf("La expresion %s",expresion);
-                        printf("es invalida, esta incompleta. \n");
+                        printf("es invalida, esta incompleta o se ingreso un 0 al inicio. \n");
                         break;
                     case 3:
                         printf("La expresion %s",expresion);
@@ -101,35 +101,33 @@ int main()
                         printf("La expresion %s",expresion);
                         printf("es invalida, hay al menos un 0 en posicion erronea. \n");
                         break;
-                    case 5:
-                        printf("La expresion %s",expresion);
-                        printf("es invalida, hay al menos un numero en la posicion incorrecta. \n");
-                        break;
                     case 6:
                         printf("La expresion %s",expresion);
                         printf("es invalida, hay al menos un error con los operadores. \n");
                         break;
                     case 7:
                         printf("La expresion %s", expresion);
-                        printf("es invalida, falta cerrar al menos un parentesis. \n");
+                        printf("es invalida, falta al menos un operando \n");
                         break;
                     case 8:
                         printf("La expresion %s", expresion);
-                        printf("es invalida, falta abrir al menos un parentesis. \n");
+                        printf("es invalida, se cerro un paretensis de manera incorrecta \n");
                         break;
                     default:
                         break;
                 }
-                if (tope->dato!='$' && estado!=7){
-                    printf("La expresion %s", expresion);
-                    printf("es invalida, falta cerrar al menos un parentesis. \n");
-                }
+                
+        }else {
+            if(tope->dato!='$'){
+                printf("La expresion %s",expresion);
+                printf("es invalida, presenta una diferencia entre la cantidad de parentesis de apertura que de cerrada \n");
+            }else
+            {
+                printf("La expresion %s",expresion);
+                printf("es valida \n");
+            }
         }
-        else
-        {
-            printf("La expresion %s",expresion);
-            printf("es valida \n");
-        }
+       
         while(tope!=NULL){                      //elimina toda la pila hasta q tope sea null
             char inservible=eliminar(&tope);
         }
