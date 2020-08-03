@@ -1,10 +1,11 @@
 // hola
 // como estas?
 //holaaaaaaaaaaaa
-/* jeje 
+/* jeje
 */
+'ee'
 int a;
-a; 
+a;
 bA; x4
 _holaaaaa
 'c'
@@ -12,14 +13,14 @@ _holaaaaa
 '?'
 "hola"
 ab;
-return; 
-ab; ab;
+return;
+ab;ab;
 a;
 _holaaaaa
 bc
 bababa
 momomo
-_hola 
+_hola
 _hOlA}
 x[34];
 
@@ -33,7 +34,17 @@ x[34];
 1.E3
 2.9
 
+Hola
+hOla
+hoLa
+holA
 
+Hola
+hOla
+hoLa
+holA
 
+'aa'
+078
 
 

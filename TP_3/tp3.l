@@ -10,7 +10,8 @@
 void agregarNodo(int ,char*,char*);
 long conversorADecimal(char*,int);
 int  representacionDigito(char,int);
-
+int contadorSaltos=1;
+void contadorDeSaltosEnComentarios(char*);
 
 
 
@@ -156,7 +157,7 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
             raizIdentificadores=nuevoNodo;
         }else{
             recorrido=raizIdentificadores;
-            while(recorrido->sig!=NULL&&strcmp(informacionNMayuscula,recorrido->identificadorNMayuscula)>=0){
+            while(recorrido->sig!=NULL&&strcmp(informacionNMayuscula,recorrido->identificadorNMayuscula)>0){
                     recorrido=recorrido->sig;
             }
             char *coppia;
@@ -349,6 +350,19 @@ void agregarNodo(int categoria,char* informacionNueva,char* tipo){
            }
           fondoComentario=nuevoNodo;
 
+        }else//no reconocido 
+    {
+            NodoNoReconocidos *nuevoNodo;
+            nuevoNodo=malloc(sizeof(struct nodoNoReconocidos));
+            nuevoNodo->noReconocido=strdup(informacionNueva);
+            nuevoNodo->linea=contadorSaltos;
+            nuevoNodo->sig=NULL;
+            if(raizNoReconocidos==NULL){
+               raizNoReconocidos=nuevoNodo;
+            }else{
+                fondoNoReconocidos->sig=nuevoNodo;
+            }
+            fondoNoReconocidos=nuevoNodo;
     }
 }
 long conversorADecimal(char* informacionNueva,int base){
@@ -405,8 +419,22 @@ int representacionDigito(char digito,int base){
     }else{
             return digito-48;
     }
-} 
+}  
 
+void contadorDeSaltosEnComentarios(char* comentario){
+        char informacion[strlen(comentario)];
+        strcpy(informacion,comentario);
+        int limite = strlen(informacion);
+        char caracter=informacion[0];
+        int a=0;
+        while(a<limite){
+            if(caracter=='\n'){
+                contadorSaltos++;
+            }
+            a++;
+            caracter=informacion[a];    
+        }
+}
 
 %}
 
@@ -436,9 +464,10 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
  {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");} 
  {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {agregarNodo(6,yytext,"");}
 
- "\/\/"{CARACTER_IMPRIMIBLE}*"\n"  {agregarNodo(9,yytext,"simple");} 
- "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");}
- . {;}
+ "\/\/"{CARACTER_IMPRIMIBLE}*"\n"  {agregarNodo(9,yytext,"simple");contadorSaltos++;} 
+ "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");contadorDeSaltosEnComentarios(yytext);}
+ "\n" {contadorSaltos++;}
+ . {agregarNodo(10,yytext,"");contadorDeSaltosEnComentarios(yytext);}
 %%
 int main(void) { 
     
@@ -586,7 +615,7 @@ int main(void) {
         recorridoComen=recorridoComen->sig;
     }
     printf("................................................................\n");
-   /*
+   
     NodoNoReconocidos *recorridoNR;
     recorridoNR=raizNoReconocidos;
     while(recorridoNR!=NULL){
@@ -597,8 +626,7 @@ int main(void) {
     }
     if(raizNoReconocidos!=NULL){
         printf("................................................................\n");
-    }
-    */
+    }    
 
     fclose(yyout);
     fclose(yyin);
