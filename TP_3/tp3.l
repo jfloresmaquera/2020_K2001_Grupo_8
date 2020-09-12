@@ -467,7 +467,7 @@ CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"
  "\/\/"{CARACTER_IMPRIMIBLE}*"\n"  {agregarNodo(9,yytext,"simple");contadorSaltos++;} 
  "/*"[^"*/"]*"*/" {agregarNodo(9,yytext,"multiple");contadorDeSaltosEnComentarios(yytext);}
  "\n" {contadorSaltos++;}
- . {agregarNodo(10,yytext,"");contadorDeSaltosEnComentarios(yytext);}
+ [.]* {agregarNodo(10,yytext,"");contadorDeSaltosEnComentarios(yytext);}
 %%
 int main(void) { 
     
