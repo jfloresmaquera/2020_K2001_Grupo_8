@@ -10,7 +10,7 @@
 	float real;
 	char cadena[50];
 }
-
+// token -> terminales
 %token <real> NUM
 %token <cadena> IGUAL_IGUAL
 %token <cadena> DISTINO
@@ -32,6 +32,9 @@
 %token <cadena> LITERAL_CADENA
 %token <cadena> IDENTIFICADOR
 
+// type -> no terminales
+%type <cadena> expresion
+
 
 %left '+' '-' '*' ',' DOBLE_PIPE DOBLE_AMPERSAND IGUAL_IGUAL DISTINO MAYOR_IGUAL MENOR_IGUAL
 %right '=' ':' '&' '!' '(' ')' '[' ']' MAS_IGUAL MENOS_IGUAL POR_IGUAL MAS_MAS SIZEOF
@@ -45,7 +48,7 @@ input:  /* vacio */
 ;
 
 line:   '/n'
-		| expresiones '/n'
+		| expresion '/n'
 ;
 
 expresion: expAsignacion
@@ -74,7 +77,7 @@ expAnd: expIgualdad
 ;
 
 expIgualdad: expRelacional
-			| expIgualdad IGUAL_IGUAL expRexpRelacional
+			| expIgualdad IGUAL_IGUAL expRelacional
 ;
 
 expRelacional: expAditiva
@@ -98,7 +101,7 @@ operadorAditivo: '+'
 				| '-'
 ;
 
-expMultiplicativa: expUnitaria
+expMultiplicativa: expUnaria
 				   | expMultiplicativa operadorMultiplicativo expUnaria
 ;
 
@@ -106,7 +109,7 @@ operadorMultiplicativo: '*'
 						| '/'
 ;
 
-expUnitaria: expPostFijo
+expUnaria: expPostFijo
 			| MAS_MAS expUnaria
 			| operUnario expUnaria
 			| SIZEOF '(' TIPO_DATO ')'
@@ -117,7 +120,7 @@ operUnario: '&'
 			| '!'
 ;
 
-expPostFijo: extPrimara
+expPostFijo: expPrimaria
 			| expPostFijo '[' expresion ']'
 			| expPostFijo '(' listaArgumentos ')'
 ;
