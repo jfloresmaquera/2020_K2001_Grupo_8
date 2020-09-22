@@ -24,7 +24,7 @@
 %token <cadena> TIPO_DATO
 %token <cadena> DOUBLE_PIPE
 %token <cadena> MAS_IGUAL
-%token <cadena> MENOS_IGUAL
+%token <cadena> MENOR_IGUAL
 %token <cadena> POR_IGUAL
 %token <cadena> DOBLE_AMPERSAND
 %token <cadena> MAS_MAS
@@ -34,7 +34,7 @@
 
 
 %left '+' '-' '*' ',' DOBLE_PIPE DOBLE_AMPERSAND IGUAL_IGUAL DISTINO MAYOR_IGUAL MENOR_IGUAL
-%right '=' ':' '&' '!' '(' ')' '[' ']' MAS_IGUAL MENOS_IGUAL POR_IGUAL MAS_MAS SIZEOF
+%right '=' ':' '&' '!' '(' ')' '[' ']' MAS_IGUAL MENOR_IGUAL POR_IGUAL MAS_MAS SIZEOF
 
 
 
@@ -51,7 +51,7 @@ line:   '/n'
 expresion: expAsignacion
 ;
 
-expAsignacion: expCondicional
+expAsignación: expCondicional
 			 | expUnaria operAsignacion expAsignacion
 ;
 
