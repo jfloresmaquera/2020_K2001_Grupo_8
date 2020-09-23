@@ -15,7 +15,7 @@ LETRA [a-zA-Z]
 PAL_RESERV_TIPDATOS  [int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union]
 PAL_RESERV_CONTROL   [do|while|else|if|for|break|case|default|continue]
 PAL_RESERV_OTROS     [sizeof|return|const|volatile|goto|extern|auto|static]
-DEVOLVER             ["=" | "," | "|" | ";" | "+"-*/%)({}[]&<>!:]
+DEVOLVER             ["=" | "," | "|" | ";" | "+"-*/%)({}[]&<>!:] //faltan estos y estan definidos raros
 
 %% 
 
@@ -29,12 +29,11 @@ DEVOLVER             ["=" | "," | "|" | ";" | "+"-*/%)({}[]&<>!:]
 "&&"										 {strdup(yylval.cadena, yytext); return AND;}
 "||"										 {strdup(yylval.cadena, yytext); return OR;}
 "!="									     {strdup(yylval.cadena, yytext); return DESIGUALDAD;
-0{DIGITO_OCTAL}*                             {strtol(yytext,NULL,8); return NUMENTERO;}
-0[xX]{DIGITO_HEXADECIMAL}+                   {strtol(yytext,NULL,16); return NUMENTERO;} 
-[1-9]{DIGITO_DECIMAL}*                       {strcpy(yylval.entero, yytext); return NUMENTERO;} 
-{DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)? {DIGITO_DECIMAL})? {strcpy(yylval.real, yytext); return NUMREAL;} 
-//3. e-3 = 0.003
-{DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {strcpy(yylval.real, yytext); return NUMREAL;}
+0{DIGITO_OCTAL}*                             {yylval.numero=strtol(yytext,NULL,8); return NUMENTERO;}
+0[xX]{DIGITO_HEXADECIMAL}+                   {yylval.numero=strtol(yytext,NULL,16); return NUMENTERO;} 
+[1-9]{DIGITO_DECIMAL}*                       {yylval.numero=atoi(yytext); return NUMENTERO;} 
+{DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)? {DIGITO_DECIMAL})? {yylval.numero=atof(yytext); return NUMREAL;} 
+{DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {{yylval.numero=atof(yytext); return NUMREAL;}
 PAL_RESERV_TIPDATOS                         {strdup(yylval.cadena, yytext); return TIPODEDATO ;}
 PAL_RESERV_CONTROL                          {strdup(yylval.cadena, yytext); return PALABRARESERVADA ;}
 ({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strdup(yylval.cadena, yytext); return IDENTIFICADOR;} 

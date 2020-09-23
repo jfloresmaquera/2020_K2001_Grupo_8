@@ -26,7 +26,7 @@
 
 
 // token -> terminales
-%token <real> NUM
+%token <numero> NUM
 %token <cadana> LITERAL_CADENA
 %token <cadena> IGUAL_IGUAL
 %token <cadena> DISTINO
