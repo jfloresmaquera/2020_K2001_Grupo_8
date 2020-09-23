@@ -3,41 +3,40 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <math.h>
 
+#include <stdlib.h>
 
 %}
 
 DIGITO_DECIMAL [0-9]    
-DIGITO_OCTAL [0-7] 
+DIGITO_OCTAL [0-7]                                                                                                                                                                                                                          
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 LETRA [a-zA-Z] 
-PAL_RESERV_TIPDATOS  int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union
-PAL_RESERV_CONTROL   do|while|else|if|for|break|case|default|continue
-PAL_RESERV_OTROS     sizeof|return|const|volatile|goto|extern|auto|static
-CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|"-"|"."|"/"|"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|":"|";"|"<"|"="|">"|"?"|"@"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"\["|"\]"|"^"|"_"|"`"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"| "t"|"u"|"v"|"w"|"x"|"y"|"z"|"\{"|"\}"|"~"]
-CARACTER_PUNTUACION  ["\["|"\]"|"\("|"\)"|"\{"|"\}"|"\."|"->"|"\+\+"|"\+"|"\-\-"|"\-"|"&"|"\*"|"˜"|"\!"|"\/"|"%"|"<<"|">>"|"<"|">"|"<="|">="|"=="|"!="|"ˆ"|"&&"|"||"|"="|"*="|"/="|"%="|"+="|"-="|"<<="|">>="|"&="|"ˆ="|"|="|"\?"|":"|"\;"|"..."|","|"#"|"##"|"$"]
+PAL_RESERV_TIPDATOS  [int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union]
+PAL_RESERV_CONTROL   [do|while|else|if|for|break|case|default|continue]
+PAL_RESERV_OTROS     [sizeof|return|const|volatile|goto|extern|auto|static]
+DEVOLVER             ["=" | "," | "|" | ";" | "+"-*/%)({}[]&<>!:]
 
 %% 
 
-"\""{CARACTER_IMPRIMIBLE}+"\"" {;}
-
- 0{DIGITO_OCTAL}* {yylval.numero=strtol(yytext,NULL,8);return ACA VA TOKEN ;}
- 0[xX]{DIGITO_HEXADECIMAL}+ {yylval.numero=strtol(yytext,NULL,16);return ;} 
- [1-9]{DIGITO_DECIMAL}* {yylval.numero=strtol(yytext,NULL,10);return ;} 
- "\'"{CARACTER_IMPRIMIBLE}"\'" {strcpy({yylval.cadena,yytext) ;return ;} 
- {CARACTER_PUNTUACION} {return ;} 
- (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union) {return ;}
- (do|while|else|if|for|break|case|default|continue) {return ;}
- (sizeof|return|const|volatile|goto|extern|auto|static)  {return ;}  
- ({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strcpy({yylval.cadena,yytext); return ;} 
- {DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)?{DIGITO_DECIMAL})? {yylval.numero=Atof(yytext);return ;} 
- {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {yylval.numero=Atof(yytext);return ;}
-
- "\/\/"{CARACTER_IMPRIMIBLE}*"\n"  {strcpy({yylval.cadena,yytext);return ;} 
- "/*"[^"*/"]*"*/" {strcpy({yylval.cadena,yytext);return ;}
- "\n" {return ;}
- [.]* {return ;}
+"+="										 {strdup(yylval.cadena, yytext); return MASIGUAL;}
+"-="									     {strdup(yylval.cadena, yytext); return MENOSIGUAL;}
+"*="										 {strdup(yylval.cadena, yytext); return PORIGUAL;}
+"/="										 {strdup(yylval.cadena, yytext); return DIVIDIDOIGUAL;}
+">="										 {strdup(yylval.cadena, yytext); return MAYORIGUAL;}
+"<="										 {strdup(yylval.cadena, yytext); return MENORIGUAL;}
+"=="										 {strdup(yylval.cadena, yytext); return IGUALDAD;}
+"&&"										 {strdup(yylval.cadena, yytext); return AND;}
+"||"										 {strdup(yylval.cadena, yytext); return OR;}
+"!="									     {strdup(yylval.cadena, yytext); return DESIGUALDAD;
+0{DIGITO_OCTAL}*                             {strtol(yytext,NULL,8); return NUMENTERO;}
+0[xX]{DIGITO_HEXADECIMAL}+                   {strtol(yytext,NULL,16); return NUMENTERO;} 
+[1-9]{DIGITO_DECIMAL}*                       {strcpy(yylval.entero, yytext); return NUMENTERO;} 
+{DIGITO_DECIMAL}*\.{DIGITO_DECIMAL}+([Ee](\+|\-)? {DIGITO_DECIMAL})? {strcpy(yylval.real, yytext); return NUMREAL;} 
+//3. e-3 = 0.003
+{DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {strcpy(yylval.real, yytext); return NUMREAL;}
+PAL_RESERV_TIPDATOS                         {strdup(yylval.cadena, yytext); return TIPODEDATO ;}
+PAL_RESERV_CONTROL                          {strdup(yylval.cadena, yytext); return PALABRARESERVADA ;}
+({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strdup(yylval.cadena, yytext); return IDENTIFICADOR;} 
 
 %%
