@@ -3,15 +3,31 @@
 	#incluide <math.h>
 	#incluide <ctype.h>
 	#incluide <stdlib.h>
+
+	#define YYDEBUG 1
+
+	void yyerror(char const *s){fprintf (stderr, "%s\n> ", s);}
+ 
+ 
+	int yylex();
+
+	int yywrap(){
+		return(1);
+	}
+
+	symrec *aux;
 %}
 
 %union
 {
-	float real;
-	char cadena[50];
+	int numero;
+	char* cadena;
 }
+
+
 // token -> terminales
 %token <real> NUM
+%token <cadana> LITERAL_CADENA
 %token <cadena> IGUAL_IGUAL
 %token <cadena> DISTINO
 %token <cadena> MAYOR_IGUAL
@@ -29,11 +45,9 @@
 %token <cadena> DOBLE_AMPERSAND
 %token <cadena> MAS_MAS
 %token <cadena> SIZEOF
-%token <cadena> LITERAL_CADENA
 %token <cadena> IDENTIFICADOR
 
-// type -> no terminales
-%type <cadena> expresion
+
 
 
 %left '+' '-' '*' ',' DOBLE_PIPE DOBLE_AMPERSAND IGUAL_IGUAL DISTINO MAYOR_IGUAL MENOR_IGUAL
@@ -44,7 +58,7 @@
 %% /* A continuación las reglas gramaticales y las acciones */
 
 input:  /* vacio */
-		| input
+		| input line
 ;
 
 line:   '/n'
@@ -65,7 +79,8 @@ operAsignacion: '='
 ;
 
 expCondicional: expOr
-			  | expOr expresion ':' expCondicional
+			  | expOr expresion ':' expCondicional  
+			  | expresion ':' expCondicional 
 ;
 
 expOr: 			expAnd
@@ -81,7 +96,7 @@ expIgualdad: expRelacional
 ;
 
 expRelacional: expAditiva
-			 | expAditiva '+' expMultiplicativa
+			 | expRelacional operadorRelacional expAditiva
 
 ;
 
@@ -117,25 +132,33 @@ expUnaria: expPostFijo
 
 
 operUnario: '&'
+			| '*'
+			| '-'
 			| '!'
 ;
 
 expPostFijo: expPrimaria
 			| expPostFijo '[' expresion ']'
 			| expPostFijo '(' listaArgumentos ')'
+			| expPostFijo '('')'
 ;
 
-listaArgumentos: expresion
-				| listaArgumentos ',' expresion
+listaArgumentos: expAsignacion
+				| listaArgumentos ',' expAsignacion
 ;
 
 expPrimaria: IDENTIFICADOR 	{printf("se encontro el identificador \n");}
 			 | NUM 			{printf("se encontro un numero \n");}
+			 | LITERAL_CADENA {printf("se encontro un literal cadena \n");}
+;
 
 
 %%
 
 main ()
 {
+	#ifdef BISON_DEBUG
+    yydebug = 1;
+	#endif
 	yyparse();
 }
