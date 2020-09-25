@@ -1,16 +1,16 @@
 %{ /* seccion de definiciones */
-	#incluide <stdio.h>
-	#incluide <math.h>
-	#incluide <ctype.h>
-	#incluide <stdlib.h>
+	#include <stdio.h>
+	#include <math.h>
+	#include <ctype.h>
+	#include <stdlib.h>
 
-	#define YYDEBUG 1
+
 
 	int yylex();
 
-	int yywrap(){
+	/* int yywrap(){
 		return(1);
-	}
+	} */
 %}
 
 %union
@@ -150,16 +150,15 @@ expPrimaria:  IDENTIFICADOR 	{printf("se encontro el identificador \n");}
 			 | NUM_ENTERO		{printf("se encontro un numero \n");}
 			 | NUM_REAL			{printf("se encontro un numero real \n");}
 			 | LITERAL_CADENA 	{printf("se encontro un literal cadena \n");}
-			 | PALABRA_RESERVADA  {printf("se encontro una palabra reservada \n");}
+			 | PALABRA_RESERVADA {printf("se encontro una palabra reservada \n");}
+			 | TIPO_DATO		{printf("se encontro un tipo dato \n");}
 ;
 
 
 %%
 
-main ()
+void main ()
 {
-	#ifdef BISON_DEBUG
-    yydebug = 1;
-	#endif
 	yyparse();
+	system("pause");
 }
