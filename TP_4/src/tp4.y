@@ -6,52 +6,47 @@
 
 	#define YYDEBUG 1
 
-	void yyerror(char const *s){fprintf (stderr, "%s\n> ", s);}
- 
- 
 	int yylex();
 
 	int yywrap(){
 		return(1);
 	}
-
-	symrec *aux;
 %}
 
 %union
 {
 	int numero;
-	char* cadena;
+	float numeroR;
+	char cadena[50];
 }
 
 
 // token -> terminales
-%token <numero> NUM
-%token <cadana> LITERAL_CADENA
-%token <cadena> IGUAL_IGUAL
-%token <cadena> DISTINO
-%token <cadena> MAYOR_IGUAL
-%token <cadena> MENOR_IGUAL
-%token <cadena> MAYOR
-%token <cadena> MENOR
-%token <cadena> IF
-%token <cadena> ELSE
-%token <cadena> SWITCH
-%token <cadena> TIPO_DATO
-%token <cadena> DOUBLE_PIPE
-%token <cadena> MAS_IGUAL
-%token <cadena> MENOS_IGUAL
-%token <cadena> POR_IGUAL
-%token <cadena> DOBLE_AMPERSAND
-%token <cadena> MAS_MAS
-%token <cadena> SIZEOF
-%token <cadena> IDENTIFICADOR
+%token <numero> NUM_ENTERO        
+%token <numeroR> NUM_REAL        
+%token <cadana> LITERAL_CADENA    
+%token <cadena> IGUAL_IGUAL       
+%token <cadena> DISTINTO           
+%token <cadena> MAYOR_IGUAL        
+%token <cadena> MENOR_IGUAL        
+%token <cadena> MAYOR            
+%token <cadena> MENOR           
+%token <cadena> PALABRA_RESERVADA 
+%token <cadena> TIPO_DATO        
+%token <cadena> OR				 
+%token <cadena> MAS_IGUAL        
+%token <cadena> MENOS_IGUAL     
+%token <cadena> POR_IGUAL       
+%token <cadena> AND 			 
+%token <cadena> MAS_MAS         
+%token <cadena> SIZEOF          
+%token <cadena> IDENTIFICADOR    
+%token <cadena> DOS_PUNTOS      
 
 
 
-
-%left '+' '-' '*' ',' DOBLE_PIPE DOBLE_AMPERSAND IGUAL_IGUAL DISTINO MAYOR_IGUAL MENOR_IGUAL
-%right '=' ':' '&' '!' '(' ')' '[' ']' MAS_IGUAL MENOS_IGUAL POR_IGUAL MAS_MAS SIZEOF
+%left '+' '-' '*' ',' OR AND IGUAL_IGUAL DISTINTO MAYOR_IGUAL MENOR_IGUAL
+%right '=' DOS_PUNTOS '&' '!' '(' ')' '[' ']' MAS_IGUAL MENOS_IGUAL POR_IGUAL MAS_MAS SIZEOF
 
 
 
@@ -79,20 +74,23 @@ operAsignacion: '='
 ;
 
 expCondicional: expOr
-			  | expOr expresion ':' expCondicional  
-			  | expresion ':' expCondicional 
+			  | expOr expresion DOS_PUNTOS expCondicional  
+			  | expresion DOS_PUNTOS expCondicional 
 ;
 
+
+
 expOr: 			expAnd
-				| expOr DOBLE_PIPE expAnd
+				| expOr OR expAnd
 ;
 
 expAnd: expIgualdad 
-		| expAnd DOBLE_AMPERSAND expIgualdad
+		| expAnd AND expIgualdad
 ;
 
 expIgualdad: expRelacional
 			| expIgualdad IGUAL_IGUAL expRelacional
+			| expIgualdad DISTINTO expRelacional
 ;
 
 expRelacional: expAditiva
@@ -104,6 +102,7 @@ operadorRelacional: MAYOR_IGUAL
 					| MENOR_IGUAL
 					|MAYOR
 					|MENOR
+					
 ;
 
 
@@ -147,9 +146,11 @@ listaArgumentos: expAsignacion
 				| listaArgumentos ',' expAsignacion
 ;
 
-expPrimaria: IDENTIFICADOR 	{printf("se encontro el identificador \n");}
-			 | NUM 			{printf("se encontro un numero \n");}
-			 | LITERAL_CADENA {printf("se encontro un literal cadena \n");}
+expPrimaria:  IDENTIFICADOR 	{printf("se encontro el identificador \n");}
+			 | NUM_ENTERO		{printf("se encontro un numero \n");}
+			 | NUM_REAL			{printf("se encontro un numero real \n");}
+			 | LITERAL_CADENA 	{printf("se encontro un literal cadena \n");}
+			 | PALABRA_RESERVADA  {printf("se encontro una palabra reservada \n");}
 ;
 
 
