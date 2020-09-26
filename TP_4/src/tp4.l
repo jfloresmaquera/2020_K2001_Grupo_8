@@ -15,21 +15,18 @@ LETRA [a-zA-Z]
 CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|"-"|"."|"/"|"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|":"|";"|"<"|"="|">"|"?"|"@"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"\["|"\]"|"^"|"_"|"`"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"| "t"|"u"|"v"|"w"|"x"|"y"|"z"|"\{"|"\}"|"~"]
 
 
-%% 
-"sizeof"                                     {strcpy(yylval.cadena, yytext); return SIZEOF;}
-"++"                                         {strcpy(yylval.cadena, yytext); return MAS_MAS;}
-">"                                          {strcpy(yylval.cadena, yytext); return MAYOR;}
-"<"                                          {strcpy(yylval.cadena, yytext); return MENOR;}
-"+="										 {strcpy(yylval.cadena, yytext); return MAS_IGUAL;}
-"-="									     {strcpy(yylval.cadena, yytext); return MENOS_IGUAL;}
-"*="										 {strcpy(yylval.cadena, yytext); return POR_IGUAL;}
-">="										 {strcpy(yylval.cadena, yytext); return MAYOR_IGUAL;}
-"<="										 {strcpy(yylval.cadena, yytext); return MENOR_IGUAL;}
-"=="										 {strcpy(yylval.cadena, yytext); return IGUAL_IGUAL;}
-"&&"										 {strcpy(yylval.cadena, yytext); return AND;}
-"||"										 {strcpy(yylval.cadena, yytext); return OR;}
-"!="									     {strcpy(yylval.cadena, yytext); return DISTINTO;}
-":"                                          {strcpy(yylval.cadena, yytext); return DOS_PUNTOS;}
+%%
+[+-/*=:\n()^;]                               {return yytext[0];}
+"sizeof"                                     {return yytext;}
+"++"                                         {return yytext;}
+">"                                          {return yytext;}
+"<"                                          {return yytext;}
+">="										 {return yytext;}
+"<="										 {return yytext;}
+"=="										 {return yytext;}
+"&&"										 {return yytext;}
+"||"										 {return yytext;}
+"!="									     {return yytext;}
 "\""{CARACTER_IMPRIMIBLE}+"\""               {strcpy(yylval.cadena, yytext); return LITERAL_CADENA;}
 0{DIGITO_OCTAL}*                             {yylval.numero=strtol(yytext,NULL,8); return NUM_ENTERO;}
 0[xX]{DIGITO_HEXADECIMAL}+                   {yylval.numero=strtol(yytext,NULL,16); return NUM_ENTERO;} 
@@ -38,5 +35,5 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union)      {strcpy(yylval.cadena, yytext); return TIPO_DATO ;}
 (do|while|else|if|for|break|case|switch)     {strcpy(yylval.cadena, yytext); return PALABRA_RESERVADA;}
 ({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strcpy(yylval.cadena, yytext); return IDENTIFICADOR;} 
-
+" " {}
 %%

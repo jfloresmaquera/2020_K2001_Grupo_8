@@ -1,0 +1,1230 @@
+Estado 24 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 25 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 61 conflictos: 1 reducción(ones)/reducción(ones)
+Estado 68 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 69 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 71 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 77 conflictos: 1 reducción(ones)/reducción(ones)
+
+
+Gramática
+
+    0 $accept: input $end
+
+    1 input: /* vacío */
+    2      | input line
+
+    3 line: '/'
+    4     | expresion '/'
+
+    5 expresion: expAsignacion ';'
+
+    6 expAsignacion: expCondicional
+    7              | expUnaria operAsignacion expAsignacion
+
+    8 operAsignacion: '='
+    9               | "+="
+   10               | "-="
+   11               | "*="
+
+   12 expCondicional: expOr
+   13               | expOr expresion ':' expCondicional
+   14               | expresion ':' expCondicional
+
+   15 expOr: expAnd
+   16      | expOr "||" expAnd
+
+   17 expAnd: expIgualdad
+   18       | expAnd "&&" expIgualdad
+
+   19 expIgualdad: expRelacional
+   20            | expIgualdad "==" expRelacional
+   21            | expIgualdad "!=" expRelacional
+
+   22 expRelacional: expAditiva
+   23              | expRelacional operadorRelacional expAditiva
+
+   24 operadorRelacional: ">="
+   25                   | "<="
+   26                   | '>'
+   27                   | '<'
+
+   28 expAditiva: expMultiplicativa
+   29           | expAditiva operadorAditivo expMultiplicativa
+
+   30 operadorAditivo: '+'
+   31                | '-'
+
+   32 expMultiplicativa: expUnaria
+   33                  | expMultiplicativa operadorMultiplicativo expUnaria
+
+   34 operadorMultiplicativo: '*'
+   35                       | '/'
+
+   36 expUnaria: expPostFijo
+   37          | "++" expUnaria
+   38          | operUnario expUnaria
+   39          | "sizeof" '(' TIPO_DATO ')'
+
+   40 operUnario: '&'
+   41           | '*'
+   42           | '-'
+   43           | '!'
+
+   44 expPostFijo: expPrimaria
+   45            | expPostFijo '[' expresion ']'
+   46            | expPostFijo '(' listaArgumentos ')'
+   47            | expPostFijo '(' ')'
+
+   48 listaArgumentos: expAsignacion
+   49                | listaArgumentos ',' expAsignacion
+
+   50 expPrimaria: IDENTIFICADOR
+   51            | NUM_ENTERO
+   52            | NUM_REAL
+   53            | LITERAL_CADENA
+   54            | PALABRA_RESERVADA
+   55            | TIPO_DATO
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+'!' (33) 43
+'&' (38) 40
+'(' (40) 39 46 47
+')' (41) 39 46 47
+'*' (42) 34 41
+'+' (43) 30
+',' (44) 49
+'-' (45) 31 42
+'/' (47) 3 4 35
+':' (58) 13 14
+';' (59) 5
+'<' (60) 27
+'=' (61) 8
+'>' (62) 26
+'[' (91) 45
+']' (93) 45
+error (256)
+NUM_ENTERO (258) 51
+NUM_REAL (259) 52
+LITERAL_CADENA (260) 53
+PALABRA_RESERVADA (261) 54
+TIPO_DATO (262) 39 55
+IDENTIFICADOR (263) 50
+"||" (264) 16
+"&&" (265) 18
+"==" (266) 20
+"!=" (267) 21
+">=" (268) 24
+"<=" (269) 25
+"+=" (270) 9
+"-=" (271) 10
+"*=" (272) 11
+"++" (273) 37
+"sizeof" (274) 39
+
+
+No terminales con las reglas donde aparecen
+
+$accept (36)
+    en la izquierda: 0
+input (37)
+    en la izquierda: 1 2, en la derecha: 0 2
+line (38)
+    en la izquierda: 3 4, en la derecha: 2
+expresion (39)
+    en la izquierda: 5, en la derecha: 4 13 14 45
+expAsignacion (40)
+    en la izquierda: 6 7, en la derecha: 5 7 48 49
+operAsignacion (41)
+    en la izquierda: 8 9 10 11, en la derecha: 7
+expCondicional (42)
+    en la izquierda: 12 13 14, en la derecha: 6 13 14
+expOr (43)
+    en la izquierda: 15 16, en la derecha: 12 13 16
+expAnd (44)
+    en la izquierda: 17 18, en la derecha: 15 16 18
+expIgualdad (45)
+    en la izquierda: 19 20 21, en la derecha: 17 18 20 21
+expRelacional (46)
+    en la izquierda: 22 23, en la derecha: 19 20 21 23
+operadorRelacional (47)
+    en la izquierda: 24 25 26 27, en la derecha: 23
+expAditiva (48)
+    en la izquierda: 28 29, en la derecha: 22 23 29
+operadorAditivo (49)
+    en la izquierda: 30 31, en la derecha: 29
+expMultiplicativa (50)
+    en la izquierda: 32 33, en la derecha: 28 29 33
+operadorMultiplicativo (51)
+    en la izquierda: 34 35, en la derecha: 33
+expUnaria (52)
+    en la izquierda: 36 37 38 39, en la derecha: 7 32 33 37 38
+operUnario (53)
+    en la izquierda: 40 41 42 43, en la derecha: 38
+expPostFijo (54)
+    en la izquierda: 44 45 46 47, en la derecha: 36 45 46 47
+listaArgumentos (55)
+    en la izquierda: 48 49, en la derecha: 46 49
+expPrimaria (56)
+    en la izquierda: 50 51 52 53 54 55, en la derecha: 44
+
+
+estado 0
+
+    0 $accept: . input $end
+
+    $default  reduce usando la regla 1 (input)
+
+    input  ir al estado 1
+
+
+estado 1
+
+    0 $accept: input . $end
+    2 input: input . line
+
+    $end               desplazar e ir al estado 2
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+    '/'                desplazar e ir al estado 15
+
+    line               ir al estado 16
+    expresion          ir al estado 17
+    expAsignacion      ir al estado 18
+    expCondicional     ir al estado 19
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 2
+
+    0 $accept: input $end .
+
+    $default  aceptar
+
+
+estado 3
+
+   51 expPrimaria: NUM_ENTERO .
+
+    $default  reduce usando la regla 51 (expPrimaria)
+
+
+estado 4
+
+   52 expPrimaria: NUM_REAL .
+
+    $default  reduce usando la regla 52 (expPrimaria)
+
+
+estado 5
+
+   53 expPrimaria: LITERAL_CADENA .
+
+    $default  reduce usando la regla 53 (expPrimaria)
+
+
+estado 6
+
+   54 expPrimaria: PALABRA_RESERVADA .
+
+    $default  reduce usando la regla 54 (expPrimaria)
+
+
+estado 7
+
+   55 expPrimaria: TIPO_DATO .
+
+    $default  reduce usando la regla 55 (expPrimaria)
+
+
+estado 8
+
+   50 expPrimaria: IDENTIFICADOR .
+
+    $default  reduce usando la regla 50 (expPrimaria)
+
+
+estado 9
+
+   42 operUnario: '-' .
+
+    $default  reduce usando la regla 42 (operUnario)
+
+
+estado 10
+
+   41 operUnario: '*' .
+
+    $default  reduce usando la regla 41 (operUnario)
+
+
+estado 11
+
+   40 operUnario: '&' .
+
+    $default  reduce usando la regla 40 (operUnario)
+
+
+estado 12
+
+   43 operUnario: '!' .
+
+    $default  reduce usando la regla 43 (operUnario)
+
+
+estado 13
+
+   37 expUnaria: "++" . expUnaria
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expUnaria    ir al estado 30
+    operUnario   ir al estado 27
+    expPostFijo  ir al estado 28
+    expPrimaria  ir al estado 29
+
+
+estado 14
+
+   39 expUnaria: "sizeof" . '(' TIPO_DATO ')'
+
+    '('  desplazar e ir al estado 31
+
+
+estado 15
+
+    3 line: '/' .
+
+    $default  reduce usando la regla 3 (line)
+
+
+estado 16
+
+    2 input: input line .
+
+    $default  reduce usando la regla 2 (input)
+
+
+estado 17
+
+    4 line: expresion . '/'
+   14 expCondicional: expresion . ':' expCondicional
+
+    ':'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+
+
+estado 18
+
+    5 expresion: expAsignacion . ';'
+
+    ';'  desplazar e ir al estado 34
+
+
+estado 19
+
+    6 expAsignacion: expCondicional .
+
+    $default  reduce usando la regla 6 (expAsignacion)
+
+
+estado 20
+
+   12 expCondicional: expOr .
+   13               | expOr . expresion ':' expCondicional
+   16 expOr: expOr . "||" expAnd
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    "||"               desplazar e ir al estado 35
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    $default  reduce usando la regla 12 (expCondicional)
+
+    expresion          ir al estado 36
+    expAsignacion      ir al estado 18
+    expCondicional     ir al estado 19
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 21
+
+   15 expOr: expAnd .
+   18 expAnd: expAnd . "&&" expIgualdad
+
+    "&&"  desplazar e ir al estado 37
+
+    $default  reduce usando la regla 15 (expOr)
+
+
+estado 22
+
+   17 expAnd: expIgualdad .
+   20 expIgualdad: expIgualdad . "==" expRelacional
+   21            | expIgualdad . "!=" expRelacional
+
+    "=="  desplazar e ir al estado 38
+    "!="  desplazar e ir al estado 39
+
+    $default  reduce usando la regla 17 (expAnd)
+
+
+estado 23
+
+   19 expIgualdad: expRelacional .
+   23 expRelacional: expRelacional . operadorRelacional expAditiva
+
+    ">="  desplazar e ir al estado 40
+    "<="  desplazar e ir al estado 41
+    '>'   desplazar e ir al estado 42
+    '<'   desplazar e ir al estado 43
+
+    $default  reduce usando la regla 19 (expIgualdad)
+
+    operadorRelacional  ir al estado 44
+
+
+estado 24
+
+   22 expRelacional: expAditiva .
+   29 expAditiva: expAditiva . operadorAditivo expMultiplicativa
+
+    '+'  desplazar e ir al estado 45
+    '-'  desplazar e ir al estado 46
+
+    '-'       [reduce usando la regla 22 (expRelacional)]
+    $default  reduce usando la regla 22 (expRelacional)
+
+    operadorAditivo  ir al estado 47
+
+
+estado 25
+
+   28 expAditiva: expMultiplicativa .
+   33 expMultiplicativa: expMultiplicativa . operadorMultiplicativo expUnaria
+
+    '*'  desplazar e ir al estado 48
+    '/'  desplazar e ir al estado 49
+
+    '*'       [reduce usando la regla 28 (expAditiva)]
+    $default  reduce usando la regla 28 (expAditiva)
+
+    operadorMultiplicativo  ir al estado 50
+
+
+estado 26
+
+    7 expAsignacion: expUnaria . operAsignacion expAsignacion
+   32 expMultiplicativa: expUnaria .
+
+    '='   desplazar e ir al estado 51
+    "+="  desplazar e ir al estado 52
+    "-="  desplazar e ir al estado 53
+    "*="  desplazar e ir al estado 54
+
+    $default  reduce usando la regla 32 (expMultiplicativa)
+
+    operAsignacion  ir al estado 55
+
+
+estado 27
+
+   38 expUnaria: operUnario . expUnaria
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expUnaria    ir al estado 56
+    operUnario   ir al estado 27
+    expPostFijo  ir al estado 28
+    expPrimaria  ir al estado 29
+
+
+estado 28
+
+   36 expUnaria: expPostFijo .
+   45 expPostFijo: expPostFijo . '[' expresion ']'
+   46            | expPostFijo . '(' listaArgumentos ')'
+   47            | expPostFijo . '(' ')'
+
+    '('  desplazar e ir al estado 57
+    '['  desplazar e ir al estado 58
+
+    $default  reduce usando la regla 36 (expUnaria)
+
+
+estado 29
+
+   44 expPostFijo: expPrimaria .
+
+    $default  reduce usando la regla 44 (expPostFijo)
+
+
+estado 30
+
+   37 expUnaria: "++" expUnaria .
+
+    $default  reduce usando la regla 37 (expUnaria)
+
+
+estado 31
+
+   39 expUnaria: "sizeof" '(' . TIPO_DATO ')'
+
+    TIPO_DATO  desplazar e ir al estado 59
+
+
+estado 32
+
+   14 expCondicional: expresion ':' . expCondicional
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expresion          ir al estado 60
+    expAsignacion      ir al estado 18
+    expCondicional     ir al estado 61
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 33
+
+    4 line: expresion '/' .
+
+    $default  reduce usando la regla 4 (line)
+
+
+estado 34
+
+    5 expresion: expAsignacion ';' .
+
+    $default  reduce usando la regla 5 (expresion)
+
+
+estado 35
+
+   16 expOr: expOr "||" . expAnd
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expAnd             ir al estado 62
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 63
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 36
+
+   13 expCondicional: expOr expresion . ':' expCondicional
+   14               | expresion . ':' expCondicional
+
+    ':'  desplazar e ir al estado 64
+
+
+estado 37
+
+   18 expAnd: expAnd "&&" . expIgualdad
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expIgualdad        ir al estado 65
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 63
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 38
+
+   20 expIgualdad: expIgualdad "==" . expRelacional
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expRelacional      ir al estado 66
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 63
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 39
+
+   21 expIgualdad: expIgualdad "!=" . expRelacional
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expRelacional      ir al estado 67
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 63
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 40
+
+   24 operadorRelacional: ">=" .
+
+    $default  reduce usando la regla 24 (operadorRelacional)
+
+
+estado 41
+
+   25 operadorRelacional: "<=" .
+
+    $default  reduce usando la regla 25 (operadorRelacional)
+
+
+estado 42
+
+   26 operadorRelacional: '>' .
+
+    $default  reduce usando la regla 26 (operadorRelacional)
+
+
+estado 43
+
+   27 operadorRelacional: '<' .
+
+    $default  reduce usando la regla 27 (operadorRelacional)
+
+
+estado 44
+
+   23 expRelacional: expRelacional operadorRelacional . expAditiva
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expAditiva         ir al estado 68
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 63
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 45
+
+   30 operadorAditivo: '+' .
+
+    $default  reduce usando la regla 30 (operadorAditivo)
+
+
+estado 46
+
+   31 operadorAditivo: '-' .
+
+    $default  reduce usando la regla 31 (operadorAditivo)
+
+
+estado 47
+
+   29 expAditiva: expAditiva operadorAditivo . expMultiplicativa
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expMultiplicativa  ir al estado 69
+    expUnaria          ir al estado 63
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 48
+
+   34 operadorMultiplicativo: '*' .
+
+    $default  reduce usando la regla 34 (operadorMultiplicativo)
+
+
+estado 49
+
+   35 operadorMultiplicativo: '/' .
+
+    $default  reduce usando la regla 35 (operadorMultiplicativo)
+
+
+estado 50
+
+   33 expMultiplicativa: expMultiplicativa operadorMultiplicativo . expUnaria
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expUnaria    ir al estado 70
+    operUnario   ir al estado 27
+    expPostFijo  ir al estado 28
+    expPrimaria  ir al estado 29
+
+
+estado 51
+
+    8 operAsignacion: '=' .
+
+    $default  reduce usando la regla 8 (operAsignacion)
+
+
+estado 52
+
+    9 operAsignacion: "+=" .
+
+    $default  reduce usando la regla 9 (operAsignacion)
+
+
+estado 53
+
+   10 operAsignacion: "-=" .
+
+    $default  reduce usando la regla 10 (operAsignacion)
+
+
+estado 54
+
+   11 operAsignacion: "*=" .
+
+    $default  reduce usando la regla 11 (operAsignacion)
+
+
+estado 55
+
+    7 expAsignacion: expUnaria operAsignacion . expAsignacion
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expresion          ir al estado 60
+    expAsignacion      ir al estado 71
+    expCondicional     ir al estado 19
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 56
+
+   38 expUnaria: operUnario expUnaria .
+
+    $default  reduce usando la regla 38 (expUnaria)
+
+
+estado 57
+
+   46 expPostFijo: expPostFijo '(' . listaArgumentos ')'
+   47            | expPostFijo '(' . ')'
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    ')'                desplazar e ir al estado 72
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expresion          ir al estado 60
+    expAsignacion      ir al estado 73
+    expCondicional     ir al estado 19
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    listaArgumentos    ir al estado 74
+    expPrimaria        ir al estado 29
+
+
+estado 58
+
+   45 expPostFijo: expPostFijo '[' . expresion ']'
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expresion          ir al estado 75
+    expAsignacion      ir al estado 18
+    expCondicional     ir al estado 19
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 59
+
+   39 expUnaria: "sizeof" '(' TIPO_DATO . ')'
+
+    ')'  desplazar e ir al estado 76
+
+
+estado 60
+
+   14 expCondicional: expresion . ':' expCondicional
+
+    ':'  desplazar e ir al estado 32
+
+
+estado 61
+
+    6 expAsignacion: expCondicional .
+   14 expCondicional: expresion ':' expCondicional .
+
+    ';'       reduce usando la regla 6 (expAsignacion)
+    ';'       [reduce usando la regla 14 (expCondicional)]
+    $default  reduce usando la regla 14 (expCondicional)
+
+
+estado 62
+
+   16 expOr: expOr "||" expAnd .
+   18 expAnd: expAnd . "&&" expIgualdad
+
+    "&&"  desplazar e ir al estado 37
+
+    $default  reduce usando la regla 16 (expOr)
+
+
+estado 63
+
+   32 expMultiplicativa: expUnaria .
+
+    $default  reduce usando la regla 32 (expMultiplicativa)
+
+
+estado 64
+
+   13 expCondicional: expOr expresion ':' . expCondicional
+   14               | expresion ':' . expCondicional
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expresion          ir al estado 60
+    expAsignacion      ir al estado 18
+    expCondicional     ir al estado 77
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 65
+
+   18 expAnd: expAnd "&&" expIgualdad .
+   20 expIgualdad: expIgualdad . "==" expRelacional
+   21            | expIgualdad . "!=" expRelacional
+
+    "=="  desplazar e ir al estado 38
+    "!="  desplazar e ir al estado 39
+
+    $default  reduce usando la regla 18 (expAnd)
+
+
+estado 66
+
+   20 expIgualdad: expIgualdad "==" expRelacional .
+   23 expRelacional: expRelacional . operadorRelacional expAditiva
+
+    ">="  desplazar e ir al estado 40
+    "<="  desplazar e ir al estado 41
+    '>'   desplazar e ir al estado 42
+    '<'   desplazar e ir al estado 43
+
+    $default  reduce usando la regla 20 (expIgualdad)
+
+    operadorRelacional  ir al estado 44
+
+
+estado 67
+
+   21 expIgualdad: expIgualdad "!=" expRelacional .
+   23 expRelacional: expRelacional . operadorRelacional expAditiva
+
+    ">="  desplazar e ir al estado 40
+    "<="  desplazar e ir al estado 41
+    '>'   desplazar e ir al estado 42
+    '<'   desplazar e ir al estado 43
+
+    $default  reduce usando la regla 21 (expIgualdad)
+
+    operadorRelacional  ir al estado 44
+
+
+estado 68
+
+   23 expRelacional: expRelacional operadorRelacional expAditiva .
+   29 expAditiva: expAditiva . operadorAditivo expMultiplicativa
+
+    '+'  desplazar e ir al estado 45
+    '-'  desplazar e ir al estado 46
+
+    '-'       [reduce usando la regla 23 (expRelacional)]
+    $default  reduce usando la regla 23 (expRelacional)
+
+    operadorAditivo  ir al estado 47
+
+
+estado 69
+
+   29 expAditiva: expAditiva operadorAditivo expMultiplicativa .
+   33 expMultiplicativa: expMultiplicativa . operadorMultiplicativo expUnaria
+
+    '*'  desplazar e ir al estado 48
+    '/'  desplazar e ir al estado 49
+
+    '*'       [reduce usando la regla 29 (expAditiva)]
+    $default  reduce usando la regla 29 (expAditiva)
+
+    operadorMultiplicativo  ir al estado 50
+
+
+estado 70
+
+   33 expMultiplicativa: expMultiplicativa operadorMultiplicativo expUnaria .
+
+    $default  reduce usando la regla 33 (expMultiplicativa)
+
+
+estado 71
+
+    5 expresion: expAsignacion . ';'
+    7 expAsignacion: expUnaria operAsignacion expAsignacion .
+
+    ';'  desplazar e ir al estado 34
+
+    ';'       [reduce usando la regla 7 (expAsignacion)]
+    $default  reduce usando la regla 7 (expAsignacion)
+
+
+estado 72
+
+   47 expPostFijo: expPostFijo '(' ')' .
+
+    $default  reduce usando la regla 47 (expPostFijo)
+
+
+estado 73
+
+    5 expresion: expAsignacion . ';'
+   48 listaArgumentos: expAsignacion .
+
+    ';'  desplazar e ir al estado 34
+
+    $default  reduce usando la regla 48 (listaArgumentos)
+
+
+estado 74
+
+   46 expPostFijo: expPostFijo '(' listaArgumentos . ')'
+   49 listaArgumentos: listaArgumentos . ',' expAsignacion
+
+    ','  desplazar e ir al estado 78
+    ')'  desplazar e ir al estado 79
+
+
+estado 75
+
+   14 expCondicional: expresion . ':' expCondicional
+   45 expPostFijo: expPostFijo '[' expresion . ']'
+
+    ':'  desplazar e ir al estado 32
+    ']'  desplazar e ir al estado 80
+
+
+estado 76
+
+   39 expUnaria: "sizeof" '(' TIPO_DATO ')' .
+
+    $default  reduce usando la regla 39 (expUnaria)
+
+
+estado 77
+
+    6 expAsignacion: expCondicional .
+   13 expCondicional: expOr expresion ':' expCondicional .
+   14               | expresion ':' expCondicional .
+
+    ';'       reduce usando la regla 6 (expAsignacion)
+    ';'       [reduce usando la regla 13 (expCondicional)]
+    ';'       [reduce usando la regla 14 (expCondicional)]
+    $default  reduce usando la regla 13 (expCondicional)
+
+
+estado 78
+
+   49 listaArgumentos: listaArgumentos ',' . expAsignacion
+
+    NUM_ENTERO         desplazar e ir al estado 3
+    NUM_REAL           desplazar e ir al estado 4
+    LITERAL_CADENA     desplazar e ir al estado 5
+    PALABRA_RESERVADA  desplazar e ir al estado 6
+    TIPO_DATO          desplazar e ir al estado 7
+    IDENTIFICADOR      desplazar e ir al estado 8
+    '-'                desplazar e ir al estado 9
+    '*'                desplazar e ir al estado 10
+    '&'                desplazar e ir al estado 11
+    '!'                desplazar e ir al estado 12
+    "++"               desplazar e ir al estado 13
+    "sizeof"           desplazar e ir al estado 14
+
+    expresion          ir al estado 60
+    expAsignacion      ir al estado 81
+    expCondicional     ir al estado 19
+    expOr              ir al estado 20
+    expAnd             ir al estado 21
+    expIgualdad        ir al estado 22
+    expRelacional      ir al estado 23
+    expAditiva         ir al estado 24
+    expMultiplicativa  ir al estado 25
+    expUnaria          ir al estado 26
+    operUnario         ir al estado 27
+    expPostFijo        ir al estado 28
+    expPrimaria        ir al estado 29
+
+
+estado 79
+
+   46 expPostFijo: expPostFijo '(' listaArgumentos ')' .
+
+    $default  reduce usando la regla 46 (expPostFijo)
+
+
+estado 80
+
+   45 expPostFijo: expPostFijo '[' expresion ']' .
+
+    $default  reduce usando la regla 45 (expPostFijo)
+
+
+estado 81
+
+    5 expresion: expAsignacion . ';'
+   49 listaArgumentos: listaArgumentos ',' expAsignacion .
+
+    ';'  desplazar e ir al estado 34
+
+    $default  reduce usando la regla 49 (listaArgumentos)
