@@ -8,10 +8,14 @@
 
 	int yylex();
 
-	/* int yywrap(){
+	 int yywrap(){
 		return(1);
 		 
-	} */
+	} 
+   void yyerror (char const *s) {
+   fprintf (stderr, "%s\n", s);
+	}
+
 %}
 
 %union
@@ -28,10 +32,19 @@
 %token <cadena> LITERAL_CADENA    
 %token <cadena> PALABRA_RESERVADA 
 %token <cadena> TIPO_DATO        
-%token <cadena> IDENTIFICADOR    
+%token <cadena> IDENTIFICADOR  
+%token <cadena> SIZEOF 
+%token <cadena> MAS_MAS 
+%token <cadena> MAYOR_IGUAL
+%token <cadena> MENOS_IGUAL
+%token <cadena> IGUAL_IGUAL
+%token <cadena> AND
+%token <cadena> OR
+%token <cadena> DISTINTO
+%token <cadena> BARRA_N
 
-%left '+' '-' '*' ',' "||" "&&" "==" "!=" ">=" "<="
-%right '=' ':' '&' '!' '(' ')' '[' ']' "+=" "-=" "*=" "++" "sizeof"
+%left '+' '-' '*' ',' OR AND IGUAL_IGUAL DISTINTO MAYOR_IGUAL MENOR_IGUAL
+%right '=' ':' '&' '!' '(' ')' '[' ']'MAS_IGUAL MENOS_IGUAL  MAS_MAS SIZEOF
 
 
 
@@ -41,8 +54,8 @@ input:  /* vacio */
 		| input line
 ;
 
-line:   '/n'
-		| expresion '/n'
+line:   BARRA_N
+		| expresion BARRA_N
 ;
 
 expresion: expAsignacion ';'
@@ -53,9 +66,8 @@ expAsignacion: expCondicional
 ;
 
 operAsignacion: '='
-				|"+="
-				|"-="
-				|"*="
+				MAS_IGUAL
+				|MENOS_IGUAL
 ;
 
 expCondicional: expOr
@@ -66,16 +78,16 @@ expCondicional: expOr
 
 
 expOr: 			expAnd
-			| expOr "||" expAnd
+			| expOr OR expAnd
 ;
 
 expAnd: expIgualdad 
-		| expAnd "&&" expIgualdad
+		| expAnd AND expIgualdad
 ;
 
 expIgualdad: expRelacional
-			| expIgualdad "==" expRelacional
-			| expIgualdad "!=" expRelacional 
+			| expIgualdad IGUAL_IGUAL expRelacional
+			| expIgualdad DISTINTO expRelacional 
 ;
 
 expRelacional: expAditiva
@@ -83,8 +95,8 @@ expRelacional: expAditiva
 
 ;
 
-operadorRelacional:  ">="		
-					|"<="
+operadorRelacional:  MAYOR_IGUAL		
+					|MENOR_IGUAL
 					|'>'
 					|'<'
 					
@@ -109,9 +121,9 @@ operadorMultiplicativo: '*'
 ;
 
 expUnaria: expPostFijo
-			| "++" expUnaria
+			| MAS_MAS expUnaria
 			| operUnario expUnaria
-			| "sizeof" '(' TIPO_DATO ')'
+			| SIZEOF '(' TIPO_DATO ')'
 ;
 
 
@@ -144,6 +156,9 @@ expPrimaria:  IDENTIFICADOR
 
 void main ()
 {
+	#ifdef BISON_DEBUG
+        yydebug = 1;
+	#endif
 	yyparse();
 	system("pause");
 }

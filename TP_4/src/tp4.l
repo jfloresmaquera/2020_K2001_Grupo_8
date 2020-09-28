@@ -16,17 +16,16 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 
 
 %%
-[+-/*=:\n()^;]                               {return yytext[0];}
-"sizeof"                                     {return yytext;}
-"++"                                         {return yytext;}
-">"                                          {return yytext;}
-"<"                                          {return yytext;}
-">="										 {return yytext;}
-"<="										 {return yytext;}
-"=="										 {return yytext;}
-"&&"										 {return yytext;}
-"||"										 {return yytext;}
-"!="									     {return yytext;}
+"\n"                                         {return BARRA_N;}           
+[+-/*=:()^;><]                               {return yytext[0];}
+"sizeof"                                     {return SIZEOF;}
+"++"                                         {return MAS_MAS;}
+">="										 {return MAYOR_IGUAL;}
+"<="										 {return MENOS_IGUAL;}
+"=="										 {return IGUAL_IGUAL;}
+"&&"										 {return AND;}
+"||"										 {return OR;}
+"!="									     {return DISTINTO;}
 "\""{CARACTER_IMPRIMIBLE}+"\""               {strcpy(yylval.cadena, yytext); return LITERAL_CADENA;}
 0{DIGITO_OCTAL}*                             {yylval.numero=strtol(yytext,NULL,8); return NUM_ENTERO;}
 0[xX]{DIGITO_HEXADECIMAL}+                   {yylval.numero=strtol(yytext,NULL,16); return NUM_ENTERO;} 
@@ -35,5 +34,5 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union)      {strcpy(yylval.cadena, yytext); return TIPO_DATO ;}
 (do|while|else|if|for|break|case|switch)     {strcpy(yylval.cadena, yytext); return PALABRA_RESERVADA;}
 ({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strcpy(yylval.cadena, yytext); return IDENTIFICADOR;} 
-" " {}
+. {}
 %%
