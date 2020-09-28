@@ -16,8 +16,9 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 
 
 %%
-"\n"                                         {return BARRA_N;}           
-[+-/*=:()^;><]                               {return yytext[0];}
+'\n'                                         {return '\n';} 
+'='                                            {return '=';}      
+[+-/*:()^;><]                                {return yytext[0];}
 "sizeof"                                     {return SIZEOF;}
 "++"                                         {return MAS_MAS;}
 ">="										 {return MAYOR_IGUAL;}
@@ -33,6 +34,6 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 {DIGITO_DECIMAL}\.([Ee](\+|\-)?{DIGITO_DECIMAL})? {yylval.numeroR=atof(yytext); return NUM_REAL;}
 (int|float|char|long|double|unsigned|short|struct|typedef|void|signed|enum|register|union)      {strcpy(yylval.cadena, yytext); return TIPO_DATO ;}
 (do|while|else|if|for|break|case|switch)     {strcpy(yylval.cadena, yytext); return PALABRA_RESERVADA;}
-({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strcpy(yylval.cadena, yytext); return IDENTIFICADOR;} 
+({LETRA}|"_")({LETRA}|"_"|{DIGITO_DECIMAL})* {strcpy(yylval.cadena, yytext); return IDENTIFICADOR;}   
 . {}
 %%

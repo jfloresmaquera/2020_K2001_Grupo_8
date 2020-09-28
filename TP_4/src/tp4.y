@@ -41,7 +41,7 @@
 %token <cadena> AND
 %token <cadena> OR
 %token <cadena> DISTINTO
-%token <cadena> BARRA_N
+
 
 %left '+' '-' '*' ',' OR AND IGUAL_IGUAL DISTINTO MAYOR_IGUAL MENOR_IGUAL
 %right '=' ':' '&' '!' '(' ')' '[' ']'MAS_IGUAL MENOS_IGUAL  MAS_MAS SIZEOF
@@ -54,8 +54,8 @@ input:  /* vacio */
 		| input line
 ;
 
-line:   BARRA_N
-		| expresion BARRA_N
+line:   '\n'
+		| expresion '\n'
 ;
 
 expresion: expAsignacion ';'
@@ -66,7 +66,7 @@ expAsignacion: expCondicional
 ;
 
 operAsignacion: '='
-				MAS_IGUAL
+				|MAS_IGUAL
 				|MENOS_IGUAL
 ;
 
