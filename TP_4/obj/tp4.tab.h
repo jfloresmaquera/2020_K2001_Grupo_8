@@ -44,7 +44,17 @@
      LITERAL_CADENA = 260,
      PALABRA_RESERVADA = 261,
      TIPO_DATO = 262,
-     IDENTIFICADOR = 263
+     IDENTIFICADOR = 263,
+     SIZEOF = 264,
+     MAS_MAS = 265,
+     MAYOR_IGUAL = 266,
+     MENOS_IGUAL = 267,
+     IGUAL_IGUAL = 268,
+     AND = 269,
+     OR = 270,
+     DISTINTO = 271,
+     MENOR_IGUAL = 272,
+     MAS_IGUAL = 273
    };
 #endif
 
@@ -55,7 +65,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 18 "../src/tp4.y"
+#line 22 "../src/tp4.y"
 
 	int numero;
 	float numeroR;
@@ -64,7 +74,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 68 "tp4.tab.h"
+#line 78 "tp4.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

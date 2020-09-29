@@ -4,6 +4,7 @@
 	#include <ctype.h>
 	#include <stdlib.h>
 
+	
 
 
 	int yylex();
@@ -13,7 +14,7 @@
 		 
 	} 
    void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
+   fprintf(stderr, "%s\n", s);
 	}
 
 %}

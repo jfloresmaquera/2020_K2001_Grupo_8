@@ -17,8 +17,7 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 
 %%
 '\n'                                         {return '\n';} 
-'='                                            {return '=';}      
-[+-/*:()^;><]                                {return yytext[0];}
+[+-/*:()^;><=]                               {return yytext[0];}
 "sizeof"                                     {return SIZEOF;}
 "++"                                         {return MAS_MAS;}
 ">="										 {return MAYOR_IGUAL;}
