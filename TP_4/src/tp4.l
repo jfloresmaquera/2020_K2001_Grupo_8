@@ -9,7 +9,10 @@
 
 
 %}
-LETRAS [a-zA-Z]
+
+DIGITO_DECIMAL [0-9]    
+DIGITO_OCTAL [0-7] 
+DIGITO_HEXADECIMAL [a-fA-F0-9] 
 
 %%
 
@@ -17,7 +20,9 @@ LETRAS [a-zA-Z]
 "-="										 { strcpy(yylval.cadena, yytext); return MENOS_IGUAL;}
 "*="										 { strcpy(yylval.cadena, yytext); return POR_IGUAL;}
 "/="										 { strcpy(yylval.cadena, yytext); return DIVIDIDO_IGUAL;}
-[0-9]+                                       { strcpy(yylval.cadena, yytext); return NUM; }
+ 0{DIGITO_OCTAL}*                            {strcpy(yylval.cadena, yytext); return OCTAL;}
+ 0[xX]{DIGITO_HEXADECIMAL}+                  {strcpy(yylval.cadena, yytext); return HEXA;} 
+ [1-9]{DIGITO_DECIMAL}*                      {strcpy(yylval.cadena, yytext); return DECIMAL;} 
 [0-9]+("."[0-9]+)?                           { strcpy(yylval.cadena, yytext); return NUM_R; }
 while 										 { strcpy(yylval.cadena, yytext); return WHILE;}
 do 											 { strcpy(yylval.cadena, yytext); return DO;}

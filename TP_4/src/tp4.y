@@ -33,7 +33,9 @@ char cadena[50];
 %token <cadena> ELSE 
 %token <cadena> RETURN
 %token <cadena> SWITCH 
-%token <cadena> NUM
+%token <cadena> DECIMAL
+%token <cadena> HEXA
+%token <cadena> OCTAL
 %token <cadena> NUM_R
 %token <cadena> IDENTIFICADOR
 %token <cadena> TIPO_DATO
@@ -231,7 +233,9 @@ expC:		IDENTIFICADOR
 			| expC DESIGUALDAD expC   {printf ("Se escribio una expresion con signo de distinto \n");}          
 			| expC AND expC       	  {printf ("Se escribio una expresion con la operacion logica and \n");}             
 			| expC OR expC         	  {printf ("Se escribio una expresion con la operacion logica or \n");}             
-			| NUM 
+			| DECIMAL
+			| HEXA
+			| OCTAL
 			| NUM_R
 			| expC '*' expC       	  {printf ("Se escribio una expresion  \n");}              
 			| expC '/' expC           {printf ("Se escribio una expresion  \n");}              
