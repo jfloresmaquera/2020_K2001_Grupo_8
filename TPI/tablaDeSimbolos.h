@@ -155,11 +155,7 @@ void agregarErrorSintactico(char* errorSintactico, int linea){
 
 
 
-
-
-
-void generarReporte(); <- por que tira error aca? quiere un ; ahi
-{
+void generarReporte(){
     printf("\n");
     variablesDeclaradas();
     //funcionesDeclaradas();
