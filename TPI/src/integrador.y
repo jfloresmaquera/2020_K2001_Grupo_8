@@ -6,17 +6,20 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include "tablaDeSimbolos.h"
+	#line lineno "entrada.c"
+	extern int lineno;
 	extern FILE* yyin; 
-
-
+	
+	
+	// el mensaje muestre la línea en la que está el error
 	void yyerror (char const *s) {
-  		 fprintf(stderr, "hay un error \n", s);
+  		fprintf(stderr, "se encontro un error sintactico en la linea %d = %s \n", lineno,s);
 	}
 
 	int yylex();
 
-	
-   
+
+
 
 %}
 /* 	struct{
@@ -63,8 +66,8 @@
 %token <s> DIVIDIDO_IGUAL
 %token <s> MAS_MAS
 %token <s> MENOS_MENOS
-//%token <s> error
-
+%token <s> error
+%token <s> ERROR_LEXICO
 
 %type <s> incrementoDecremento
 %type <s> auxi
@@ -83,6 +86,7 @@
 
 input:    /* vacío */
         | input line
+		| ERROR_LEXICO {agregarErrorLexico($<s.cadena>1);}
 ;
 
 line:   
@@ -97,10 +101,9 @@ line:
 		| sentenciaAsignacion saltoOpcional
 		| incrementoDecremento saltoOpcional
 		| error saltoOpcional { yyerrok; }
-
-;
 //lo agregamos para ver si se solucionaba el problema de los saltos de linea pero no funciona
- 
+
+
 saltoOpcional:  /* vacío */
 				| '\n' saltoOpcional
 				| '\n'
@@ -194,8 +197,8 @@ sentenciaAsignacion: parametro '=' exp ';'  {printf ("Se le asigno  %s y se le a
 					|parametro DIVIDIDO_IGUAL exp ';'  {printf ("Se le asigno  %s y se le asigno su valor dividido %s \n",$<s.cadena>1,$<s.cadena>3);}
 ;
 
-parametro:	 TIPO_DATO IDENTIFICADOR
-			| IDENTIFICADOR 
+parametro:	 TIPO_DATO IDENTIFICADOR { }
+			| IDENTIFICADOR   { }
 
 ;
 

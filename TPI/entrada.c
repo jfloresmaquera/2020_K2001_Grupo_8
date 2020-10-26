@@ -1,6 +1,1 @@
-
-
-int a;
-int b;
-char b;
-char a;
+float a=0XA;
