@@ -5,6 +5,7 @@
 	#include <ctype.h>
 	#include <stdlib.h>
 	#include <string.h>
+	#include "tablaDeSimbolos.h"
 	extern FILE* yyin; 
 
 
@@ -25,52 +26,56 @@
 	}s; */
 
 %union{
-char cadena[50];
+	struct{
+		char cadena[50];
+		int tipo;// 0 = int, 1 = char*, 2 = numero, 3 = void
+		float numero;
+	}s;
 }
 
-%token <cadena> FOR
-%token <cadena> IF 
-%token <cadena> ELSE 
-%token <cadena> RETURN
-%token <cadena> SWITCH 
-%token <cadena> DECIMAL
-%token <cadena> HEXA
-%token <cadena> OCTAL
-%token <cadena> NUM_R
-%token <cadena> IDENTIFICADOR
-%token <cadena> TIPO_DATO
-%token <cadena> DO
-%token <cadena> WHILE
-%token <cadena> CHAR
-%token <cadena> LITERAL_CADENA
-%token <cadena> MAYOR_IGUAL
-%token <cadena> MENOR_IGUAL
-%token <cadena> IGUALDAD
-%token <cadena> AND
-%token <cadena> OR
-%token <cadena> DESIGUALDAD
-%token <cadena> CASE
-%token <cadena> BREAK
-%token <cadena> DEFAULT
-%token <cadena> MAS_IGUAL
-%token <cadena> MENOS_IGUAL
-%token <cadena> POR_IGUAL
-%token <cadena> DIVIDIDO_IGUAL
-%token <cadena> MAS_MAS
-%token <cadena> MENOS_MENOS
-//%token <cadena> error
+%token <s> FOR
+%token <s> IF 
+%token <s> ELSE 
+%token <s> RETURN
+%token <s> SWITCH 
+%token <s> DECIMAL
+%token <s> HEXA
+%token <s> OCTAL
+%token <s> NUM_R
+%token <s> IDENTIFICADOR
+%token <s> TIPO_DATO
+%token <s> DO
+%token <s> WHILE
+%token <s> CHAR
+%token <s> LITERAL_CADENA
+%token <s> MAYOR_IGUAL
+%token <s> MENOR_IGUAL
+%token <s> IGUALDAD
+%token <s> AND
+%token <s> OR
+%token <s> DESIGUALDAD
+%token <s> CASE
+%token <s> BREAK
+%token <s> DEFAULT
+%token <s> MAS_IGUAL
+%token <s> MENOS_IGUAL
+%token <s> POR_IGUAL
+%token <s> DIVIDIDO_IGUAL
+%token <s> MAS_MAS
+%token <s> MENOS_MENOS
+//%token <s> error
 
 
-%type <cadena> incrementoDecremento
-%type <cadena> auxi
-%type <cadena> expC
-%type <cadena> identificadorA
-%type <cadena> exp
-%type <cadena> sentenciaDeclaracion
-%type <cadena> listaParametros
-%type <cadena> parametro
-%type <cadena> listaIdentificadores
-%type <cadena> sentenciaReturn
+%type <s> incrementoDecremento
+%type <s> auxi
+%type <s> expC
+%type <s> identificadorA
+%type <s> exp
+%type <s> sentenciaDeclaracion
+%type <s> listaParametros
+%type <s> parametro
+%type <s> listaIdentificadores
+%type <s> sentenciaReturn
 
 %%
 
@@ -101,7 +106,7 @@ saltoOpcional:  /* vacío */
 				| '\n'
 ;
 
-definicionFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametros')' saltoOpcional '{' listadoDeSentencias '}' ';' {printf("Se ha definido una funcion de tipo %s llamada %s \n",$<cadena>1,$<cadena>2);}
+definicionFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametros')' saltoOpcional '{' listadoDeSentencias '}' ';' {printf("Se ha definido una funcion de tipo %s llamada %s \n",$<s.cadena>1,$<s.cadena>2);}
 ;
 
 listadoDeSentencias: /* vacio */
@@ -128,13 +133,13 @@ sentenciaDecOAsig: sentenciaAsignacion
 ;
 
 
-incrementoParaFor: IDENTIFICADOR MAS_MAS       {printf("Se ha incrementado la variable %s \n",$<cadena>1);}
-				  |	IDENTIFICADOR MENOS_MENOS  {printf("Se ha decrementado la variable %s\n",$<cadena>1);}
+incrementoParaFor: IDENTIFICADOR MAS_MAS       {printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}
+				  |	IDENTIFICADOR MENOS_MENOS  {printf("Se ha decrementado la variable %s\n",$<s.cadena>1);}
 ;
 
 
-incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  		 {printf("Se ha incrementado la variable %s \n",$<cadena>1);}
-					  |IDENTIFICADOR MENOS_MENOS ';'     {printf("Se ha decrementado la variable %s\n",$<cadena>1);}
+incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  		 {printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}
+					  |IDENTIFICADOR MENOS_MENOS ';'     {printf("Se ha decrementado la variable %s\n",$<s.cadena>1);}
 ;
 
 
@@ -169,12 +174,12 @@ listadoDeSentenciasDeDeclaracion:	/* vacío */
 									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion 
 ;
 
-sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				  {printf ("Se declaro una variable de tipo %s llamada %s \n", $<cadena>1,$<cadena>2);} 
+sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				  {printf ("Se declaro una variable de tipo %s llamada %s \n", $<s.cadena>1,$<s.cadena>2);} 
 						| TIPO_DATO listaIdentificadores       
-						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';' {printf ("Se declaro un arreglo de tipo %s llamado %s \n",$<cadena>1,$<cadena>2);}
-						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';' {printf ("Se declaro y se asignaron valores a las posiciones de un arreglo de tipo %s llamado %s \n",$<cadena>1,$<cadena>2);}
+						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';' {printf ("Se declaro un arreglo de tipo %s llamado %s \n",$<s.cadena>1,$<s.cadena>2);}
+						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';' {printf ("Se declaro y se asignaron valores a las posiciones de un arreglo de tipo %s llamado %s \n",$<s.cadena>1,$<s.cadena>2);}
 						| TIPO_DATO '*' IDENTIFICADOR ';'          {printf ("Se declaro un puntero \n");}
-						| TIPO_DATO IDENTIFICADOR '(' listaParametros ')' ';'    {printf ("Se declaro un prototipo de una funcion de tipo %s llamada %s \n",  $<cadena>1, $<cadena>2);}
+						| TIPO_DATO IDENTIFICADOR '(' listaParametros ')' ';'    {printf ("Se declaro un prototipo de una funcion de tipo %s llamada %s \n",  $<s.cadena>1, $<s.cadena>2);}
 						| error saltoOpcional { yyerrok; }
 ; 
 
@@ -182,11 +187,11 @@ auxi: expC ',' auxi
 	| expC 
 ;
 
-sentenciaAsignacion: parametro '=' exp ';'  {printf ("Se le asigno  %s y se le asigno el valor %s \n",$<cadena>1,$<cadena>3);}
-					|parametro MAS_IGUAL exp ';' {printf ("Se le asigno  %s y se le asigno su valor mas %s \n",$<cadena>1,$<cadena>3);}
-					|parametro MENOS_IGUAL exp ';'  {printf ("Se le asigno  %s y se le asigno su valor menos %s \n",$<cadena>1,$<cadena>3);}
-					|parametro POR_IGUAL exp ';'   {printf ("Se le asigno  %s y se le asigno su valor por %s \n",$<cadena>1,$<cadena>3);}
-					|parametro DIVIDIDO_IGUAL exp ';'  {printf ("Se le asigno  %s y se le asigno su valor dividido %s \n",$<cadena>1,$<cadena>3);}
+sentenciaAsignacion: parametro '=' exp ';'  {printf ("Se le asigno  %s y se le asigno el valor %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|parametro MAS_IGUAL exp ';' {printf ("Se le asigno  %s y se le asigno su valor mas %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|parametro MENOS_IGUAL exp ';'  {printf ("Se le asigno  %s y se le asigno su valor menos %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|parametro POR_IGUAL exp ';'   {printf ("Se le asigno  %s y se le asigno su valor por %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|parametro DIVIDIDO_IGUAL exp ';'  {printf ("Se le asigno  %s y se le asigno su valor dividido %s \n",$<s.cadena>1,$<s.cadena>3);}
 ;
 
 parametro:	 TIPO_DATO IDENTIFICADOR
@@ -200,12 +205,12 @@ listaIdentificadores: 	  identificadorA
 
 ;
 
-identificadorA:		 IDENTIFICADOR ';'				    	{printf ("Se declaro una variable llamada %s \n",$<cadena>1);}
-					|IDENTIFICADOR '=' exp';'			    {printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<cadena>1,$<cadena>3);}
-					|IDENTIFICADOR MAS_IGUAL exp ';'		{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<cadena>1,$<cadena>3);}
-					|IDENTIFICADOR MENOS_IGUAL exp ';' 		{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<cadena>1,$<cadena>3);}
-					|IDENTIFICADOR POR_IGUAL exp ';' 		{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<cadena>1,$<cadena>3);}
-					|IDENTIFICADOR DIVIDIDO_IGUAL exp ';' 	{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<cadena>1,$<cadena>3);}
+identificadorA:		 IDENTIFICADOR ';'				    	{printf ("Se declaro una variable llamada %s \n",$<s.cadena>1);}
+					|IDENTIFICADOR '=' exp';'			    {printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|IDENTIFICADOR MAS_IGUAL exp ';'		{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|IDENTIFICADOR MENOS_IGUAL exp ';' 		{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|IDENTIFICADOR POR_IGUAL exp ';' 		{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<s.cadena>1,$<s.cadena>3);}
+					|IDENTIFICADOR DIVIDIDO_IGUAL exp ';' 	{printf ("Se declaro una variable llamada %s y se le asigno el valor %s \n",$<s.cadena>1,$<s.cadena>3);}
 
 ;
 
@@ -262,6 +267,8 @@ int main ()
 	#endif
 	fclose(yyin);
 	system("pause");
+	generarReporte();
 	return 0;
 
 }
+
