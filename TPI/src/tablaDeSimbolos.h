@@ -53,7 +53,7 @@ void agregarErrorLexico(char* errorLexico){
         while(auxiliar->next!=NULL){
             auxiliar=auxiliar->next;
         }
-        auxiliar->next=nuevoNodo
+        auxiliar->next=nuevoNodo;
     }
 
 }
