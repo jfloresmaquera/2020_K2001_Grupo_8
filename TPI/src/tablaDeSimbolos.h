@@ -40,26 +40,6 @@ struct nodoErrorSintactico{
 typedef struct nodoErrorSintactico NodoErrorSintactico;
 NodoErrorSintactico *raizErrorSintactico=NULL;
 
-
-void agregarErrorLexico(char* errorLexico){
-    NodoErrorLexico *nuevoNodo,*auxiliar; 
-    nuevoNodo = (NodoErrorLexico *) malloc (sizeof(NodoErrorLexico)); //ver lo q esta entre () casting
-    nuevoNodo -> error =strdup(errorLexico); 
-    nuevoNodo ->next = NULL;
-    auxiliar=raizErrorLexico;
-    if(raizErrorLexico==NULL){
-        raizErrorLexico=nuevoNodo;
-    }else{
-        while(auxiliar->next!=NULL){
-            auxiliar=auxiliar->next;
-        }
-        auxiliar->next=nuevoNodo;
-    }
-
-}
-
-
-
  struct nodoControlTipos{
 	char *exp1;
 	char *exp2;
@@ -67,16 +47,17 @@ void agregarErrorLexico(char* errorLexico){
     struct nodoControlTipos* next;
 };
 typedef struct nodoControlTipos NodoCT;
+NodoCT *raizControlTipos=NULL; 
 
-
-NodoCT *raizControlTipos=NULL;
+// prototipos de funciones 
 
 void agregarIdentificador(char* , char* );
 NodoId* idYaSeDeclaro(char*);
 void variablesDeclaradas();
 void dobleDeclaracion();
 
-// con esto hacemos el pto 1 y el pto 5 
+// arrancan las funciones desarrolladas
+//funciones relacionadas con los identificadores
 void agregarIdentificador(char* id, char* tipo){
     NodoId *nuevoNodo; 
     if(raizId==NULL){
@@ -106,8 +87,6 @@ void agregarIdentificador(char* id, char* tipo){
     }
 }
 
-
-
 NodoId* idYaSeDeclaro(char* id){
     NodoId *auxiliar=raizId;
     while(auxiliar!=NULL){
@@ -119,7 +98,7 @@ NodoId* idYaSeDeclaro(char* id){
     }
     return NULL;
 }
-
+//funciones relacionadas a los errores lexicos
 void agregarErrorLexico(char* errorLexico){
     NodoErrorLexico *nuevoNodo,*auxiliar; 
     nuevoNodo = (NodoErrorLexico *) malloc (sizeof(NodoErrorLexico)); //ver lo q esta entre () casting
@@ -136,6 +115,16 @@ void agregarErrorLexico(char* errorLexico){
     }
 
 }
+void erroresLexicos(){
+    NodoErrorLexico *auxiliarRecorrido;
+    while(auxiliarRecorrido!=NULL){
+         printf("Se presento el error lexico  %s \n",auxiliarRecorrido->error);
+         auxiliarRecorrido=auxiliarRecorrido->next; 
+
+    }
+}
+
+// funciones relacionadas a los errores sintacticos
 
 void agregarErrorSintactico(char* errorSintactico, int linea){
     NodoErrorSintactico *nuevoNodo,*auxiliar;
@@ -152,36 +141,6 @@ void agregarErrorSintactico(char* errorSintactico, int linea){
         auxiliar->next=nuevoNodo;
     }
 }
-
-
-
-void generarReporte(){
-    printf("\n");
-    variablesDeclaradas();
-    //funcionesDeclaradas();
-    erroresLexicos();
-    erroresSintacticos();
-    erroresSemanticos();
-}
-
-
-void erroresSemanticos(){
-    //controlTipos();
-    dobleDeclaracion();
-}
-
-
-
-
-void erroresLexicos(){
-    NodoErrorLexico *auxiliarRecorrido;
-    while(auxiliarRecorrido!=NULL){
-         printf("Se presento el error lexico  %s \n",auxiliarRecorrido->error);
-         auxiliarRecorrido=auxiliarRecorrido->next; 
-
-    }
-}
-
 void erroresSintacticos(){
     NodoErrorSintactico *auxiliarRecorrido=raizErrorSintactico;
     while(auxiliarRecorrido!=NULL){
@@ -190,18 +149,11 @@ void erroresSintacticos(){
     }
 }
 
-
-void variablesDeclaradas(){ //semantico
-    NodoId *auxiliarRecorrido=raizId;
-    while(auxiliarRecorrido!=NULL){
-        if(auxiliarRecorrido->cantidad==1){
-            printf("Se encontro el identificador %s del tipo %s \n",auxiliarRecorrido->identificador, auxiliarRecorrido->tipo );
-            auxiliarRecorrido=auxiliarRecorrido->next;
-        }
-    auxiliarRecorrido=auxiliarRecorrido->next;
-    }
+//funciones relacionadas con los errores semanticos
+void erroresSemanticos(){
+    //controlTipos();
+    dobleDeclaracion();
 }
-
 
 void dobleDeclaracion(){ //es semantico
     NodoId *auxiliarRecorrido=raizId;
@@ -212,6 +164,28 @@ void dobleDeclaracion(){ //es semantico
         }
     auxiliarRecorrido=auxiliarRecorrido->next;
     }
+}
+//funciones relacionadas con el reporte
+
+void mostrarVariablesDeclaradas(){ 
+    NodoId *auxiliarRecorrido=raizId;
+    while(auxiliarRecorrido!=NULL){
+        if(auxiliarRecorrido->cantidad==1){
+            printf("Se encontro el identificador %s del tipo %s \n",auxiliarRecorrido->identificador, auxiliarRecorrido->tipo );
+            auxiliarRecorrido=auxiliarRecorrido->next;
+        }
+    auxiliarRecorrido=auxiliarRecorrido->next;
+    }
+}
+
+//funcion principal
+void generarReporte(){
+    printf("\n");
+    mostrarVariablesDeclaradas();
+    //funcionesDeclaradas();
+    erroresLexicos();
+    erroresSintacticos();
+    erroresSemanticos();
 }
 
 

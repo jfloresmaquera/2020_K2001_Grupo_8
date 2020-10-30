@@ -729,22 +729,22 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 25 "../src/integrador.l"
-{ strcpy(yylval.s.numero, strtoll(yytext, NULL, 8)); return OCTAL;}
+{ yylval.s.numero = strtoll(yytext, NULL, 8); return OCTAL;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 26 "../src/integrador.l"
-{ strcpy(yylval.s.numero, strtoll(yytext, NULL, 16)); return HEXA;}
+{ yylval.s.numero = strtoll(yytext, NULL, 16); return HEXA;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 27 "../src/integrador.l"
-{ strcpy(yylval.s.numero, atoi(yytext)); return DECIMAL;} 
+{ yylval.s.numero = atoi(yytext); return DECIMAL;} 
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 28 "../src/integrador.l"
-{ strcpy(yylval.s.numero, atof(yytext)); return NUM_R; }
+{ yylval.s.numero = atof(yytext); return NUM_R; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
@@ -961,7 +961,7 @@ YY_RULE_SETUP
 case 52:
 YY_RULE_SETUP
 #line 72 "../src/integrador.l"
-{strcpy(yylval.s.cadena, yytext); return  ERROR_LEXICO}
+{strcpy(yylval.s.cadena, yytext); return  ERROR_LEXICO;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP

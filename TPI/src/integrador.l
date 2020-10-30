@@ -22,10 +22,10 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 "-="										 { strcpy(yylval.s.cadena, yytext); return MENOS_IGUAL;}
 "*="										 { strcpy(yylval.s.cadena, yytext); return POR_IGUAL;}
 "/="										 { strcpy(yylval.s.cadena, yytext); return DIVIDIDO_IGUAL;}
-0{DIGITO_OCTAL}*                             { strcpy(yylval.s.numero, strtoll(yytext, NULL, 8)); return OCTAL;}
-0[xX]{DIGITO_HEXADECIMAL}+                   { strcpy(yylval.s.numero, strtoll(yytext, NULL, 16)); return HEXA;}
-[1-9]{DIGITO_DECIMAL}*                       { strcpy(yylval.s.numero, atoi(yytext)); return DECIMAL;} 
-[0-9]+("."[0-9]+)?                           { strcpy(yylval.s.numero, atof(yytext)); return NUM_R; }
+0{DIGITO_OCTAL}*                             { yylval.s.numero = strtoll(yytext, NULL, 8); return OCTAL;}
+0[xX]{DIGITO_HEXADECIMAL}+                   { yylval.s.numero = strtoll(yytext, NULL, 16); return HEXA;}
+[1-9]{DIGITO_DECIMAL}*                       { yylval.s.numero = atoi(yytext); return DECIMAL;} 
+[0-9]+("."[0-9]+)?                           { yylval.s.numero = atof(yytext); return NUM_R; }
 while 										 { strcpy(yylval.s.cadena, yytext); return WHILE;}
 do 											 { strcpy(yylval.s.cadena, yytext); return DO;}
 case										 { strcpy(yylval.s.cadena, yytext); return CASE;}
@@ -69,7 +69,7 @@ char|int|float|double|void|struct|bool       { strcpy(yylval.s.cadena, yytext); 
 "!"     { return '!'; }
 ":"		{ return ':'; }
 "\n"    { return '\n';}
-.       {strcpy(yylval.s.cadena, yytext); return  ERROR_LEXICO}
+.       {strcpy(yylval.s.cadena, yytext); return  ERROR_LEXICO;}
 
 
 %%

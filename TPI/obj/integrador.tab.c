@@ -77,14 +77,14 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include "tablaDeSimbolos.h"
-	#line lineno "entrada.c"
-	extern int lineno;
+	//#line lineno "entrada.c"
+	//extern int lineno; 
 	extern FILE* yyin; 
 	
 	
 	// el mensaje muestre la línea en la que está el error
 	void yyerror (char const *s) {
-  		fprintf(stderr, "se encontro un error sintactico en la linea %d = %s \n", lineno,s);
+  		fprintf(stderr, "se encontro un error sintactico en la linea %s (aca borramos lo de lineno xq nos tiraba error, dsp lo vemos) \n",s);
 	}
 
 	int yylex();
