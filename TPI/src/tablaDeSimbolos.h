@@ -51,13 +51,23 @@ NodoCT *raizControlTipos=NULL;
 
 // prototipos de funciones 
 
-void agregarIdentificador(char* , char* );
-NodoId* idYaSeDeclaro(char*);
-void variablesDeclaradas();
-void dobleDeclaracion();
 
 // arrancan las funciones desarrolladas
+
 //funciones relacionadas con los identificadores
+
+NodoId* idYaSeDeclaro(char* id){
+    NodoId *auxiliar=raizId;
+    while(auxiliar!=NULL){
+        if(strcmp(auxiliar->identificador,id)==0){
+           return auxiliar;
+        }else{
+            auxiliar=auxiliar->next;
+        }
+    }
+    return NULL;
+}
+
 void agregarIdentificador(char* id, char* tipo){
     NodoId *nuevoNodo; 
     if(raizId==NULL){
@@ -87,17 +97,7 @@ void agregarIdentificador(char* id, char* tipo){
     }
 }
 
-NodoId* idYaSeDeclaro(char* id){
-    NodoId *auxiliar=raizId;
-    while(auxiliar!=NULL){
-        if(strcmp(auxiliar->identificador,id)==0){
-           return auxiliar;
-        }else{
-            auxiliar=auxiliar->next;
-        }
-    }
-    return NULL;
-}
+
 //funciones relacionadas a los errores lexicos
 void agregarErrorLexico(char* errorLexico){
     NodoErrorLexico *nuevoNodo,*auxiliar; 
@@ -150,10 +150,7 @@ void erroresSintacticos(){
 }
 
 //funciones relacionadas con los errores semanticos
-void erroresSemanticos(){
-    //controlTipos();
-    dobleDeclaracion();
-}
+
 
 void dobleDeclaracion(){ //es semantico
     NodoId *auxiliarRecorrido=raizId;
@@ -164,6 +161,11 @@ void dobleDeclaracion(){ //es semantico
         }
     auxiliarRecorrido=auxiliarRecorrido->next;
     }
+}
+
+void erroresSemanticos(){
+    //controlTipos();
+    dobleDeclaracion();
 }
 //funciones relacionadas con el reporte
 
