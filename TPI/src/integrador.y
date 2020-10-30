@@ -86,7 +86,7 @@
 
 input:    /* vacío */
         | input line
-		| ERROR_LEXICO {agregarErrorLexico($<s.cadena>1);}
+		| ERROR_LEXICO 
 ;
 
 line:   
@@ -270,7 +270,7 @@ int main ()
 	#endif
 	fclose(yyin);
 	system("pause");
-	generarReporte();
+	//generarReporte();
 	return 0;
 
 }

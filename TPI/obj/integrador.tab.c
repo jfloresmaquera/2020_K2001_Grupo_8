@@ -1600,14 +1600,7 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 4:
-
-/* Line 1455 of yacc.c  */
-#line 89 "../src/integrador.y"
-    {agregarErrorLexico((yyvsp[(1) - (1)].s.cadena));;}
-    break;
-
-  case 16:
+        case 16:
 
 /* Line 1455 of yacc.c  */
 #line 103 "../src/integrador.y"
@@ -1939,7 +1932,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1943 "integrador.tab.c"
+#line 1936 "integrador.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2167,7 +2160,7 @@ int main ()
 	#endif
 	fclose(yyin);
 	system("pause");
-	generarReporte();
+	//generarReporte();
 	return 0;
 
 }

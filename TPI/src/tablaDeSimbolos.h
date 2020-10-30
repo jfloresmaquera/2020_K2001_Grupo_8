@@ -8,9 +8,8 @@
     char* tipo;
     char* identificador;
     struct nodoIdentificadores* next;
-    
 };
-typedef struct nodoIdentificadores NodoId;
+/*typedef struct nodoIdentificadores NodoId;
 NodoId *raizId=NULL;
 
 struct nodoFuncion{
@@ -189,7 +188,7 @@ void generarReporte(){
     erroresSintacticos();
     erroresSemanticos();
 }
-
+*/
 
 /* ESTAS 3 FUNCIONES  SE USAN PARA LA VALIDACION DE TIPOS
 
