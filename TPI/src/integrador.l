@@ -8,13 +8,17 @@
 
 
 
+int my_line=1;
 
 %}
-
+%option yylineno 
 DIGITO_DECIMAL [0-9]    
 DIGITO_OCTAL [0-7] 
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
 CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|"-"|"."|"/"|"0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|":"|";"|"<"|"="|">"|"?"|"@"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"\["|"\]"|"^"|"_"|"`"|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"| "t"|"u"|"v"|"w"|"x"|"y"|"z"|"\{"|"\}"|"~"]
+
+
+
 
 %%
 
@@ -68,7 +72,7 @@ char|int|float|double|void|struct|bool       { strcpy(yylval.s.cadena, yytext); 
 ">"     { return '>'; }
 "!"     { return '!'; }
 ":"		{ return ':'; }
-"\n"    { return '\n';}
+"\n"    { return '\n'; my_line++;}
 .       {strcpy(yylval.s.cadena, yytext); return  ERROR_LEXICO;}
 
 

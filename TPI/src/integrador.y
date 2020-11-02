@@ -12,14 +12,14 @@
 	
 	
 	// el mensaje muestre la línea en la que está el error
-	void yyerror (char const *s) {
-  		fprintf(stderr, "se encontro un error sintactico en la linea %s (aca borramos lo de lineno xq nos tiraba error, dsp lo vemos) \n",s);
-	}
 
 	int yylex();
 
-
-
+	void yyerror (char const *s) {
+  		extern int my_line;		
+		agregarErrorSintactico(s,my_line);
+		   
+	}
 
 %}
 /* 	struct{
