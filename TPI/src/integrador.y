@@ -6,6 +6,7 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include "tablaDeSimbolos.h"
+	#define YYERROR_VERBOSE
 	//#line lineno "entrada.c"
 	//extern int lineno; 
 	extern FILE* yyin; 
