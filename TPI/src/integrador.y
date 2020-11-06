@@ -7,17 +7,14 @@
 	#include <string.h>
 	#include "tablaDeSimbolos.h"
 	#define YYERROR_VERBOSE
-	//#line lineno "entrada.c"
-	//extern int lineno; 
 	extern FILE* yyin; 
-	
+	int my_line=1;
 	
 	// el mensaje muestre la línea en la que está el error
 
 	int yylex();
 
 	void yyerror (char const *s) {
-  		extern int my_line;		
 		agregarErrorSintactico(s,my_line);
 		   
 	}
@@ -91,7 +88,7 @@ input:    /* vacío */
 ;
 
 line:   
-		|'\n'      
+		|'\n'    {my_line++;}     
 		| listadoDeSentenciasDeDeclaracion saltoOpcional
 		| definicionFuncion  saltoOpcional
 		| sentenciaSwitch saltoOpcional
@@ -106,8 +103,8 @@ line:
 
 
 saltoOpcional:  /* vacío */
-				| '\n' saltoOpcional
-				| '\n'
+				| '\n' saltoOpcional {my_line++;}  
+				| '\n' {my_line++;}  
 ;
 
 definicionFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametros')' saltoOpcional '{' listadoDeSentencias '}' ';' {printf("Se ha definido una funcion de tipo %s llamada %s \n",$<s.cadena>1,$<s.cadena>2);}
@@ -198,15 +195,15 @@ sentenciaAsignacion: parametro '=' exp ';'  {printf ("Se le asigno  %s y se le a
 					|parametro DIVIDIDO_IGUAL exp ';'  {printf ("Se le asigno  %s y se le asigno su valor dividido %s \n",$<s.cadena>1,$<s.cadena>3);}
 ;
 
-parametro:	 TIPO_DATO IDENTIFICADOR { }
-			| IDENTIFICADOR   { }
+parametro:	 TIPO_DATO IDENTIFICADOR { }  //agregar lo de meter identificador
+			| IDENTIFICADOR   { }  //verificar q este el identificador
 
 ;
 
 listaIdentificadores: 	  identificadorA
 						| listaIdentificadores ',' identificadorA 
 						
-
+// TIPO_DATO IDENTIFICADOR ';' ',' identificadorA ';', identificadorA';'
 ;
 
 identificadorA:		 IDENTIFICADOR ';'				    	{printf ("Se declaro una variable llamada %s \n",$<s.cadena>1);}
@@ -248,11 +245,11 @@ expC:		IDENTIFICADOR
 			| NUM_R
 			| expC '*' expC       	  {printf ("Se escribio una expresion  \n");}              
 			| expC '/' expC           {printf ("Se escribio una expresion  \n");}              
-			| expC '+' expC           {printf ("Se escribio una expresion  \n");}  
+			| expC '+' expC           {printf ("Se escribio una expresion  \n"); auxi = calcularTipo(<s.cadena>1,<s.tipo>1); otroAuxi =calcularTipo(<s.cadena>3,<s.tipo>3);if(auxi == otroAuxi && auxi == 1) {printf("se puede hacer kpo") else {printf("no se puede operar por error de tipos ya que <s.cadena")}}}  
 
 ;
 
-
+			
 
 
 

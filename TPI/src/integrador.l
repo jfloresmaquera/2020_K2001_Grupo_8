@@ -8,10 +8,9 @@
 
 
 
-int my_line=1;
+
 
 %}
-%option yylineno 
 DIGITO_DECIMAL [0-9]    
 DIGITO_OCTAL [0-7] 
 DIGITO_HEXADECIMAL [a-fA-F0-9] 
@@ -26,10 +25,10 @@ CARACTER_IMPRIMIBLE  ["!"|"|"|"\"|"\""|"#"|"$"|"%"|"&"|"'"|"("|")"|"\*"|"+"|","|
 "-="										 { strcpy(yylval.s.cadena, yytext); return MENOS_IGUAL;}
 "*="										 { strcpy(yylval.s.cadena, yytext); return POR_IGUAL;}
 "/="										 { strcpy(yylval.s.cadena, yytext); return DIVIDIDO_IGUAL;}
-0{DIGITO_OCTAL}*                             { yylval.s.numero = strtoll(yytext, NULL, 8); return OCTAL;}
-0[xX]{DIGITO_HEXADECIMAL}+                   { yylval.s.numero = strtoll(yytext, NULL, 16); return HEXA;}
-[1-9]{DIGITO_DECIMAL}*                       { yylval.s.numero = atoi(yytext); return DECIMAL;} 
-[0-9]+("."[0-9]+)?                           { yylval.s.numero = atof(yytext); return NUM_R; }
+0{DIGITO_OCTAL}*                             { yylval.s.numero = strtoll(yytext, NULL, 8); yylval.s.tipo=1; return OCTAL;}
+0[xX]{DIGITO_HEXADECIMAL}+                   { yylval.s.numero = strtoll(yytext, NULL, 16); yylval.s.tipo=1; return HEXA;}
+[1-9]{DIGITO_DECIMAL}*                       { yylval.s.numero = atoi(yytext); yylval.s.tipo=1; return DECIMAL;} 
+[0-9]+("."[0-9]+)?                           { yylval.s.numero = atof(yytext); yylval.s.tipo=1; return NUM_R; }
 while 										 { strcpy(yylval.s.cadena, yytext); return WHILE;}
 do 											 { strcpy(yylval.s.cadena, yytext); return DO;}
 case										 { strcpy(yylval.s.cadena, yytext); return CASE;}
@@ -41,7 +40,7 @@ if                    		               	 { strcpy(yylval.s.cadena, yytext); retu
 else            			               	 { strcpy(yylval.s.cadena, yytext); return ELSE;}
 return		            	               	 { strcpy(yylval.s.cadena, yytext); return RETURN;}
 char|int|float|double|void|struct|bool       { strcpy(yylval.s.cadena, yytext); return TIPO_DATO; }
-(\'[a-zA-Z]\')                               { strcpy(yylval.s.cadena, yytext); return CHAR;}
+(\'[a-zA-Z]\')                               { strcpy(yylval.s.cadena, yytext); yylval.s.tipo=1; return CHAR;}
 [a-zA-Z_]([a-zA-Z_]|[0-9])*                  { strcpy(yylval.s.cadena, yytext); return IDENTIFICADOR; }
 ">="								|		 { strcpy(yylval.s.cadena, yytext); return MAYOR_IGUAL;}
 "<="										 { strcpy(yylval.s.cadena, yytext); return MENOR_IGUAL;}

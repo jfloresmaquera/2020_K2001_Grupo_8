@@ -9,7 +9,7 @@
     char* identificador;
     struct nodoIdentificadores* next;
 };
-/*typedef struct nodoIdentificadores NodoId;
+typedef struct nodoIdentificadores NodoId;
 NodoId *raizId=NULL;
 
 struct nodoFuncion{
@@ -188,12 +188,31 @@ void generarReporte(){
     erroresSintacticos();
     erroresSemanticos();
 }
+
+
+/* ESTAS 3 FUNCIONES  SE USAN PARA LA VALIDACION DE TIPOS */
+
+/*			5 + a	
+
+tipos:      1   1
+
+struct s asociado a 5 {
+		cadena[50];
+		int tipo = 1;
+		float numero = 5;
+	}
+
+struct s asociado a "a" {
+		cadena[50] = a;
+		int tipo;
+		float numero;
+	}
+
+
 */
 
-/* ESTAS 3 FUNCIONES  SE USAN PARA LA VALIDACION DE TIPOS
-
 int calcularTipo(char* potencialIdentificador, int tipoOriginal){
-    if (idEncontrado(primeroId,potencialIdentificador)){            //encuentra el id?
+    if (idEncontrado(raizId,potencialIdentificador)){            //encuentra el id?
 
         return buscarTipo(potencialIdentificador);                  //obtener el tipo del id encontrado
 
@@ -201,11 +220,10 @@ int calcularTipo(char* potencialIdentificador, int tipoOriginal){
     return tipoOriginal;                                            //retorno del tipo original en caso de no encontrar el id en la lista
 }
 
-int idEncontrado(nodoIdentificador* lista,char* iden){
-	nodoIdentificador* aux = primeroId;
+int idEncontrado(NodoId* lista,char* iden){
+	NodoId* aux = raizId;
 	while(aux!=NULL){
 		if(!strcmp(aux->identificador, iden)){
-            aux->cantidad ++;
 			return 1;
 		}else{
 		aux=aux->next;
@@ -215,7 +233,7 @@ int idEncontrado(nodoIdentificador* lista,char* iden){
 }
 
 int buscarTipo (char* iden){
-	nodoIdentificador* aux = primeroId;
+	NodoId* aux = raizId;
 	while(aux!=NULL){
 		if(!strcmp(aux->identificador, iden)){              //el if de la linea 128 muestra los 4 tipos de variables posibles para operaciones
             //aux->cantidad ++;
@@ -228,5 +246,5 @@ int buscarTipo (char* iden){
 	}
 	return 0;
 }
-*/
+
 
