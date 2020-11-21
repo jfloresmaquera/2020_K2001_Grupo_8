@@ -1,1 +1,2 @@
-float a=0XA;
+int a; 
+int b;

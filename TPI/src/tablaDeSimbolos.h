@@ -1,25 +1,43 @@
-  
+
+#ifndef TABLADESIMBOLOS_H
+#define TABLADESIMBOLOS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
- struct nodoIdentificadores{
-	int cantidad; // este nos sirve para controlar la repetición
-    char* tipo;
+//int ultimoTDato;
+
+struct nodoIdentificadores{
+    int cantidad; // este nos sirve para controlar la repetición
+    int tipo;
     char* identificador;
     struct nodoIdentificadores* next;
 };
 typedef struct nodoIdentificadores NodoId;
-NodoId *raizId=NULL;
+struct parametros {
+    int tipo;
+    struct parametros* next;
+};
+typedef struct parametros NodoParametrosFuncion;
 
 struct nodoFuncion{
-  char* funcion;
-  char* tipoRetorno;
-  char* tipoParametro;
+  char* identificador;                      //IDENTIFICADOR
+  int tipoRetorno;                          //TIPO_DATO
+  NodoParametrosFuncion * listaParametros;
+  int cantidadVecesDeclarado;
+  int cantidadVecesDesarrollada;
+  int cantidadParametros;
   struct nodoFuncion* next;
 };
-typedef struct nodoFuncion NodoFun;
-NodoFun *raizFuncion=NULL;
+typedef struct nodoFuncion NodoFuncion;
+
+
+struct nodoErrorInvocacionFuncion{
+    char* identificadorFuncion;
+    int errorDeInvocacion; // 0 = diferente cantidad de parametros , 1 = diferente tipos de parametros, 2 = return malo, 3 = nunca se declaro la funcion,4 hay un parametro no es definido
+};
+typedef struct nodoErrorInvocacionFuncion NodoErrorFuncionInvocacion;
 
 
 struct nodoErrorLexico{
@@ -28,7 +46,7 @@ struct nodoErrorLexico{
     
 };
 typedef struct nodoErrorLexico NodoErrorLexico;
-NodoErrorLexico *raizErrorLexico=NULL;
+
 
 
 struct nodoErrorSintactico{
@@ -37,214 +55,81 @@ struct nodoErrorSintactico{
     struct nodoErrorSintactico* next;
 };
 typedef struct nodoErrorSintactico NodoErrorSintactico;
-NodoErrorSintactico *raizErrorSintactico=NULL;
 
- struct nodoControlTipos{
-	char *exp1;
+
+struct nodoControlTipos{
+    char *exp1;
 	char *exp2;
 	char *operacion;
     struct nodoControlTipos* next;
 };
 typedef struct nodoControlTipos NodoCT;
-NodoCT *raizControlTipos=NULL; 
+
 
 // prototipos de funciones 
+void ultimoTipoDato(int tipo);
 
+int mostrarUltimoDato();
 
-// arrancan las funciones desarrolladas
+NodoId* idYaSeDeclaro(char* id);
 
-//funciones relacionadas con los identificadores
+void agregarIdentificador(char* id, int tipo);
 
-NodoId* idYaSeDeclaro(char* id){
-    NodoId *auxiliar=raizId;
-    while(auxiliar!=NULL){
-        if(strcmp(auxiliar->identificador,id)==0){
-           return auxiliar;
-        }else{
-            auxiliar=auxiliar->next;
-        }
-    }
-    return NULL;
-}
+void agregarErrorLexico(char* errorLexico);
 
-void agregarIdentificador(char* id, char* tipo){
-    NodoId *nuevoNodo; 
-    if(raizId==NULL){
-        nuevoNodo = (NodoId *) malloc (sizeof(NodoId)); //ver lo q esta entre () casting
-        nuevoNodo -> identificador=strdup(id); 
-        nuevoNodo -> tipo=strdup(tipo); 
-        nuevoNodo -> cantidad = 1;
-        nuevoNodo -> next = NULL;
-    }else{
-        NodoId *encontrado = idYaSeDeclaro(id);
-        if(encontrado ==NULL){
-            //no lo encuentra en la lista de identificadores encontrados
-            nuevoNodo = (NodoId *) malloc (sizeof(NodoId));   
-            nuevoNodo -> identificador=strdup(id); 
-            nuevoNodo -> tipo=strdup(tipo); 
-            nuevoNodo -> cantidad = 1;
-            nuevoNodo -> next = NULL; 
-            NodoId *auxiliar=raizId;
-            while(auxiliar->next!=NULL){
-                auxiliar=auxiliar->next;
-            }
-            auxiliar->next=nuevoNodo;
-        }else{
-            //lo encuentra en la lista de identificadores declarados
-            encontrado -> cantidad += 1;
-        }
-    }
-}
+void erroresLexicos();
 
+void agregarErrorSintactico(char const *errorSintactico, int linea);
 
-//funciones relacionadas a los errores lexicos
-void agregarErrorLexico(char* errorLexico){
-    NodoErrorLexico *nuevoNodo,*auxiliar; 
-    nuevoNodo = (NodoErrorLexico *) malloc (sizeof(NodoErrorLexico)); //ver lo q esta entre () casting
-    nuevoNodo -> error =strdup(errorLexico); 
-    nuevoNodo ->next = NULL;
-    auxiliar=raizErrorLexico;
-    if(raizErrorLexico==NULL){
-        raizErrorLexico=nuevoNodo;
-    }else{
-        while(auxiliar->next!=NULL){
-            auxiliar=auxiliar->next;
-        }
-        auxiliar->next=nuevoNodo;
-    }
+void erroresSintacticos();
 
-}
-void erroresLexicos(){
-    NodoErrorLexico *auxiliarRecorrido;
-    while(auxiliarRecorrido!=NULL){
-         printf("Se presento el error lexico  %s \n",auxiliarRecorrido->error);
-         auxiliarRecorrido=auxiliarRecorrido->next; 
+void dobleDeclaracion();
 
-    }
-}
+void erroresSemanticos();
 
-// funciones relacionadas a los errores sintacticos
+void mostrarVariablesDeclaradas();
 
-void agregarErrorSintactico(char* errorSintactico, int linea){
-    NodoErrorSintactico *nuevoNodo,*auxiliar;
-    nuevoNodo= (NodoErrorSintactico *) malloc (sizeof(NodoErrorSintactico));
-    nuevoNodo -> error =strdup(errorSintactico); 
-    nuevoNodo ->lineaError=linea;
-    auxiliar=raizErrorSintactico;
-    if(raizErrorSintactico==NULL){
-        raizErrorSintactico=nuevoNodo;  
-    }else{
-        while(auxiliar->next!=NULL){
-            auxiliar=auxiliar->next;
-        }
-        auxiliar->next=nuevoNodo;
-    }
-}
-void erroresSintacticos(){
-    NodoErrorSintactico *auxiliarRecorrido=raizErrorSintactico;
-    while(auxiliarRecorrido!=NULL){
-        printf("Se encontro el error sintactico %s en la linea %d",auxiliarRecorrido->error,auxiliarRecorrido->lineaError);
-        auxiliarRecorrido=auxiliarRecorrido->next;
-    }
-}
+void generarReporte();
 
-//funciones relacionadas con los errores semanticos
+void agregarFuncion(int tipo, char* id, int tipoInvocacion);
 
+void agregarParametro(int tipo);
 
-void dobleDeclaracion(){ //es semantico
-    NodoId *auxiliarRecorrido=raizId;
-    while(auxiliarRecorrido!=NULL){
-        if(auxiliarRecorrido->cantidad!=1){
-            printf("Se realizo una doble declaracion con el identificador %s \n",auxiliarRecorrido->identificador);
-            auxiliarRecorrido=auxiliarRecorrido->next;
-        }
-    auxiliarRecorrido=auxiliarRecorrido->next;
-    }
-}
+NodoFuncion* funcionYaSeDeclaro(char* id);
 
-void erroresSemanticos(){
-    //controlTipos();
-    dobleDeclaracion();
-}
-//funciones relacionadas con el reporte
+int cantidadNodos(NodoParametrosFuncion*);
 
-void mostrarVariablesDeclaradas(){ 
-    NodoId *auxiliarRecorrido=raizId;
-    while(auxiliarRecorrido!=NULL){
-        if(auxiliarRecorrido->cantidad==1){
-            printf("Se encontro el identificador %s del tipo %s \n",auxiliarRecorrido->identificador, auxiliarRecorrido->tipo );
-            auxiliarRecorrido=auxiliarRecorrido->next;
-        }
-    auxiliarRecorrido=auxiliarRecorrido->next;
-    }
-}
+int idEncontrado(NodoId*,char* id);
 
-//funcion principal
-void generarReporte(){
-    printf("\n");
-    mostrarVariablesDeclaradas();
-    //funcionesDeclaradas();
-    erroresLexicos();
-    erroresSintacticos();
-    erroresSemanticos();
-}
+int esOperable(char* id);
 
+int buscarTipo(char* id); 
 
-/* ESTAS 3 FUNCIONES  SE USAN PARA LA VALIDACION DE TIPOS */
+void verificaFuncion(char*);
 
-/*			5 + a	
+void verificarTiposDeParametro(NodoFuncion* auxiliar, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro);
 
-tipos:      1   1
+NodoId* idYaSeDeclaro(char*);
 
-struct s asociado a 5 {
-		cadena[50];
-		int tipo = 1;
-		float numero = 5;
-	}
+int calcularTipo(char* potencialId, int tipoOriginal);
 
-struct s asociado a "a" {
-		cadena[50] = a;
-		int tipo;
-		float numero;
-	}
+void agregarErrorFuncionInvocacion(char*,int);
 
+void funcionesCorrectamenteDeclaradas();
 
-*/
+char* tipoRepresentado(int enNumero);
 
-int calcularTipo(char* potencialIdentificador, int tipoOriginal){
-    if (idEncontrado(raizId,potencialIdentificador)){            //encuentra el id?
+int sonOperablesODelMismoTipo(int unTipo, int otroTipo);
 
-        return buscarTipo(potencialIdentificador);                  //obtener el tipo del id encontrado
+void levantarFlag();
 
-    }
-    return tipoOriginal;                                            //retorno del tipo original en caso de no encontrar el id en la lista
-}
+void bajarFlag();
 
-int idEncontrado(NodoId* lista,char* iden){
-	NodoId* aux = raizId;
-	while(aux!=NULL){
-		if(!strcmp(aux->identificador, iden)){
-			return 1;
-		}else{
-		aux=aux->next;
-		}
-	}
-	return 0;
-}
+int flag();
 
-int buscarTipo (char* iden){
-	NodoId* aux = raizId;
-	while(aux!=NULL){
-		if(!strcmp(aux->identificador, iden)){              //el if de la linea 128 muestra los 4 tipos de variables posibles para operaciones
-            //aux->cantidad ++;
-			if(strcmp(aux->tipo,"int")== 0 || strcmp(aux->tipo,"char")== 0 || strcmp(aux->tipo,"float")== 0 || strcmp(aux->tipo,"double")== 0){return 1;} else { return 2;};
-		}else{
-		aux=aux->next;
-		}
+void invocacionesIncorrectas();
 
+void variablesCorrectamenteDeclaradas();
+void funcionDePrueba();
 
-	}
-	return 0;
-}
-
-
+#endif
