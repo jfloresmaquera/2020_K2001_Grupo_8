@@ -8,6 +8,17 @@
 
 //int ultimoTDato;
 
+struct nodoErrorTipos{
+    char* dato1;
+    char* tipo1;
+    char operacion;
+    char* dato2;
+    char* tipo2;
+    struct nodoErrorTipos* next;
+};
+typedef struct nodoErrorTipos NodoET;
+
+
 struct nodoIdentificadores{
     int cantidad; // este nos sirve para controlar la repetición
     int tipo;
@@ -15,6 +26,7 @@ struct nodoIdentificadores{
     struct nodoIdentificadores* next;
 };
 typedef struct nodoIdentificadores NodoId;
+
 struct parametros {
     int tipo;
     struct parametros* next;
@@ -35,7 +47,9 @@ typedef struct nodoFuncion NodoFuncion;
 
 struct nodoErrorInvocacionFuncion{
     char* identificadorFuncion;
-    int errorDeInvocacion; // 0 = diferente cantidad de parametros , 1 = diferente tipos de parametros, 2 = return malo, 3 = nunca se declaro la funcion,4 hay un parametro no es definido
+    int errorDeInvocacion; 
+    struct nodoErrorInvocacionFuncion* next;
+    // 0 = diferente cantidad de parametros , 1 = diferente tipos de parametros, 2 = return malo, 3 = nunca se declaro la funcion,4 hay un parametro no es definido
 };
 typedef struct nodoErrorInvocacionFuncion NodoErrorFuncionInvocacion;
 

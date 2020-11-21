@@ -268,11 +268,11 @@ exp: 		LITERAL_CADENA
 			
 ;
 
-
+sonOperamles()
 
 expC:		IDENTIFICADOR
 			| CHAR
-			| expC '+' expC           {printf ("Se escribio una expresion  \n");} 
+			| expC '+' expC           {if(sonOperablesODelMismoTipo(calcularTipo ($ <s.cadena> 1 , $ <s.tipo> 1 ),calcularTipo ($ <s.cadena> 3 , $ <s.tipo> 3 )){printf ("Se escribio una expresion  \n");}else{agregarErrorDeTipos($ <s.cadena> 1, calcularTipo ($ <s.cadena> 1 , $ <s.tipo> 1 ), '+' ,$ <s.cadena> 3 , calcularTipo ($ <s.cadena> 3 , $ <s.tipo> 3 ));} }
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
 			| expC '>' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
 			| expC '<' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
@@ -291,7 +291,6 @@ expC:		IDENTIFICADOR
 			 
 
 ;
-
 			
 
 

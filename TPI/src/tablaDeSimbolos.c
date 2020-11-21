@@ -11,10 +11,54 @@ NodoErrorLexico *raizErrorLexico=NULL;
 NodoErrorFuncionInvocacion *raizErrorFuncionInvocacion = NULL;
 NodoErrorSintactico *raizErrorSintactico=NULL;
 NodoCT *raizControlTipos=NULL;
+NodoErrorFuncionInvocacion *raizErrorFuncionInvocacion=NULL;
+NodoET *raizErroresTipos=NULL;
 
+void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* informacion2,int tipoInf2){
+    NodoET *auxiliar;
+    auxiliar=raizErroresTipos;
+    if(auxiliar==NULL){
+        NodoET *nuevoNodo;
+        nuevoNodo = (NodoET *) malloc (sizeof(NodoET));
+        nuevoNodo -> dato1=strdup(informacion1);
+        nuevoNodo -> tipo1=strdup(tipoRepresentado(informacion1));
+        nuevoNodo->operacion=operador;
+        nuevoNodo -> dato2=strdup(informacion2);
+        nuevoNodo -> tipo2=strdup(tipoRepresentado(informacion2));
+        nuevoNodo ->next=NULL;
+        raizErroresTipos=auxiliar;
+    }else{
+        while(auxiliar->next!=NULL){
+            auxiliar=auxiliar->next;
+        }
+        NodoET *nuevoNodo;
+        nuevoNodo = (NodoET *) malloc (sizeof(NodoET));
+        nuevoNodo -> dato1=strdup(informacion1);
+        nuevoNodo -> tipo1=strdup(tipoRepresentado(informacion1));
+        nuevoNodo->operacion=operador;
+        nuevoNodo -> dato2=strdup(informacion2);
+        nuevoNodo -> tipo2=strdup(tipoRepresentado(informacion2));
+        nuevoNodo ->next=NULL;
+        auxiliar->next=nuevoNodo;
+    }
+}
+
+
+
+
+
+//datos globales
 
 int ultimoTDato;
 int flagError=0;
+
+void ultimoTipoDato(int tipo){
+    ultimoTDato = tipo;
+}
+
+int mostrarUltimoDato(){
+    return ultimoTDato;
+}
 
 void levantarFlag(){
     flagError=1;
@@ -27,6 +71,8 @@ void bajarFlag(){
 int flag(){
     return flagError;
 }
+
+//relacionado con funciones
 
 void agregarFuncion(int tipo, char* id,int funcionalidad){ //funcionalidad=0 prototipo, funcionalidad=1 desarrollo
     NodoFuncion* nuevoNodo;
@@ -81,48 +127,6 @@ void agregarFuncion(int tipo, char* id,int funcionalidad){ //funcionalidad=0 pro
     }
 }
 
-void verificaFuncion(char* id){
-    NodoFuncion* auxiliar=raizFuncion;
-    if(raizFuncion==NULL){
-        //NO SE DECLARO: invocamos algo que no existe
-        //  agregarErrorFuncionInvocacion(id,3);
-    }else{
-        while(auxiliar!=NULL&&strcmp(auxiliar->identificador,id)!=0){
-            auxiliar=auxiliar->next;
-        }
-        if(auxiliar==NULL){
-           //NO SE DECLARO
-        //   agregarErrorFuncionInvocacion(id,3);
-        }else{
-            if(auxiliar->cantidadParametros!=cantidadNodos(raizParametro)){
-                        //diferente cantidad de parametros
-                        //agregarErrorFuncionInvocacion(id,0);
-            }else{
-                  //  verificarTiposDeParametros(auxiliar,auxiliar->listaParametros,raizParametro);
-            }
-            }
-        }   
-    }
-
-void verificarTiposDeParametro (NodoFuncion* auxiliar, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro){
-
-    NodoParametrosFuncion * auxiliarListaParam = listaParametros;
-    NodoParametrosFuncion * auxiliarRaizParam = raizParametro;
-
-    while(sonOperablesODelMismoTipo(listaParametros->tipo,raizParametro->tipo) && listaParametros!=NULL) {
-      listaParametros = listaParametros->next;
-      raizParametro= raizParametro->next;
-    }
-    if(listaParametros!=NULL || raizParametro!=NULL){
-
-        //agregarErrorFuncionInvocacion(auxiliar->id, 1);
-    }
-
-    
-    
-}
-
-
 NodoFuncion* funcionYaSeDeclaro(char* id){
     NodoFuncion *auxiliar=raizFuncion;
     while(auxiliar!=NULL){
@@ -136,42 +140,7 @@ NodoFuncion* funcionYaSeDeclaro(char* id){
 }
 
 
-
-
-/*
-void verificarTiposDeParametros(char* id,NodoParametrosFuncion *raizParaEnFuncion,NodoParametrosFuncion *raizParaInvocada){
-    NodoParametrosFuncion *auxParaEnFuncion=raizParaEnFuncion;
-    NodoParametrosFuncion *auxParaInvocada=raizParaInvocada;
-    while(strcmp(auxParaEnFuncion->tipo,auxParaInvocada->tipo)==0 ){
-        auxParaEnFuncion=auxParaEnFuncion->next;
-        auxParaInvocada=auxParaInvocada->next;
-    }
-    if(auxParaEnFuncion!=NULL || auxParaInvocada!=NULL){ //ver borrar alguno porq van a la par
-       // agregarErrorFuncionInvocacion(id,1);
-    }
-}
-
-*/
-
-
-
-void ultimoTipoDato(int tipo){
-    ultimoTDato = tipo;
-}
-
-int mostrarUltimoDato(){
-    return ultimoTDato;
-}
-
-
-
-NodoId* idYaSeDeclaro(char* id){
-    NodoId *auxiliar=raizId;
-    while(auxiliar!=NULL && strcmp(auxiliar->identificador,id)!=0){ 
-    auxiliar=auxiliar->next;
-    }
-    return auxiliar;
-}
+//relacionado con identificadores
 
 void agregarIdentificador(char* id, int tipo){
     NodoId *nuevoNodo; 
@@ -193,7 +162,7 @@ void agregarIdentificador(char* id, int tipo){
             nuevoNodo -> cantidad = 1;
             nuevoNodo -> next = NULL; 
             NodoId *auxiliar=raizId;
-            while(auxiliar->next!=NULL){
+            while(auxiliar->next!=NULL && auxiliar!=NULL){
                 auxiliar=auxiliar->next;
             }
             auxiliar->next=nuevoNodo;
@@ -203,6 +172,38 @@ void agregarIdentificador(char* id, int tipo){
         }
     }
 }
+
+void agregarErrorFuncionInvocacion(char *identificador,int tipoError){
+    NodoErrorFuncionInvocacion* auxiliar=raizErrorFuncionInvocacion;
+    NodoErrorFuncionInvocacion* nuevoNodo;
+    if(raizErrorFuncionInvocacion==NULL){
+        nuevoNodo = (NodoErrorFuncionInvocacion *) malloc(sizeof(NodoErrorFuncionInvocacion)) ;
+        nuevoNodo->identificadorFuncion=strdup(identificador);
+        nuevoNodo->errorDeInvocacion=tipoError;
+        nuevoNodo -> next = NULL;
+        raizErrorFuncionInvocacion=nuevoNodo;
+    }else{
+        while(auxiliar->next!=NULL){
+            auxiliar=auxiliar->next;
+        }
+        nuevoNodo = (NodoErrorFuncionInvocacion *) malloc(sizeof(NodoErrorFuncionInvocacion)) ;
+        nuevoNodo->identificadorFuncion=strdup(identificador);
+        nuevoNodo->errorDeInvocacion=tipoError;
+        nuevoNodo -> next = NULL;
+        auxiliar->next=nuevoNodo;
+    }
+}
+
+NodoId* idYaSeDeclaro(char* id){
+    NodoId *auxiliar=raizId;
+    while(auxiliar!=NULL && strcmp(auxiliar->identificador,id)!=0){ 
+    auxiliar=auxiliar->next;
+    }
+    return auxiliar;
+}
+
+
+
 
 
 //funciones relacionadas a los errores lexicos
@@ -247,7 +248,47 @@ void agregarErrorSintactico(char const *errorSintactico, int linea){
 
 //funciones relacionadas con los errores semanticos
 
-void invocacionesIncorrectas(){}
+
+void verificaFuncion(char* id){
+    NodoFuncion* auxiliar=raizFuncion;
+    if(raizFuncion==NULL){
+        //NO SE DECLARO: invocamos algo que no existe
+        //  agregarErrorFuncionInvocacion(id,3);
+    }else{
+        while(auxiliar!=NULL&&strcmp(auxiliar->identificador,id)!=0){
+            auxiliar=auxiliar->next;
+        }
+        if(auxiliar==NULL){
+           //NO SE DECLARO
+        //   agregarErrorFuncionInvocacion(id,3);
+        }else{
+            if(auxiliar->cantidadParametros!=cantidadNodos(raizParametro)){
+                        //diferente cantidad de parametros
+                        //agregarErrorFuncionInvocacion(id,0);
+            }else{
+                  //  verificarTiposDeParametros(auxiliar,auxiliar->listaParametros,raizParametro);
+            }
+            }
+        }   
+    }
+
+void verificarTiposDeParametro (NodoFuncion* auxiliar, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro){
+
+    NodoParametrosFuncion * auxiliarListaParam = listaParametros;
+    NodoParametrosFuncion * auxiliarRaizParam = raizParametro;
+
+    while(sonOperablesODelMismoTipo(listaParametros->tipo,raizParametro->tipo) && listaParametros!=NULL) {
+      listaParametros = listaParametros->next;
+      raizParametro= raizParametro->next;
+    }
+    if(listaParametros!=NULL || raizParametro!=NULL){
+
+        //agregarErrorFuncionInvocacion(auxiliar->id, 1);
+    }
+
+    
+    
+}
 
 void agregarParametro(int tipoNuevo){
     NodoParametrosFuncion *auxiliar=raizParametro;
@@ -287,7 +328,112 @@ int cantidadNodos(NodoParametrosFuncion *unaListaParametros){
 
 
 
-void dobleDeclaracion(){ //es semantico y va para Id y funciones
+
+
+//funcion principal de generar reporte
+void generarReporte(){
+    printf("\n");
+    funcionDePrueba();
+    variablesCorrectamenteDeclaradas();
+    funcionesCorrectamenteDeclaradas();
+    erroresLexicos();
+    erroresSintacticos();
+    erroresSemanticos();
+}
+
+void erroresSemanticos(){
+    invocacionesIncorrectas();
+    //controlTipos();
+    dobleDeclaracion();
+}
+
+void funcionDePrueba() {
+    printf("estamos chequeando que llegue a la funcion generarReporte()");
+}
+
+
+// funciones de impresion por pantalla para reporte
+void variablesCorrectamenteDeclaradas(){
+    printf("Se encontro el identificador %s del tipo %s \n",raizId->identificador, raizId->tipo );
+     NodoId *auxiliarRecorrido=raizId;
+    while(auxiliarRecorrido!=NULL){
+        if(auxiliarRecorrido->cantidad==1){
+            printf("Se encontro el identificador %s del tipo %s \n",auxiliarRecorrido->identificador, auxiliarRecorrido->tipo );
+            auxiliarRecorrido=auxiliarRecorrido->next;
+        }
+    auxiliarRecorrido=auxiliarRecorrido->next;
+    }
+} 
+
+void funcionesCorrectamenteDeclaradas(){
+    NodoFuncion *auxiliarRecorridos=raizFuncion;
+     while(auxiliarRecorridos!=NULL){
+        if(auxiliarRecorridos->cantidadVecesDesarrollada==1&&auxiliarRecorridos->cantidadVecesDeclarado==1){
+            printf("Se realizo el prototipo y el desarrollo correcto de la funcion %s que cuenta con %d parametros, siendo la misma del tipo %s \n",auxiliarRecorridos->identificador,auxiliarRecorridos->cantidadParametros,tipoRepresentado(auxiliarRecorridos->tipoRetorno));
+            auxiliarRecorridos=auxiliarRecorridos->next;
+        }
+    auxiliarRecorridos=auxiliarRecorridos->next;
+    }
+
+}
+//errores
+void erroresLexicos(){
+    NodoErrorLexico *auxiliarRecorrido;
+    while(auxiliarRecorrido!=NULL){
+         printf("Se presento el error lexico  %s \n",auxiliarRecorrido->error);
+         auxiliarRecorrido=auxiliarRecorrido->next; 
+
+    }
+}
+
+void erroresSintacticos(){
+    NodoErrorSintactico *auxiliarRecorrido=raizErrorSintactico;
+    while(auxiliarRecorrido!=NULL){
+        printf("Se encontro el error sintactico %s en la linea %d",auxiliarRecorrido->error,auxiliarRecorrido->lineaError);
+        auxiliarRecorrido=auxiliarRecorrido->next;
+    }
+}
+
+
+//semantico
+void invocacionesIncorrectas(){
+    NodoErrorFuncionInvocacion* auxiliar=raizErrorFuncionInvocacion;
+    while(auxiliar!=NULL){
+        printf("La funcion %s tuvo un error al invocarse debido a");
+        switch (auxiliar->errorDeInvocacion)
+        {
+        case 0:
+            printf("que fue invocado con diferente cantidad de parametros a los necesarios\n");
+            break;
+        case 1:
+            printf("que los parametros no son del tipo que fue declarada la funcion\n");
+            break;
+        case 2:
+            printf("que nunca se declaro la funcion \n");
+            break;
+        case 3:
+            printf("que al menos un parametro es un identificador no definido");
+            break;
+        }
+        auxiliar=auxiliar->next;
+    }
+}
+
+void controlTipos(){
+    NodoET *auxiliar;
+    if(auxiliar!=NULL){
+        while(auxiliar->next!=NULL){
+            printf("Hubo un error de tipos en donde el dato %s del tipo %s",auxiliar->dato1,auxiliar->tipo1);
+            printf("quiso relacionarse a travez de la operacion %c ",auxiliar->operacion);
+            printf("con el dato %s del tipo %s \n",auxiliar->dato2,auxiliar->tipo2);
+        }
+    }
+}
+
+
+
+
+void dobleDeclaracion(){ 
     NodoId *auxiliarRecorrido=raizId;
     NodoFuncion *auxiliarRecorridos=raizFuncion;
     //doble declaraciones de variables
@@ -319,67 +465,6 @@ void dobleDeclaracion(){ //es semantico y va para Id y funciones
 
 }
 
-//funcion principal de generar reporte
-void generarReporte(){
-    printf("\n");
-    //funcionDePrueba();
-    variablesCorrectamenteDeclaradas();
-    //funcionesCorrectamenteDeclaradas();
-    //erroresLexicos();
-    //erroresSintacticos();
-    //erroresSemanticos();
-}
-
-void funcionDePrueba() {
-    printf("estamos chequeando que llegue a la funcion generarReporte()");
-}
-// funciones de impresion por pantalla para reporte
-void variablesCorrectamenteDeclaradas(){
-    printf("Se encontro el identificador %s del tipo %s \n",raizId->identificador, raizId->tipo );
-    /* NodoId *auxiliarRecorrido=raizId;
-    while(auxiliarRecorrido!=NULL){
-        if(auxiliarRecorrido->cantidad==1){
-            printf("Se encontro el identificador %s del tipo %s \n",auxiliarRecorrido->identificador, auxiliarRecorrido->tipo );
-            auxiliarRecorrido=auxiliarRecorrido->next;
-        }
-    auxiliarRecorrido=auxiliarRecorrido->next;
-    }*/
-} 
-
-void funcionesCorrectamenteDeclaradas(){
-    NodoFuncion *auxiliarRecorridos=raizFuncion;
-     while(auxiliarRecorridos!=NULL){
-        if(auxiliarRecorridos->cantidadVecesDesarrollada==1&&auxiliarRecorridos->cantidadVecesDeclarado==1){
-            printf("Se realizo el prototipo y el desarrollo correcto de la funcion %s que cuenta con %d parametros, siendo la misma del tipo %s \n",auxiliarRecorridos->identificador,auxiliarRecorridos->cantidadParametros,tipoRepresentado(auxiliarRecorridos->tipoRetorno));
-            auxiliarRecorridos=auxiliarRecorridos->next;
-        }
-    auxiliarRecorridos=auxiliarRecorridos->next;
-    }
-
-}
-
-void erroresLexicos(){
-    NodoErrorLexico *auxiliarRecorrido;
-    while(auxiliarRecorrido!=NULL){
-         printf("Se presento el error lexico  %s \n",auxiliarRecorrido->error);
-         auxiliarRecorrido=auxiliarRecorrido->next; 
-
-    }
-}
-
-void erroresSintacticos(){
-    NodoErrorSintactico *auxiliarRecorrido=raizErrorSintactico;
-    while(auxiliarRecorrido!=NULL){
-        printf("Se encontro el error sintactico %s en la linea %d",auxiliarRecorrido->error,auxiliarRecorrido->lineaError);
-        auxiliarRecorrido=auxiliarRecorrido->next;
-    }
-}
-
-void erroresSemanticos(){
-    //incovacionesIncorrectas();
-    //controlTipos();
-    dobleDeclaracion();
-}
 //funciones utilizadas en generacion de informe
 char* tipoRepresentado(int enNumero){
     switch (enNumero)
@@ -452,17 +537,12 @@ int esOperable (char* iden){
 	return 0;
 }
 
-/* 
-    funcion(int tipo1, int tipo2){
-        fijarse que tipo1 y tipo 2 sean operables con funcion SonOperables
-    }
 
- */
 
 int sonOperablesODelMismoTipo(int unTipo, int otroTipo){
     // 1: operables 2: mismo tipo 0: no operables
     // resumen: 1 y 2 son operables
-    if (unTipo==otroTipo) {return 2;} else if(unTipo < 4 && otroTipo < 4) {return 1;}  else {return 0;}
+    if (unTipo==otroTipo) {return 2;} else if(unTipo <= 4 && otroTipo <= 4) {return 1;}  else {return 0;}
 }
 
 
