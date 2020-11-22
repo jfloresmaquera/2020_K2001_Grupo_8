@@ -11,7 +11,6 @@ NodoErrorLexico *raizErrorLexico=NULL;
 NodoErrorFuncionInvocacion *raizErrorFuncionInvocacion = NULL;
 NodoErrorSintactico *raizErrorSintactico=NULL;
 NodoCT *raizControlTipos=NULL;
-NodoErrorFuncionInvocacion *raizErrorFuncionInvocacion=NULL;
 NodoET *raizErroresTipos=NULL;
 
 void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* informacion2,int tipoInf2){
@@ -21,10 +20,10 @@ void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* in
         NodoET *nuevoNodo;
         nuevoNodo = (NodoET *) malloc (sizeof(NodoET));
         nuevoNodo -> dato1=strdup(informacion1);
-        nuevoNodo -> tipo1=strdup(tipoRepresentado(informacion1));
+        nuevoNodo -> tipo1=strdup(tipoRepresentado(tipoInf1));
         nuevoNodo->operacion=operador;
         nuevoNodo -> dato2=strdup(informacion2);
-        nuevoNodo -> tipo2=strdup(tipoRepresentado(informacion2));
+        nuevoNodo -> tipo2=strdup(tipoRepresentado(tipoInf2));
         nuevoNodo ->next=NULL;
         raizErroresTipos=auxiliar;
     }else{
@@ -34,10 +33,10 @@ void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* in
         NodoET *nuevoNodo;
         nuevoNodo = (NodoET *) malloc (sizeof(NodoET));
         nuevoNodo -> dato1=strdup(informacion1);
-        nuevoNodo -> tipo1=strdup(tipoRepresentado(informacion1));
+        nuevoNodo -> tipo1=strdup(tipoRepresentado(tipoInf1));
         nuevoNodo->operacion=operador;
         nuevoNodo -> dato2=strdup(informacion2);
-        nuevoNodo -> tipo2=strdup(tipoRepresentado(informacion2));
+        nuevoNodo -> tipo2=strdup(tipoRepresentado(tipoInf2));
         nuevoNodo ->next=NULL;
         auxiliar->next=nuevoNodo;
     }
@@ -332,13 +331,13 @@ int cantidadNodos(NodoParametrosFuncion *unaListaParametros){
 
 //funcion principal de generar reporte
 void generarReporte(){
-    printf("\n");
-    funcionDePrueba();
+    //printf("\n");
     variablesCorrectamenteDeclaradas();
-    funcionesCorrectamenteDeclaradas();
-    erroresLexicos();
-    erroresSintacticos();
-    erroresSemanticos();
+    funcionDePrueba();
+    // funcionesCorrectamenteDeclaradas();
+    // erroresLexicos();
+    // erroresSintacticos();
+    // erroresSemanticos();
 }
 
 void erroresSemanticos(){
@@ -348,7 +347,7 @@ void erroresSemanticos(){
 }
 
 void funcionDePrueba() {
-    printf("estamos chequeando que llegue a la funcion generarReporte()");
+    printf("estamos chequeando que llegue a la funcion generarReporte()\n");
 }
 
 

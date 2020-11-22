@@ -145,5 +145,6 @@ void invocacionesIncorrectas();
 
 void variablesCorrectamenteDeclaradas();
 void funcionDePrueba();
+void agregarErrorDeTipos(char*,int, char,char*,int);
 
 #endif

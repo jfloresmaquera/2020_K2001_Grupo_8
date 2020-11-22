@@ -178,7 +178,7 @@ listadoDeSentenciasDeDeclaracion:	/* vacío */
 									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion 
 ;
 
-sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				 					 {printf("entra por la gramatica de la linea 181");agregarIdentificador($<s.cadena>2, $<s.tipo>1);} 
+sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				 					 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);} 
 						| TIPO_DATO listaIdentificadores  ';'	    
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';'  				 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'  {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
@@ -268,11 +268,10 @@ exp: 		LITERAL_CADENA
 			
 ;
 
-sonOperamles()
 
 expC:		IDENTIFICADOR
-			| CHAR
-			| expC '+' expC           {if(sonOperablesODelMismoTipo(calcularTipo ($ <s.cadena> 1 , $ <s.tipo> 1 ),calcularTipo ($ <s.cadena> 3 , $ <s.tipo> 3 )){printf ("Se escribio una expresion  \n");}else{agregarErrorDeTipos($ <s.cadena> 1, calcularTipo ($ <s.cadena> 1 , $ <s.tipo> 1 ), '+' ,$ <s.cadena> 3 , calcularTipo ($ <s.cadena> 3 , $ <s.tipo> 3 ));} }
+			| CHAR			
+			| expC '+' expC           {int tipo1=calcularTipo($<s.cadena>1, $<s.tipo>1); int tipo2=calcularTipo($<s.cadena>3, $<s.tipo>3); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, tipo1, '+' ,$<s.cadena>3, tipo2);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
 			| expC '>' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
 			| expC '<' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
@@ -301,14 +300,14 @@ int main ()
 {
 
 	yyin=fopen("entrada.c","r");
-   	printf("pruebaPreParse");
+   	printf("pruebaPreParse\n");
 	yyparse();
  	#ifdef BISON_DEBUG
         yydebug = 1;
 	#endif
-	printf("prueba");
+	printf("prueba\n");
 	generarReporte();
-	printf("otraPrueba");
+	printf("otraPrueba\n");
 	fclose(yyin);
 	system("pause");	
 	return 0;
