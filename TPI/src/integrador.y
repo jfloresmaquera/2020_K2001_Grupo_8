@@ -225,7 +225,7 @@ auxi: expC ',' auxi
 	| expC 
 ;
 
-sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'  {if(!flag()){printf("se realizo una asignacion");}else{bajarFlag();}} 
+sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'  {if(!flag()){printf("se realizo una asignacion\n");}else{bajarFlag();}} 
 ;
 
 
@@ -277,18 +277,18 @@ listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxil
 									| /* vacio */
 
 //esto sirve para las funciones, son todos los parametros que pueden entrar
-noTerminal: IDENTIFICADOR 							{int tipo=buscarTipo($<s.cadena>1);if(tipo>=0){agregarParametro(tipo);}/* else{} */}
-			| CHAR 									{agregarParametro($<s.tipo>1);}
-			| DECIMAL 								{agregarParametro($<s.tipo>1);}
-			| HEXA    								{agregarParametro($<s.tipo>1);}
-			| OCTAL  								{agregarParametro($<s.tipo>1);}
-			| NUM_R   								{agregarParametro($<s.tipo>1);}
+noTerminal: IDENTIFICADOR 									{int tipo=buscarTipo($<s.cadena>1);if(tipo>=0){agregarParametro(tipo);}/* else{} */}
+			| CHAR 											{agregarParametro($<s.tipo>1);}
+			| DECIMAL 										{agregarParametro($<s.tipo>1);}
+			| HEXA    										{agregarParametro($<s.tipo>1);}
+			| OCTAL  										{agregarParametro($<s.tipo>1);}
+			| NUM_R   										{agregarParametro($<s.tipo>1);}
 			| noTerminalFinal IGUALDAD noTerminalFinal	    {agregarParametro(1);}          
-			| noTerminalFinal MAYOR_IGUAL noTerminalFinal     {agregarParametro(1);}          
-			| noTerminalFinal MENOR_IGUAL noTerminalFinal     {agregarParametro(1);}          
-			| noTerminalFinal DESIGUALDAD noTerminalFinal     {agregarParametro(1);}          
-			| noTerminalFinal AND noTerminalFinal       	    {agregarParametro(0);}             
-			| noTerminalFinal OR noTerminalFinal         	    {agregarParametro(0);} 
+			| noTerminalFinal MAYOR_IGUAL noTerminalFinal   {agregarParametro(1);}          
+			| noTerminalFinal MENOR_IGUAL noTerminalFinal   {agregarParametro(1);}          
+			| noTerminalFinal DESIGUALDAD noTerminalFinal   {agregarParametro(1);}          
+			| noTerminalFinal AND noTerminalFinal       	{agregarParametro(0);}             
+			| noTerminalFinal OR noTerminalFinal         	{agregarParametro(0);} 
 
 ;
 
@@ -306,9 +306,9 @@ exp: 		LITERAL_CADENA
 ;
 
 
-expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1,"se intento incrementar una variable ");}}
-			| CHAR			
-			| expC '+' expC           {int tipo1=calcularTipo($<s.cadena>1, $<s.tipo>1); int tipo2=calcularTipo($<s.cadena>3, $<s.tipo>3); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, tipo1, '+' ,$<s.cadena>3, tipo2);}}
+expC:		IDENTIFICADOR			  {$<s.tipo>$=buscarTipo($<s.cadena>1);} 
+			| CHAR					  {$<s.tipo>$=4;}
+			| expC '+' expC           {$<s.tipo>1=calcularTipo($<s.cadena>1, $<s.tipo>1); $<s.tipo>3=calcularTipo($<s.cadena>3, $<s.tipo>3); printf("tipo del segundo operando %d",$<s.tipo>3); if(sonOperables($<s.tipo>1,$<s.tipo>3)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, $<s.tipo>1, '+' ,$<s.cadena>3, $<s.tipo>3);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
 			| expC '>' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
 			| expC '<' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
@@ -318,14 +318,13 @@ expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSema
 			| expC DESIGUALDAD expC   {printf ("Se escribio una expresion con signo de distinto \n");}          
 			| expC AND expC       	  {printf ("Se escribio una expresion con la operacion logica and \n");}             
 			| expC OR expC         	  {printf ("Se escribio una expresion con la operacion logica or \n");}             
-			| DECIMAL				  
-			| HEXA
-			| OCTAL
-			| NUM_R
+			| DECIMAL				  {$<s.tipo>$=1;}
+			| HEXA					  {$<s.tipo>$=1;}
+			| OCTAL					  {$<s.tipo>$=1;}
+			| NUM_R					  {$<s.tipo>$=2;}					
 			| expC '*' expC       	  {printf ("Se escribio una expresion  \n");}              
 			| expC '/' expC           {printf ("Se escribio una expresion  \n");}              
-;
-			
+;			
 
 
 

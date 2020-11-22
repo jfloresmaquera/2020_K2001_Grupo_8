@@ -100,7 +100,7 @@
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 1
+# define YYDEBUG 0
 #endif
 
 /* Enabling verbose error messages.  */
@@ -1842,7 +1842,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 228 "../src/integrador.y"
-    {if(!flag()){printf("se realizo una asignacion");}else{bajarFlag();};}
+    {if(!flag()){printf("se realizo una asignacion\n");}else{bajarFlag();};}
     break;
 
   case 80:
@@ -2052,14 +2052,21 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 309 "../src/integrador.y"
-    {if(idYaSeDeclaro((yyvsp[(1) - (1)].s.cadena))==NULL){agregarErrorSemanticoIdentificadores((yyvsp[(1) - (1)].s.cadena),"se intento incrementar una variable ");};}
+    {(yyval.s.tipo)=buscarTipo((yyvsp[(1) - (1)].s.cadena));;}
+    break;
+
+  case 121:
+
+/* Line 1455 of yacc.c  */
+#line 310 "../src/integrador.y"
+    {(yyval.s.tipo)=4;;}
     break;
 
   case 122:
 
 /* Line 1455 of yacc.c  */
 #line 311 "../src/integrador.y"
-    {int tipo1=calcularTipo((yyvsp[(1) - (3)].s.cadena), (yyvsp[(1) - (3)].s.tipo)); int tipo2=calcularTipo((yyvsp[(3) - (3)].s.cadena), (yyvsp[(3) - (3)].s.tipo)); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos((yyvsp[(1) - (3)].s.cadena), tipo1, '+' ,(yyvsp[(3) - (3)].s.cadena), tipo2);};}
+    {(yyvsp[(1) - (3)].s.tipo)=calcularTipo((yyvsp[(1) - (3)].s.cadena), (yyvsp[(1) - (3)].s.tipo)); (yyvsp[(3) - (3)].s.tipo)=calcularTipo((yyvsp[(3) - (3)].s.cadena), (yyvsp[(3) - (3)].s.tipo)); printf("tipo del segundo operando %d",(yyvsp[(3) - (3)].s.tipo)); if(sonOperables((yyvsp[(1) - (3)].s.tipo),(yyvsp[(3) - (3)].s.tipo))){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos((yyvsp[(1) - (3)].s.cadena), (yyvsp[(1) - (3)].s.tipo), '+' ,(yyvsp[(3) - (3)].s.cadena), (yyvsp[(3) - (3)].s.tipo));};}
     break;
 
   case 123:
@@ -2125,6 +2132,34 @@ yyreduce:
     {printf ("Se escribio una expresion con la operacion logica or \n");;}
     break;
 
+  case 132:
+
+/* Line 1455 of yacc.c  */
+#line 321 "../src/integrador.y"
+    {(yyval.s.tipo)=1;;}
+    break;
+
+  case 133:
+
+/* Line 1455 of yacc.c  */
+#line 322 "../src/integrador.y"
+    {(yyval.s.tipo)=1;;}
+    break;
+
+  case 134:
+
+/* Line 1455 of yacc.c  */
+#line 323 "../src/integrador.y"
+    {(yyval.s.tipo)=1;;}
+    break;
+
+  case 135:
+
+/* Line 1455 of yacc.c  */
+#line 324 "../src/integrador.y"
+    {(yyval.s.tipo)=2;;}
+    break;
+
   case 136:
 
 /* Line 1455 of yacc.c  */
@@ -2142,7 +2177,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2146 "integrador.tab.c"
+#line 2181 "integrador.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2354,7 +2389,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 332 "../src/integrador.y"
+#line 331 "../src/integrador.y"
 
 
 int main ()

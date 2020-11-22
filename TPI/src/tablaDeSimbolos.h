@@ -142,7 +142,7 @@ void funcionesCorrectamenteDeclaradas();
 
 char* tipoRepresentado(int enNumero);
 
-int sonOperablesODelMismoTipo(int unTipo, int otroTipo);
+int sonOperables(int unTipo, int otroTipo);
 
 void levantarFlag();
 

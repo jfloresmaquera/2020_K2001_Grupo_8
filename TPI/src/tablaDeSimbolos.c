@@ -269,7 +269,7 @@ int verificarTiposDeParametro (char* identificador, NodoParametrosFuncion * list
     NodoParametrosFuncion * auxiliarListaParam = listaParametros;
     NodoParametrosFuncion * auxiliarRaizParam = raizParametro;
 
-    while(sonOperablesODelMismoTipo(listaParametros->tipo,raizParametro->tipo) && listaParametros!=NULL) {
+    while(sonOperables(listaParametros->tipo,raizParametro->tipo) && listaParametros!=NULL) {
       listaParametros = listaParametros->next;
       raizParametro= raizParametro->next;
     }
@@ -325,6 +325,8 @@ int cantidadNodos(NodoParametrosFuncion *unaListaParametros){
 //funcion principal de generar reporte
 void generarReporte(){
     printf("\n");
+    printf("------------------REPORTE GENERADO------------------");
+    printf("\n");
     variablesCorrectamenteDeclaradas();
     funcionesCorrectamenteDeclaradas();
     erroresLexicos();
@@ -338,7 +340,7 @@ void erroresSemanticos(){
     controlTipos();
     dobleDeclaracion();
     errorEnIdentificadores();
-
+    system("pause");
 }
 
 
@@ -514,10 +516,10 @@ char* tipoRepresentado(int enNumero){
         return "double";
         break;
     case 4:
-        return "void";
+        return "char*";
         break;
     case 5:
-        return "char*";
+        return "void";
         break;
     }
 }
@@ -568,12 +570,9 @@ int esNumerica(char* iden){
 
 
 
-int sonOperablesODelMismoTipo(int unTipo, int otroTipo){
-    // 1: operables 2: mismo tipo 0: no operables
-    // resumen: 1 y 2 son operables
-    if (unTipo==otroTipo) {return 2;} else if(unTipo < 4 && otroTipo < 4) {return 1;}  else {return 0;}
+int sonOperables(int unTipo, int otroTipo){
+    if(unTipo <= 4 && otroTipo <= 4) {return 1;}  else {return 0;}
 }
-
 
 int buscarTipo(char* iden){
     NodoId* aux = raizId;
