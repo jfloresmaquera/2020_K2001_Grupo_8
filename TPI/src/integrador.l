@@ -42,6 +42,7 @@ int                                          { strcpy(yylval.s.cadena, yytext);y
 float                                        { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=2, yytext;ultimoTipoDato(2);return TIPO_DATO;}
 double                                       { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=3, yytext;ultimoTipoDato(3);return TIPO_DATO;}   
 void                                         { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=4, yytext;ultimoTipoDato(4);return TIPO_DATO;}
+"char*"                                      { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=5, yytext;ultimoTipoDato(5);return TIPO_DATO;}
 (\'[a-zA-Z]\')                               { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=0; return CHAR;}
 [a-zA-Z_]([a-zA-Z_]|[0-9])*                  { strcpy(yylval.s.cadena, yytext); return IDENTIFICADOR; }
 ">="										 { strcpy(yylval.s.cadena, yytext); return MAYOR_IGUAL;}
