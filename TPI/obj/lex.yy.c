@@ -456,22 +456,14 @@ static char *yy_last_accepting_cpos;
 extern int yy_flex_debug;
 int yy_flex_debug = 1;
 
-<<<<<<< HEAD
 static yyconst short int yy_rule_linenum[59] =
-=======
-static yyconst short int yy_rule_linenum[58] =
->>>>>>> 555de7aac7bac6b5c03a851661cbe9bb78abc05c
     {   0,
        22,   23,   24,   25,   26,   27,   28,   29,   30,   31,
        32,   33,   34,   35,   36,   37,   38,   39,   40,   41,
        42,   43,   44,   45,   46,   47,   48,   49,   50,   51,
        52,   53,   54,   55,   56,   57,   58,   59,   60,   61,
        62,   63,   64,   65,   66,   67,   68,   69,   70,   71,
-<<<<<<< HEAD
        72,   73,   74,   75,   76,   77,   78,   79
-=======
-       72,   73,   74,   75,   76,   77,   78
->>>>>>> 555de7aac7bac6b5c03a851661cbe9bb78abc05c
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -725,7 +717,6 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				fprintf( stderr, "--scanner backing up\n" );
-<<<<<<< HEAD
 			else if ( yy_act < 59 )
 				fprintf( stderr, "--accepting rule at line %d (\"%s\")\n",
 				         yy_rule_linenum[yy_act], yytext );
@@ -733,15 +724,6 @@ do_action:	/* This label is used only to access EOF actions. */
 				fprintf( stderr, "--accepting default rule (\"%s\")\n",
 				         yytext );
 			else if ( yy_act == 60 )
-=======
-			else if ( yy_act < 58 )
-				fprintf( stderr, "--accepting rule at line %d (\"%s\")\n",
-				         yy_rule_linenum[yy_act], yytext );
-			else if ( yy_act == 58 )
-				fprintf( stderr, "--accepting default rule (\"%s\")\n",
-				         yytext );
-			else if ( yy_act == 59 )
->>>>>>> 555de7aac7bac6b5c03a851661cbe9bb78abc05c
 				fprintf( stderr, "--(end of buffer or a NUL)\n" );
 			else
 				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
@@ -1051,11 +1033,7 @@ YY_RULE_SETUP
 #line 82 "../src/integrador.l"
 ECHO;
 	YY_BREAK
-<<<<<<< HEAD
 #line 1037 "lex.yy.c"
-=======
-#line 1032 "lex.yy.c"
->>>>>>> 555de7aac7bac6b5c03a851661cbe9bb78abc05c
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
