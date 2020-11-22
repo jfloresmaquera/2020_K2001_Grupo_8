@@ -77,17 +77,18 @@
 %type <s> parametro
 %type <s> listaIdentificadores
 %type <s> sentenciaReturn
-
+%type <s> listaParametrosInvocacionAuxiliar
+%type <s> sentenciaAsignacionAuxiliar
+%type <s> parametroA
+%type <s> parametroB
 
 %%
 
-input:    /* vacío */ 
-        | input line
+input:	input line
 		| ERROR_LEXICO { agregarErrorLexico($<s.cadena>1);}
 ;
 
-line:   
-		|'\n'    {my_line++;}     
+line:   '\n'    {my_line++;}     
 		| listadoDeSentenciasDeDeclaracion saltoOpcional
 		| invocacionFuncion saltoOpcional 
 		| prototipoFuncion saltoOpcional
@@ -103,8 +104,7 @@ line:
 ;
 
 
-saltoOpcional:  /* vacío */ 
-				| '\n' saltoOpcional {my_line++;} 
+saltoOpcional:  '\n' saltoOpcional {my_line++;} 
 				| '\n'  {my_line++;} 
 ;
 
@@ -130,17 +130,21 @@ listadoDeSentencias: /* vacio */
 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp ')' ';' {printf( "Se ha declarado una sentencia do-while \n");}
 
 ;
-sentenciaFor:	FOR  '(' sentenciaDecOAsig  expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
+sentenciaFor:	FOR  '(' sentenciaDecOAsig ';'  IDENTIFICADOR ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
 ;
+
+
 
 sentenciaDecOAsig: sentenciaAsignacion
 				|  sentenciaDeclaracion
 ;
 
 
-incrementoParaFor: IDENTIFICADOR MAS_MAS 		 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}                    		
-				  |IDENTIFICADOR MENOS_MENOS  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento decrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento decrementar una varibale no operable");}}}
+incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar 		 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar/decrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}
 ;
+
+incrementoParaForAuxiliar: 	MAS_MAS			
+							MENOS_MENOS
 
 
 incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}
@@ -160,8 +164,7 @@ sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{'  listadoDeSentencias '}' {pr
 
 ;
 
-sentenciaSwitch: /* vacío */ 
-				| SWITCH '(' exp ')' saltoOpcional '{' sentenciaCase '}' {printf ("Se declaro un switch \n");}
+sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' sentenciaCase '}' {printf ("Se declaro un switch \n");}
 
 ;
 
@@ -170,8 +173,7 @@ sentenciaCase:  /* vacío */
 				| sentenciaCase DEFAULT ':' listadoDeSentencias {printf ("Se declaro el default \n");}
 ;
 
-sentenciaReturn: /* vacío */ 
-				|RETURN exp ';' {printf ("Se declaro un return \n ");}
+sentenciaReturn: RETURN exp ';' {printf ("Se declaro un return \n ");}
 ;
 
 listadoDeSentenciasDeDeclaracion:	/* vacío */ 
@@ -199,20 +201,21 @@ auxi: expC ',' auxi
 	| expC 
 ;
 
-sentenciaAsignacion: parametro '=' exp ';'  			 {if(!flag()){printf("y se le asigno %s \n ",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro MAS_IGUAL exp ';'		 {if(!flag()){printf("y se le asigno el mismo mas %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro MENOS_IGUAL exp ';'  	 {if(!flag()){printf("y se le asigno el mismo menos %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro POR_IGUAL exp ';'    	 {if(!flag()){printf("y se le asigno el mismo por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro DIVIDIDO_IGUAL exp ';'    {if(!flag()){printf("y se le asigno el mismo dividido por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-;
-
-parametro:	 TIPO_DATO IDENTIFICADOR  					{agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s  ",$<s.cadena>2,$<s.cadena>1);}
-			| IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s o ",$<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
-
+sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'  {if(!flag()){printf("y se le asigno (podria cambiarse a algo mas general) %s \n ",$<s.cadena>3);}else{bajarFlag();}} 
 ;
 
 
+sentenciaAsignacionAuxiliar: '='
+							| MAS_IGUAL
+							| MENOS_IGUAL 
+							| POR_IGUAL
+							| DIVIDIDO_IGUAL
+;							
 
+parametro:   TIPO_DATO IDENTIFICADOR                     {printf("aber ci yega");agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s  ",$<s.cadena>2,$<s.cadena>1);}
+            | IDENTIFICADOR                               {if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s o ",$<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
+
+;
 listaIdentificadores: identificadorA   
 						| listaIdentificadores ',' identificadorA 					
 ;
@@ -226,7 +229,7 @@ identificadorA:		IDENTIFICADOR 				    	{agregarIdentificador($<s.cadena>1,mostr
 
 ;
 
-listaParametrosPrototipo:  	/* vacio */ 
+listaParametrosPrototipo: 	/* vacio */
 							| TIPO_DATO 							 {agregarParametro($<s.tipo>1);}
 							| TIPO_DATO ',' listaParametrosPrototipo {agregarParametro($<s.tipo>1);}
 							| listaParametrosFuncion
@@ -241,27 +244,34 @@ listaParametrosFuncion: 	/* vacio */
 ;
 
 listaParametrosInvocacion: /* vacio */ 
-				    	  | noTerminal ',' listaParametrosInvocacion 
-						  | noTerminal
-
+				    	  | noTerminal listaParametrosInvocacionAuxiliar
 ;
 
+listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar
+									| /* vacio */
+
+//esto sirve para las funciones, son todos los parametros que pueden entrar
 noTerminal: IDENTIFICADOR 							{int tipo=buscarTipo($<s.cadena>1);if(tipo>=0){agregarParametro(tipo);}/* else{} */}
 			| CHAR 									{agregarParametro($<s.tipo>1);}
 			| DECIMAL 								{agregarParametro($<s.tipo>1);}
 			| HEXA    								{agregarParametro($<s.tipo>1);}
 			| OCTAL  								{agregarParametro($<s.tipo>1);}
 			| NUM_R   								{agregarParametro($<s.tipo>1);}
-			| noTerminal IGUALDAD noTerminal	    {agregarParametro(1);}          
-			| noTerminal MAYOR_IGUAL noTerminal     {agregarParametro(1);}          
-			| noTerminal MENOR_IGUAL noTerminal     {agregarParametro(1);}          
-			| noTerminal DESIGUALDAD noTerminal     {agregarParametro(1);}          
-			| noTerminal AND noTerminal       	    {agregarParametro(0);}             
-			| noTerminal OR noTerminal         	    {agregarParametro(0);} 
+			| noTerminalFinal IGUALDAD noTerminalFinal	    {agregarParametro(1);}          
+			| noTerminalFinal MAYOR_IGUAL noTerminalFinal     {agregarParametro(1);}          
+			| noTerminalFinal MENOR_IGUAL noTerminalFinal     {agregarParametro(1);}          
+			| noTerminalFinal DESIGUALDAD noTerminalFinal     {agregarParametro(1);}          
+			| noTerminalFinal AND noTerminalFinal       	    {agregarParametro(0);}             
+			| noTerminalFinal OR noTerminalFinal         	    {agregarParametro(0);} 
 
 ;
 
-
+noTerminalFinal:IDENTIFICADOR 							{int tipo=buscarTipo($<s.cadena>1);if(tipo>=0){agregarParametro(tipo);}/* else{} */}
+				| CHAR 									{agregarParametro($<s.tipo>1);}
+				| DECIMAL 								{agregarParametro($<s.tipo>1);}
+				| HEXA    								{agregarParametro($<s.tipo>1);}
+				| OCTAL  								{agregarParametro($<s.tipo>1);}
+				| NUM_R   								{agregarParametro($<s.tipo>1);}
 
 
 exp: 		LITERAL_CADENA
@@ -269,7 +279,8 @@ exp: 		LITERAL_CADENA
 			
 ;
 
-expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1,"se intento incrementar una variable no existente");}}
+
+expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1,"se intento incrementar una variable ");}}
 			| CHAR			
 			| expC '+' expC           {int tipo1=calcularTipo($<s.cadena>1, $<s.tipo>1); int tipo2=calcularTipo($<s.cadena>3, $<s.tipo>3); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, tipo1, '+' ,$<s.cadena>3, tipo2);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
@@ -287,8 +298,6 @@ expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSema
 			| NUM_R
 			| expC '*' expC       	  {printf ("Se escribio una expresion  \n");}              
 			| expC '/' expC           {printf ("Se escribio una expresion  \n");}              
-			 
-
 ;
 			
 
