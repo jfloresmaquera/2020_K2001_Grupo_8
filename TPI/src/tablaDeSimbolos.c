@@ -377,7 +377,7 @@ void erroresLexicos(){
 void erroresSintacticos(){
     NodoErrorSintactico *auxiliarRecorrido=raizErrorSintactico;
     while(auxiliarRecorrido!=NULL){
-        printf("Se encontro el error sintactico %s en la linea %d",auxiliarRecorrido->error,auxiliarRecorrido->lineaError);
+        printf("Se encontro el error sintactico %s en la linea %d \n",auxiliarRecorrido->error,auxiliarRecorrido->lineaError);
         auxiliarRecorrido=auxiliarRecorrido->next;
     }
 }
@@ -400,7 +400,7 @@ void invocacionesIncorrectas(){
             printf("que nunca se declaro la funcion \n");
             break;
         case 3:
-            printf("que al menos un parametro es un identificador no definido");
+            printf("que al menos un parametro es un identificador no definido \n");
             break;
         }
         auxiliar=auxiliar->next;
@@ -410,7 +410,7 @@ void invocacionesIncorrectas(){
 void errorEnIdentificadores(){
     NodoEI* auxiliar=raizErroresIdentificador;
     while(auxiliar!=NULL){
-         printf("Se produce un error con el identificador  %s debido a que %s ", auxiliar->id,auxiliar->tipoError);
+         printf("Se produce un error con el identificador  %s debido a que %s \n ", auxiliar->id,auxiliar->tipoError);
         auxiliar= auxiliar->next;
 }
 }
@@ -419,7 +419,7 @@ void controlTipos(){
     NodoET *auxiliar;
     if(auxiliar!=NULL){
         while(auxiliar->next!=NULL){
-            printf("Hubo un error de tipos en donde el dato %s del tipo %s",auxiliar->dato1,auxiliar->tipo1);
+            printf("Hubo un error de tipos en donde el dato %s del tipo %s ",auxiliar->dato1,auxiliar->tipo1);
             printf("quiso relacionarse a travez de la operacion %c ",auxiliar->operacion);
             printf("con el dato %s del tipo %s \n",auxiliar->dato2,auxiliar->tipo2);
             auxiliar=auxiliar->next;

@@ -1655,13 +1655,6 @@ yyreduce:
     { yyerrok;;}
     break;
 
-  case 19:
-
-/* Line 1455 of yacc.c  */
-#line 106 "../src/integrador.y"
-    {;}
-    break;
-
   case 20:
 
 /* Line 1455 of yacc.c  */
@@ -1841,35 +1834,35 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 202 "../src/integrador.y"
-    {if(flag()){printf("y se le asigno %s \n ",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
+    {if(!flag()){printf("y se le asigno %s \n ",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
 #line 203 "../src/integrador.y"
-    {if(flag()){printf("y se le asigno el mismo mas %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
+    {if(!flag()){printf("y se le asigno el mismo mas %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
 #line 204 "../src/integrador.y"
-    {if(flag()){printf("y se le asigno el mismo menos %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
+    {if(!flag()){printf("y se le asigno el mismo menos %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
 #line 205 "../src/integrador.y"
-    {if(flag()){printf("y se le asigno el mismo por %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
+    {if(!flag()){printf("y se le asigno el mismo por %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
 #line 206 "../src/integrador.y"
-    {if(flag()){printf("y se le asigno el mismo dividido por %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
+    {if(!flag()){printf("y se le asigno el mismo dividido por %s \n",(yyvsp[(3) - (4)].s.cadena));}else{bajarFlag();};}
     break;
 
   case 74:
@@ -2134,7 +2127,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2138 "integrador.tab.c"
+#line 2131 "integrador.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

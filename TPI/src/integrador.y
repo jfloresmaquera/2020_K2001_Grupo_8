@@ -103,7 +103,7 @@ line:
 ;
 
 
-saltoOpcional:  /* vacío */ {}
+saltoOpcional:  /* vacío */ 
 				| '\n' saltoOpcional {my_line++;} 
 				| '\n'  {my_line++;} 
 ;
@@ -199,11 +199,11 @@ auxi: expC ',' auxi
 	| expC 
 ;
 
-sentenciaAsignacion: parametro '=' exp ';'  			 {if(flag()){printf("y se le asigno %s \n ",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro MAS_IGUAL exp ';'		 {if(flag()){printf("y se le asigno el mismo mas %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro MENOS_IGUAL exp ';'  	 {if(flag()){printf("y se le asigno el mismo menos %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro POR_IGUAL exp ';'    	 {if(flag()){printf("y se le asigno el mismo por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
-					|parametro DIVIDIDO_IGUAL exp ';'    {if(flag()){printf("y se le asigno el mismo dividido por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
+sentenciaAsignacion: parametro '=' exp ';'  			 {if(!flag()){printf("y se le asigno %s \n ",$<s.cadena>3);}else{bajarFlag();}} 
+					|parametro MAS_IGUAL exp ';'		 {if(!flag()){printf("y se le asigno el mismo mas %s \n",$<s.cadena>3);}else{bajarFlag();}} 
+					|parametro MENOS_IGUAL exp ';'  	 {if(!flag()){printf("y se le asigno el mismo menos %s \n",$<s.cadena>3);}else{bajarFlag();}} 
+					|parametro POR_IGUAL exp ';'    	 {if(!flag()){printf("y se le asigno el mismo por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
+					|parametro DIVIDIDO_IGUAL exp ';'    {if(!flag()){printf("y se le asigno el mismo dividido por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
 ;
 
 parametro:	 TIPO_DATO IDENTIFICADOR  					{agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s  ",$<s.cadena>2,$<s.cadena>1);}
