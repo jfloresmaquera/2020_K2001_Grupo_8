@@ -1,8 +1,3 @@
-Rules useless in parser due to conflicts
-
-   70 parametro: TIPO_DATO IDENTIFICADOR
-
-
 Estado 2 conflictos: 10 desplazamiento(s)/reducción(ones)
 Estado 4 conflictos: 1 desplazamiento(s)/reducción(ones)
 Estado 14 conflictos: 1 desplazamiento(s)/reducción(ones)
@@ -18,17 +13,20 @@ Estado 24 conflictos: 1 desplazamiento(s)/reducción(ones)
 Estado 25 conflictos: 1 desplazamiento(s)/reducción(ones)
 Estado 27 conflictos: 1 desplazamiento(s)/reducción(ones)
 Estado 28 conflictos: 10 reducción(ones)/reducción(ones)
-Estado 35 conflictos: 6 desplazamiento(s)/reducción(ones)
+Estado 35 conflictos: 1 reducción(ones)/reducción(ones)
 Estado 49 conflictos: 2 desplazamiento(s)/reducción(ones)
 Estado 60 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 87 conflictos: 7 desplazamiento(s)/reducción(ones)
+Estado 88 conflictos: 7 desplazamiento(s)/reducción(ones)
+Estado 89 conflictos: 7 desplazamiento(s)/reducción(ones)
+Estado 90 conflictos: 7 desplazamiento(s)/reducción(ones)
 Estado 91 conflictos: 1 reducción(ones)/reducción(ones)
-Estado 98 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
-Estado 104 conflictos: 6 desplazamiento(s)/reducción(ones)
+Estado 93 conflictos: 7 desplazamiento(s)/reducción(ones)
+Estado 99 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 104 conflictos: 1 reducción(ones)/reducción(ones)
 Estado 135 conflictos: 1 desplazamiento(s)/reducción(ones)
-Estado 141 conflictos: 1 desplazamiento(s)/reducción(ones)
-Estado 143 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
-Estado 146 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
-Estado 147 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
+Estado 143 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 145 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 148 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 149 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 150 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
@@ -36,7 +34,8 @@ Estado 151 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 152 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 153 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 154 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
-Estado 156 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 155 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
+Estado 156 conflictos: 10 desplazamiento/reducción, 3 reducción/reducción
 Estado 161 conflictos: 12 desplazamiento(s)/reducción(ones)
 Estado 162 conflictos: 12 desplazamiento(s)/reducción(ones)
 Estado 163 conflictos: 12 desplazamiento(s)/reducción(ones)
@@ -50,14 +49,14 @@ Estado 170 conflictos: 12 desplazamiento(s)/reducción(ones)
 Estado 171 conflictos: 12 desplazamiento(s)/reducción(ones)
 Estado 172 conflictos: 12 desplazamiento(s)/reducción(ones)
 Estado 189 conflictos: 1 reducción(ones)/reducción(ones)
-Estado 193 conflictos: 13 reducción(ones)/reducción(ones)
-Estado 211 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
-Estado 223 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
-Estado 231 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
-Estado 235 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
-Estado 247 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
-Estado 248 conflictos: 10 desplazamiento/reducción, 2 reducción/reducción
-Estado 264 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 198 conflictos: 13 reducción(ones)/reducción(ones)
+Estado 215 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 227 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 236 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 251 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 253 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
+Estado 254 conflictos: 10 desplazamiento/reducción, 2 reducción/reducción
+Estado 271 conflictos: 10 desplazamiento/reducción, 1 reducción/reducción
 
 
 Gramática
@@ -102,7 +101,7 @@ Gramática
 
    32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp ')' ';'
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
 
    34 sentenciaDecOAsig: sentenciaAsignacion
    35                  | sentenciaDeclaracion
@@ -136,7 +135,7 @@ Gramática
    52                                 | sentenciaDeclaracion
    53                                 | sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion
 
-   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR ';'
+   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR opcional1 ';'
    55                     | TIPO_DATO listaIdentificadores ';'
    56                     | TIPO_DATO IDENTIFICADOR '[' expC ']' ';'
    57                     | TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'
@@ -147,86 +146,88 @@ Gramática
 
    61 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'
 
-   62 auxi: expC ',' auxi
-   63     | expC
+   62 opcional1: /* vacío */
+   63          | sentenciaAsignacionAuxiliar exp
 
-   64 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'
+   64 auxi: expC ',' auxi
+   65     | expC
 
-   65 sentenciaAsignacionAuxiliar: '='
-   66                            | MAS_IGUAL
-   67                            | MENOS_IGUAL
-   68                            | POR_IGUAL
-   69                            | DIVIDIDO_IGUAL
+   66 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'
 
-   70 parametro: TIPO_DATO IDENTIFICADOR
-   71          | IDENTIFICADOR
+   67 sentenciaAsignacionAuxiliar: '='
+   68                            | MAS_IGUAL
+   69                            | MENOS_IGUAL
+   70                            | POR_IGUAL
+   71                            | DIVIDIDO_IGUAL
 
-   72 listaIdentificadores: identificadorA
-   73                     | listaIdentificadores ',' identificadorA
+   72 parametro: IDENTIFICADOR
 
-   74 identificadorA: IDENTIFICADOR
-   75               | IDENTIFICADOR '=' exp
-   76               | IDENTIFICADOR MAS_IGUAL exp
-   77               | IDENTIFICADOR MENOS_IGUAL exp
-   78               | IDENTIFICADOR POR_IGUAL exp
-   79               | IDENTIFICADOR DIVIDIDO_IGUAL exp
+   73 listaIdentificadores: identificadorA
+   74                     | listaIdentificadores ',' identificadorA
 
-   80 listaParametrosPrototipo: /* vacío */
-   81                         | TIPO_DATO
-   82                         | TIPO_DATO ',' listaParametrosPrototipo
-   83                         | listaParametrosFuncion
+   75 identificadorA: IDENTIFICADOR
+   76               | IDENTIFICADOR '=' exp
+   77               | IDENTIFICADOR MAS_IGUAL exp
+   78               | IDENTIFICADOR MENOS_IGUAL exp
+   79               | IDENTIFICADOR POR_IGUAL exp
+   80               | IDENTIFICADOR DIVIDIDO_IGUAL exp
 
-   84 listaParametrosFuncion: /* vacío */
-   85                       | TIPO_DATO IDENTIFICADOR
-   86                       | TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion
+   81 listaParametrosPrototipo: /* vacío */
+   82                         | TIPO_DATO
+   83                         | TIPO_DATO ',' listaParametrosPrototipo
+   84                         | listaParametrosFuncion
 
-   87 listaParametrosInvocacion: /* vacío */
-   88                          | noTerminal listaParametrosInvocacionAuxiliar
+   85 listaParametrosFuncion: /* vacío */
+   86                       | TIPO_DATO IDENTIFICADOR
+   87                       | TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion
 
-   89 listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar
-   90                                  | /* vacío */
+   88 listaParametrosInvocacion: /* vacío */
+   89                          | noTerminal listaParametrosInvocacionAuxiliar
 
-   91 noTerminal: IDENTIFICADOR
-   92           | CHAR
-   93           | DECIMAL
-   94           | HEXA
-   95           | OCTAL
-   96           | NUM_R
-   97           | noTerminalFinal IGUALDAD noTerminalFinal
-   98           | noTerminalFinal MAYOR_IGUAL noTerminalFinal
-   99           | noTerminalFinal MENOR_IGUAL noTerminalFinal
-  100           | noTerminalFinal DESIGUALDAD noTerminalFinal
-  101           | noTerminalFinal AND noTerminalFinal
-  102           | noTerminalFinal OR noTerminalFinal
+   90 listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar
+   91                                  | /* vacío */
 
-  103 noTerminalFinal: IDENTIFICADOR
-  104                | CHAR
-  105                | DECIMAL
-  106                | HEXA
-  107                | OCTAL
-  108                | NUM_R
+   92 noTerminal: IDENTIFICADOR
+   93           | CHAR
+   94           | DECIMAL
+   95           | HEXA
+   96           | OCTAL
+   97           | NUM_R
+   98           | noTerminalFinal IGUALDAD noTerminalFinal
+   99           | noTerminalFinal MAYOR_IGUAL noTerminalFinal
+  100           | noTerminalFinal MENOR_IGUAL noTerminalFinal
+  101           | noTerminalFinal DESIGUALDAD noTerminalFinal
+  102           | noTerminalFinal AND noTerminalFinal
+  103           | noTerminalFinal OR noTerminalFinal
 
-  109 exp: LITERAL_CADENA
-  110    | expC
+  104 noTerminalFinal: IDENTIFICADOR
+  105                | CHAR
+  106                | DECIMAL
+  107                | HEXA
+  108                | OCTAL
+  109                | NUM_R
 
-  111 expC: IDENTIFICADOR
-  112     | CHAR
-  113     | expC '+' expC
-  114     | expC '-' expC
-  115     | expC '>' expC
-  116     | expC '<' expC
-  117     | expC IGUALDAD expC
-  118     | expC MAYOR_IGUAL expC
-  119     | expC MENOR_IGUAL expC
-  120     | expC DESIGUALDAD expC
-  121     | expC AND expC
-  122     | expC OR expC
-  123     | DECIMAL
-  124     | HEXA
-  125     | OCTAL
-  126     | NUM_R
-  127     | expC '*' expC
-  128     | expC '/' expC
+  110 exp: LITERAL_CADENA
+  111    | expC
+
+  112 expC: IDENTIFICADOR
+  113     | CHAR
+  114     | expC '+' expC
+  115     | expC '-' expC
+  116     | expC '>' expC
+  117     | expC '<' expC
+  118     | expC IGUALDAD expC
+  119     | expC MAYOR_IGUAL expC
+  120     | expC MENOR_IGUAL expC
+  121     | expC DESIGUALDAD expC
+  122     | expC AND expC
+  123     | expC OR expC
+  124     | DECIMAL
+  125     | HEXA
+  126     | OCTAL
+  127     | NUM_R
+  128     | expC '*' expC
+  129     | expC '/' expC
 
 
 Terminales con las reglas donde aparecen
@@ -235,16 +236,16 @@ $end (0) 0
 '\n' (10) 4 18 31
 '(' (40) 19 32 33 41 45 46 60 61
 ')' (41) 19 32 33 41 45 46 60 61
-'*' (42) 58 127
-'+' (43) 113
-',' (44) 62 73 82 86 89
-'-' (45) 114
-'/' (47) 128
+'*' (42) 58 128
+'+' (43) 114
+',' (44) 64 74 83 87 90
+'-' (45) 115
+'/' (47) 129
 ':' (58) 48 49
-';' (59) 19 32 38 39 48 50 53 54 55 56 57 58 60 61 64
-'<' (60) 116
-'=' (61) 57 65 75
-'>' (62) 115
+';' (59) 19 32 33 38 39 48 50 53 54 55 56 57 58 60 61 66
+'<' (60) 117
+'=' (61) 57 67 76
+'>' (62) 116
 '[' (91) 56 57
 ']' (93) 56 57
 '{' (123) 32 33 41 44 45 46 57 60
@@ -255,30 +256,30 @@ IF (259) 41
 ELSE (260) 44
 RETURN (261) 50
 SWITCH (262) 46
-DECIMAL (263) 93 105 123
-HEXA (264) 94 106 124
-OCTAL (265) 95 107 125
-NUM_R (266) 96 108 126
-IDENTIFICADOR (267) 19 36 38 39 54 56 57 58 60 61 70 71 74 75 76 77
-    78 79 85 86 91 103 111
-TIPO_DATO (268) 54 55 56 57 58 60 61 70 81 82 85 86
+DECIMAL (263) 94 106 124
+HEXA (264) 95 107 125
+OCTAL (265) 96 108 126
+NUM_R (266) 97 109 127
+IDENTIFICADOR (267) 19 36 38 39 54 56 57 58 60 61 72 75 76 77 78 79
+    80 86 87 92 104 112
+TIPO_DATO (268) 54 55 56 57 58 60 61 82 83 86 87
 DO (269) 32
 WHILE (270) 32 45
-CHAR (271) 92 104 112
-LITERAL_CADENA (272) 109
-MAYOR_IGUAL (273) 98 118
-MENOR_IGUAL (274) 99 119
-IGUALDAD (275) 97 117
-AND (276) 101 121
-OR (277) 102 122
-DESIGUALDAD (278) 100 120
+CHAR (271) 93 105 113
+LITERAL_CADENA (272) 110
+MAYOR_IGUAL (273) 99 119
+MENOR_IGUAL (274) 100 120
+IGUALDAD (275) 98 118
+AND (276) 102 122
+OR (277) 103 123
+DESIGUALDAD (278) 101 121
 CASE (279) 48
 BREAK (280) 48
 DEFAULT (281) 49
-MAS_IGUAL (282) 66 76
-MENOS_IGUAL (283) 67 77
-POR_IGUAL (284) 68 78
-DIVIDIDO_IGUAL (285) 69 79
+MAS_IGUAL (282) 68 77
+MENOS_IGUAL (283) 69 78
+POR_IGUAL (284) 70 79
+DIVIDIDO_IGUAL (285) 71 80
 MAS_MAS (286) 37 38
 MENOS_MENOS (287) 37 39
 ERROR_LEXICO (288) 3
@@ -335,39 +336,41 @@ desarrolloFuncion (72)
     en la izquierda: 60, en la derecha: 8
 prototipoFuncion (73)
     en la izquierda: 61, en la derecha: 7
-auxi (74)
-    en la izquierda: 62 63, en la derecha: 57 62
-sentenciaAsignacion (75)
-    en la izquierda: 64, en la derecha: 14 26 34
-sentenciaAsignacionAuxiliar (76)
-    en la izquierda: 65 66 67 68 69, en la derecha: 64
-parametro (77)
-    en la izquierda: 70 71, en la derecha: 64
-listaIdentificadores (78)
-    en la izquierda: 72 73, en la derecha: 55 73
-identificadorA (79)
-    en la izquierda: 74 75 76 77 78 79, en la derecha: 72 73
-listaParametrosPrototipo (80)
-    en la izquierda: 80 81 82 83, en la derecha: 61 82
-listaParametrosFuncion (81)
-    en la izquierda: 84 85 86, en la derecha: 60 83 86
-listaParametrosInvocacion (82)
-    en la izquierda: 87 88, en la derecha: 19
-listaParametrosInvocacionAuxiliar (83)
-    en la izquierda: 89 90, en la derecha: 88 89
-noTerminal (84)
-    en la izquierda: 91 92 93 94 95 96 97 98 99 100 101 102, en la derecha:
-    88 89
-noTerminalFinal (85)
-    en la izquierda: 103 104 105 106 107 108, en la derecha: 97 98
-    99 100 101 102
-exp (86)
-    en la izquierda: 109 110, en la derecha: 32 41 45 46 48 50 64 75
-    76 77 78 79
-expC (87)
-    en la izquierda: 111 112 113 114 115 116 117 118 119 120 121 122
-    123 124 125 126 127 128, en la derecha: 56 57 62 63 110 113 114
-    115 116 117 118 119 120 121 122 127 128
+opcional1 (74)
+    en la izquierda: 62 63, en la derecha: 54
+auxi (75)
+    en la izquierda: 64 65, en la derecha: 57 64
+sentenciaAsignacion (76)
+    en la izquierda: 66, en la derecha: 14 26 34
+sentenciaAsignacionAuxiliar (77)
+    en la izquierda: 67 68 69 70 71, en la derecha: 63 66
+parametro (78)
+    en la izquierda: 72, en la derecha: 66
+listaIdentificadores (79)
+    en la izquierda: 73 74, en la derecha: 55 74
+identificadorA (80)
+    en la izquierda: 75 76 77 78 79 80, en la derecha: 73 74
+listaParametrosPrototipo (81)
+    en la izquierda: 81 82 83 84, en la derecha: 61 83
+listaParametrosFuncion (82)
+    en la izquierda: 85 86 87, en la derecha: 60 84 87
+listaParametrosInvocacion (83)
+    en la izquierda: 88 89, en la derecha: 19
+listaParametrosInvocacionAuxiliar (84)
+    en la izquierda: 90 91, en la derecha: 89 90
+noTerminal (85)
+    en la izquierda: 92 93 94 95 96 97 98 99 100 101 102 103, en la derecha:
+    89 90
+noTerminalFinal (86)
+    en la izquierda: 104 105 106 107 108 109, en la derecha: 98 99
+    100 101 102 103
+exp (87)
+    en la izquierda: 110 111, en la derecha: 32 41 45 46 48 50 63 66
+    76 77 78 79 80
+expC (88)
+    en la izquierda: 112 113 114 115 116 117 118 119 120 121 122 123
+    124 125 126 127 128 129, en la derecha: 33 56 57 64 65 111 114
+    115 116 117 118 119 120 121 122 123 128 129
 
 
 estado 0
@@ -454,7 +457,7 @@ estado 4
 
 estado 5
 
-   33 sentenciaFor: FOR . '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR . '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
 
     '('  desplazar e ir al estado 29
 
@@ -478,25 +481,24 @@ estado 8
    19 invocacionFuncion: IDENTIFICADOR . '(' listaParametrosInvocacion ')' ';'
    38 incrementoDecremento: IDENTIFICADOR . MAS_MAS ';'
    39                     | IDENTIFICADOR . MENOS_MENOS ';'
-   71 parametro: IDENTIFICADOR .
+   72 parametro: IDENTIFICADOR .
 
     MAS_MAS      desplazar e ir al estado 32
     MENOS_MENOS  desplazar e ir al estado 33
     '('          desplazar e ir al estado 34
 
-    $default  reduce usando la regla 71 (parametro)
+    $default  reduce usando la regla 72 (parametro)
 
 
 estado 9
 
-   54 sentenciaDeclaracion: TIPO_DATO . IDENTIFICADOR ';'
+   54 sentenciaDeclaracion: TIPO_DATO . IDENTIFICADOR opcional1 ';'
    55                     | TIPO_DATO . listaIdentificadores ';'
    56                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' ';'
    57                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'
    58                     | TIPO_DATO . '*' IDENTIFICADOR ';'
    60 desarrolloFuncion: TIPO_DATO . IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}' ';'
    61 prototipoFuncion: TIPO_DATO . IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'
-   70 parametro: TIPO_DATO . IDENTIFICADOR
 
     IDENTIFICADOR  desplazar e ir al estado 35
     '*'            desplazar e ir al estado 36
@@ -681,7 +683,7 @@ estado 25
 
 estado 26
 
-   64 sentenciaAsignacion: parametro . sentenciaAsignacionAuxiliar exp ';'
+   66 sentenciaAsignacion: parametro . sentenciaAsignacionAuxiliar exp ';'
 
     MAS_IGUAL       desplazar e ir al estado 53
     MENOS_IGUAL     desplazar e ir al estado 54
@@ -746,7 +748,7 @@ estado 28
 
 estado 29
 
-   33 sentenciaFor: FOR '(' . sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR '(' . sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
 
     error          desplazar e ir al estado 60
     IDENTIFICADOR  desplazar e ir al estado 61
@@ -815,7 +817,7 @@ estado 34
     IDENTIFICADOR  desplazar e ir al estado 82
     CHAR           desplazar e ir al estado 83
 
-    $default  reduce usando la regla 87 (listaParametrosInvocacion)
+    $default  reduce usando la regla 88 (listaParametrosInvocacion)
 
     listaParametrosInvocacion  ir al estado 84
     noTerminal                 ir al estado 85
@@ -824,65 +826,63 @@ estado 34
 
 estado 35
 
-   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR . ';'
+   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR . opcional1 ';'
    56                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' ';'
    57                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' '=' '{' auxi '}' ';'
    60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR . '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}' ';'
    61 prototipoFuncion: TIPO_DATO IDENTIFICADOR . '(' listaParametrosPrototipo ')' ';'
-   70 parametro: TIPO_DATO IDENTIFICADOR .
-   74 identificadorA: IDENTIFICADOR .
-   75               | IDENTIFICADOR . '=' exp
-   76               | IDENTIFICADOR . MAS_IGUAL exp
-   77               | IDENTIFICADOR . MENOS_IGUAL exp
-   78               | IDENTIFICADOR . POR_IGUAL exp
-   79               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
+   75 identificadorA: IDENTIFICADOR .
+   76               | IDENTIFICADOR . '=' exp
+   77               | IDENTIFICADOR . MAS_IGUAL exp
+   78               | IDENTIFICADOR . MENOS_IGUAL exp
+   79               | IDENTIFICADOR . POR_IGUAL exp
+   80               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
 
     MAS_IGUAL       desplazar e ir al estado 87
     MENOS_IGUAL     desplazar e ir al estado 88
     POR_IGUAL       desplazar e ir al estado 89
     DIVIDIDO_IGUAL  desplazar e ir al estado 90
     '('             desplazar e ir al estado 91
-    ';'             desplazar e ir al estado 92
-    '['             desplazar e ir al estado 93
-    '='             desplazar e ir al estado 94
+    '['             desplazar e ir al estado 92
+    '='             desplazar e ir al estado 93
 
-    MAS_IGUAL       [reduce usando la regla 70 (parametro)]
-    MENOS_IGUAL     [reduce usando la regla 70 (parametro)]
-    POR_IGUAL       [reduce usando la regla 70 (parametro)]
-    DIVIDIDO_IGUAL  [reduce usando la regla 70 (parametro)]
-    ';'             [reduce usando la regla 74 (identificadorA)]
-    '='             [reduce usando la regla 70 (parametro)]
-    $default        reduce usando la regla 74 (identificadorA)
+    ';'       reduce usando la regla 62 (opcional1)
+    ';'       [reduce usando la regla 75 (identificadorA)]
+    ','       reduce usando la regla 75 (identificadorA)
+    $default  reduce usando la regla 62 (opcional1)
+
+    opcional1                    ir al estado 94
+    sentenciaAsignacionAuxiliar  ir al estado 95
 
 
 estado 36
 
    58 sentenciaDeclaracion: TIPO_DATO '*' . IDENTIFICADOR ';'
 
-    IDENTIFICADOR  desplazar e ir al estado 95
+    IDENTIFICADOR  desplazar e ir al estado 96
 
 
 estado 37
 
    55 sentenciaDeclaracion: TIPO_DATO listaIdentificadores . ';'
-   73 listaIdentificadores: listaIdentificadores . ',' identificadorA
+   74 listaIdentificadores: listaIdentificadores . ',' identificadorA
 
-    ';'  desplazar e ir al estado 96
-    ','  desplazar e ir al estado 97
+    ';'  desplazar e ir al estado 97
+    ','  desplazar e ir al estado 98
 
 
 estado 38
 
-   72 listaIdentificadores: identificadorA .
+   73 listaIdentificadores: identificadorA .
 
-    $default  reduce usando la regla 72 (listaIdentificadores)
+    $default  reduce usando la regla 73 (listaIdentificadores)
 
 
 estado 39
 
    32 sentenciaDoWhile: DO saltoOpcional . '{' listadoDeSentencias '}' WHILE '(' exp ')' ';'
 
-    '{'  desplazar e ir al estado 98
+    '{'  desplazar e ir al estado 99
 
 
 estado 40
@@ -897,7 +897,7 @@ estado 40
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
 
-    exp   ir al estado 99
+    exp   ir al estado 100
     expC  ir al estado 74
 
 
@@ -962,7 +962,7 @@ estado 49
    53 listadoDeSentenciasDeDeclaracion: sentenciaDeclaracion ';' . listadoDeSentenciasDeDeclaracion
 
     error      desplazar e ir al estado 60
-    TIPO_DATO  desplazar e ir al estado 100
+    TIPO_DATO  desplazar e ir al estado 62
 
     $end           reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -1006,42 +1006,42 @@ estado 52
 
 estado 53
 
-   66 sentenciaAsignacionAuxiliar: MAS_IGUAL .
-
-    $default  reduce usando la regla 66 (sentenciaAsignacionAuxiliar)
-
-
-estado 54
-
-   67 sentenciaAsignacionAuxiliar: MENOS_IGUAL .
-
-    $default  reduce usando la regla 67 (sentenciaAsignacionAuxiliar)
-
-
-estado 55
-
-   68 sentenciaAsignacionAuxiliar: POR_IGUAL .
+   68 sentenciaAsignacionAuxiliar: MAS_IGUAL .
 
     $default  reduce usando la regla 68 (sentenciaAsignacionAuxiliar)
 
 
-estado 56
+estado 54
 
-   69 sentenciaAsignacionAuxiliar: DIVIDIDO_IGUAL .
+   69 sentenciaAsignacionAuxiliar: MENOS_IGUAL .
 
     $default  reduce usando la regla 69 (sentenciaAsignacionAuxiliar)
 
 
+estado 55
+
+   70 sentenciaAsignacionAuxiliar: POR_IGUAL .
+
+    $default  reduce usando la regla 70 (sentenciaAsignacionAuxiliar)
+
+
+estado 56
+
+   71 sentenciaAsignacionAuxiliar: DIVIDIDO_IGUAL .
+
+    $default  reduce usando la regla 71 (sentenciaAsignacionAuxiliar)
+
+
 estado 57
 
-   65 sentenciaAsignacionAuxiliar: '=' .
+   67 sentenciaAsignacionAuxiliar: '=' .
 
-    $default  reduce usando la regla 65 (sentenciaAsignacionAuxiliar)
+    $default  reduce usando la regla 67 (sentenciaAsignacionAuxiliar)
 
 
 estado 58
 
-   64 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar . exp ';'
+   66 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar . exp ';'
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -1076,19 +1076,18 @@ estado 60
 
 estado 61
 
-   71 parametro: IDENTIFICADOR .
+   72 parametro: IDENTIFICADOR .
 
-    $default  reduce usando la regla 71 (parametro)
+    $default  reduce usando la regla 72 (parametro)
 
 
 estado 62
 
-   54 sentenciaDeclaracion: TIPO_DATO . IDENTIFICADOR ';'
+   54 sentenciaDeclaracion: TIPO_DATO . IDENTIFICADOR opcional1 ';'
    55                     | TIPO_DATO . listaIdentificadores ';'
    56                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' ';'
    57                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'
    58                     | TIPO_DATO . '*' IDENTIFICADOR ';'
-   70 parametro: TIPO_DATO . IDENTIFICADOR
 
     IDENTIFICADOR  desplazar e ir al estado 104
     '*'            desplazar e ir al estado 36
@@ -1099,16 +1098,16 @@ estado 62
 
 estado 63
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig . sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig . expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
 
-    error          desplazar e ir al estado 60
-    IDENTIFICADOR  desplazar e ir al estado 61
-    TIPO_DATO      desplazar e ir al estado 62
+    DECIMAL        desplazar e ir al estado 66
+    HEXA           desplazar e ir al estado 67
+    OCTAL          desplazar e ir al estado 68
+    NUM_R          desplazar e ir al estado 69
+    IDENTIFICADOR  desplazar e ir al estado 70
+    CHAR           desplazar e ir al estado 71
 
-    sentenciaDecOAsig     ir al estado 105
-    sentenciaDeclaracion  ir al estado 64
-    sentenciaAsignacion   ir al estado 65
-    parametro             ir al estado 26
+    expC  ir al estado 105
 
 
 estado 64
@@ -1127,51 +1126,51 @@ estado 65
 
 estado 66
 
-  123 expC: DECIMAL .
-
-    $default  reduce usando la regla 123 (expC)
-
-
-estado 67
-
-  124 expC: HEXA .
+  124 expC: DECIMAL .
 
     $default  reduce usando la regla 124 (expC)
 
 
-estado 68
+estado 67
 
-  125 expC: OCTAL .
+  125 expC: HEXA .
 
     $default  reduce usando la regla 125 (expC)
 
 
-estado 69
+estado 68
 
-  126 expC: NUM_R .
+  126 expC: OCTAL .
 
     $default  reduce usando la regla 126 (expC)
 
 
+estado 69
+
+  127 expC: NUM_R .
+
+    $default  reduce usando la regla 127 (expC)
+
+
 estado 70
 
-  111 expC: IDENTIFICADOR .
-
-    $default  reduce usando la regla 111 (expC)
-
-
-estado 71
-
-  112 expC: CHAR .
+  112 expC: IDENTIFICADOR .
 
     $default  reduce usando la regla 112 (expC)
 
 
+estado 71
+
+  113 expC: CHAR .
+
+    $default  reduce usando la regla 113 (expC)
+
+
 estado 72
 
-  109 exp: LITERAL_CADENA .
+  110 exp: LITERAL_CADENA .
 
-    $default  reduce usando la regla 109 (exp)
+    $default  reduce usando la regla 110 (exp)
 
 
 estado 73
@@ -1183,19 +1182,19 @@ estado 73
 
 estado 74
 
-  110 exp: expC .
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
+  111 exp: expC .
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
 
     MAYOR_IGUAL  desplazar e ir al estado 107
     MENOR_IGUAL  desplazar e ir al estado 108
@@ -1210,7 +1209,7 @@ estado 74
     '<'          desplazar e ir al estado 117
     '/'          desplazar e ir al estado 118
 
-    $default  reduce usando la regla 110 (exp)
+    $default  reduce usando la regla 111 (exp)
 
 
 estado 75
@@ -1236,62 +1235,62 @@ estado 77
 
 estado 78
 
-   93 noTerminal: DECIMAL .
-  105 noTerminalFinal: DECIMAL .
-
-    ')'       reduce usando la regla 93 (noTerminal)
-    ','       reduce usando la regla 93 (noTerminal)
-    $default  reduce usando la regla 105 (noTerminalFinal)
-
-
-estado 79
-
-   94 noTerminal: HEXA .
-  106 noTerminalFinal: HEXA .
+   94 noTerminal: DECIMAL .
+  106 noTerminalFinal: DECIMAL .
 
     ')'       reduce usando la regla 94 (noTerminal)
     ','       reduce usando la regla 94 (noTerminal)
     $default  reduce usando la regla 106 (noTerminalFinal)
 
 
-estado 80
+estado 79
 
-   95 noTerminal: OCTAL .
-  107 noTerminalFinal: OCTAL .
+   95 noTerminal: HEXA .
+  107 noTerminalFinal: HEXA .
 
     ')'       reduce usando la regla 95 (noTerminal)
     ','       reduce usando la regla 95 (noTerminal)
     $default  reduce usando la regla 107 (noTerminalFinal)
 
 
-estado 81
+estado 80
 
-   96 noTerminal: NUM_R .
-  108 noTerminalFinal: NUM_R .
+   96 noTerminal: OCTAL .
+  108 noTerminalFinal: OCTAL .
 
     ')'       reduce usando la regla 96 (noTerminal)
     ','       reduce usando la regla 96 (noTerminal)
     $default  reduce usando la regla 108 (noTerminalFinal)
 
 
+estado 81
+
+   97 noTerminal: NUM_R .
+  109 noTerminalFinal: NUM_R .
+
+    ')'       reduce usando la regla 97 (noTerminal)
+    ','       reduce usando la regla 97 (noTerminal)
+    $default  reduce usando la regla 109 (noTerminalFinal)
+
+
 estado 82
 
-   91 noTerminal: IDENTIFICADOR .
-  103 noTerminalFinal: IDENTIFICADOR .
-
-    ')'       reduce usando la regla 91 (noTerminal)
-    ','       reduce usando la regla 91 (noTerminal)
-    $default  reduce usando la regla 103 (noTerminalFinal)
-
-
-estado 83
-
-   92 noTerminal: CHAR .
-  104 noTerminalFinal: CHAR .
+   92 noTerminal: IDENTIFICADOR .
+  104 noTerminalFinal: IDENTIFICADOR .
 
     ')'       reduce usando la regla 92 (noTerminal)
     ','       reduce usando la regla 92 (noTerminal)
     $default  reduce usando la regla 104 (noTerminalFinal)
+
+
+estado 83
+
+   93 noTerminal: CHAR .
+  105 noTerminalFinal: CHAR .
+
+    ')'       reduce usando la regla 93 (noTerminal)
+    ','       reduce usando la regla 93 (noTerminal)
+    $default  reduce usando la regla 105 (noTerminalFinal)
 
 
 estado 84
@@ -1303,23 +1302,23 @@ estado 84
 
 estado 85
 
-   88 listaParametrosInvocacion: noTerminal . listaParametrosInvocacionAuxiliar
+   89 listaParametrosInvocacion: noTerminal . listaParametrosInvocacionAuxiliar
 
     ','  desplazar e ir al estado 121
 
-    $default  reduce usando la regla 90 (listaParametrosInvocacionAuxiliar)
+    $default  reduce usando la regla 91 (listaParametrosInvocacionAuxiliar)
 
     listaParametrosInvocacionAuxiliar  ir al estado 122
 
 
 estado 86
 
-   97 noTerminal: noTerminalFinal . IGUALDAD noTerminalFinal
-   98           | noTerminalFinal . MAYOR_IGUAL noTerminalFinal
-   99           | noTerminalFinal . MENOR_IGUAL noTerminalFinal
-  100           | noTerminalFinal . DESIGUALDAD noTerminalFinal
-  101           | noTerminalFinal . AND noTerminalFinal
-  102           | noTerminalFinal . OR noTerminalFinal
+   98 noTerminal: noTerminalFinal . IGUALDAD noTerminalFinal
+   99           | noTerminalFinal . MAYOR_IGUAL noTerminalFinal
+  100           | noTerminalFinal . MENOR_IGUAL noTerminalFinal
+  101           | noTerminalFinal . DESIGUALDAD noTerminalFinal
+  102           | noTerminalFinal . AND noTerminalFinal
+  103           | noTerminalFinal . OR noTerminalFinal
 
     MAYOR_IGUAL  desplazar e ir al estado 123
     MENOR_IGUAL  desplazar e ir al estado 124
@@ -1331,7 +1330,8 @@ estado 86
 
 estado 87
 
-   76 identificadorA: IDENTIFICADOR MAS_IGUAL . exp
+   68 sentenciaAsignacionAuxiliar: MAS_IGUAL .
+   77 identificadorA: IDENTIFICADOR MAS_IGUAL . exp
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -1340,6 +1340,14 @@ estado 87
     IDENTIFICADOR   desplazar e ir al estado 70
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
+
+    DECIMAL         [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
+    HEXA            [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
+    OCTAL           [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
+    NUM_R           [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
+    IDENTIFICADOR   [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
+    CHAR            [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
+    LITERAL_CADENA  [reduce usando la regla 68 (sentenciaAsignacionAuxiliar)]
 
     exp   ir al estado 129
     expC  ir al estado 74
@@ -1347,7 +1355,8 @@ estado 87
 
 estado 88
 
-   77 identificadorA: IDENTIFICADOR MENOS_IGUAL . exp
+   69 sentenciaAsignacionAuxiliar: MENOS_IGUAL .
+   78 identificadorA: IDENTIFICADOR MENOS_IGUAL . exp
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -1356,6 +1365,14 @@ estado 88
     IDENTIFICADOR   desplazar e ir al estado 70
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
+
+    DECIMAL         [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
+    HEXA            [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
+    OCTAL           [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
+    NUM_R           [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
+    IDENTIFICADOR   [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
+    CHAR            [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
+    LITERAL_CADENA  [reduce usando la regla 69 (sentenciaAsignacionAuxiliar)]
 
     exp   ir al estado 130
     expC  ir al estado 74
@@ -1363,7 +1380,8 @@ estado 88
 
 estado 89
 
-   78 identificadorA: IDENTIFICADOR POR_IGUAL . exp
+   70 sentenciaAsignacionAuxiliar: POR_IGUAL .
+   79 identificadorA: IDENTIFICADOR POR_IGUAL . exp
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -1372,6 +1390,14 @@ estado 89
     IDENTIFICADOR   desplazar e ir al estado 70
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
+
+    DECIMAL         [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
+    HEXA            [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
+    OCTAL           [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
+    NUM_R           [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
+    IDENTIFICADOR   [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
+    CHAR            [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
+    LITERAL_CADENA  [reduce usando la regla 70 (sentenciaAsignacionAuxiliar)]
 
     exp   ir al estado 131
     expC  ir al estado 74
@@ -1379,7 +1405,8 @@ estado 89
 
 estado 90
 
-   79 identificadorA: IDENTIFICADOR DIVIDIDO_IGUAL . exp
+   71 sentenciaAsignacionAuxiliar: DIVIDIDO_IGUAL .
+   80 identificadorA: IDENTIFICADOR DIVIDIDO_IGUAL . exp
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -1388,6 +1415,14 @@ estado 90
     IDENTIFICADOR   desplazar e ir al estado 70
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
+
+    DECIMAL         [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
+    HEXA            [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
+    OCTAL           [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
+    NUM_R           [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
+    IDENTIFICADOR   [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
+    CHAR            [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
+    LITERAL_CADENA  [reduce usando la regla 71 (sentenciaAsignacionAuxiliar)]
 
     exp   ir al estado 132
     expC  ir al estado 74
@@ -1400,22 +1435,15 @@ estado 91
 
     TIPO_DATO  desplazar e ir al estado 133
 
-    ')'       reduce usando la regla 80 (listaParametrosPrototipo)
-    ')'       [reduce usando la regla 84 (listaParametrosFuncion)]
-    $default  reduce usando la regla 80 (listaParametrosPrototipo)
+    ')'       reduce usando la regla 81 (listaParametrosPrototipo)
+    ')'       [reduce usando la regla 85 (listaParametrosFuncion)]
+    $default  reduce usando la regla 81 (listaParametrosPrototipo)
 
     listaParametrosPrototipo  ir al estado 134
     listaParametrosFuncion    ir al estado 135
 
 
 estado 92
-
-   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR ';' .
-
-    $default  reduce usando la regla 54 (sentenciaDeclaracion)
-
-
-estado 93
 
    56 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' . expC ']' ';'
    57                     | TIPO_DATO IDENTIFICADOR '[' . expC ']' '=' '{' auxi '}' ';'
@@ -1430,9 +1458,10 @@ estado 93
     expC  ir al estado 136
 
 
-estado 94
+estado 93
 
-   75 identificadorA: IDENTIFICADOR '=' . exp
+   67 sentenciaAsignacionAuxiliar: '=' .
+   76 identificadorA: IDENTIFICADOR '=' . exp
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -1442,47 +1471,78 @@ estado 94
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
 
+    DECIMAL         [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+    HEXA            [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+    OCTAL           [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+    NUM_R           [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+    IDENTIFICADOR   [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+    CHAR            [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+    LITERAL_CADENA  [reduce usando la regla 67 (sentenciaAsignacionAuxiliar)]
+
     exp   ir al estado 137
     expC  ir al estado 74
 
 
-estado 95
+estado 94
 
-   58 sentenciaDeclaracion: TIPO_DATO '*' IDENTIFICADOR . ';'
+   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR opcional1 . ';'
 
     ';'  desplazar e ir al estado 138
 
 
+estado 95
+
+   63 opcional1: sentenciaAsignacionAuxiliar . exp
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 139
+    expC  ir al estado 74
+
+
 estado 96
+
+   58 sentenciaDeclaracion: TIPO_DATO '*' IDENTIFICADOR . ';'
+
+    ';'  desplazar e ir al estado 140
+
+
+estado 97
 
    55 sentenciaDeclaracion: TIPO_DATO listaIdentificadores ';' .
 
     $default  reduce usando la regla 55 (sentenciaDeclaracion)
 
 
-estado 97
-
-   73 listaIdentificadores: listaIdentificadores ',' . identificadorA
-
-    IDENTIFICADOR  desplazar e ir al estado 139
-
-    identificadorA  ir al estado 140
-
-
 estado 98
+
+   74 listaIdentificadores: listaIdentificadores ',' . identificadorA
+
+    IDENTIFICADOR  desplazar e ir al estado 141
+
+    identificadorA  ir al estado 142
+
+
+estado 99
 
    32 sentenciaDoWhile: DO saltoOpcional '{' . listadoDeSentencias '}' WHILE '(' exp ')' ';'
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -1497,41 +1557,26 @@ estado 98
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 145
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 147
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
-
-
-estado 99
-
-   45 sentenciaWhile: WHILE '(' exp . ')' saltoOpcional '{' listadoDeSentencias '}'
-
-    ')'  desplazar e ir al estado 155
 
 
 estado 100
 
-   54 sentenciaDeclaracion: TIPO_DATO . IDENTIFICADOR ';'
-   55                     | TIPO_DATO . listaIdentificadores ';'
-   56                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' ';'
-   57                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'
-   58                     | TIPO_DATO . '*' IDENTIFICADOR ';'
+   45 sentenciaWhile: WHILE '(' exp . ')' saltoOpcional '{' listadoDeSentencias '}'
 
-    IDENTIFICADOR  desplazar e ir al estado 156
-    '*'            desplazar e ir al estado 36
-
-    listaIdentificadores  ir al estado 37
-    identificadorA        ir al estado 38
+    ')'  desplazar e ir al estado 157
 
 
 estado 101
@@ -1543,9 +1588,9 @@ estado 101
 
 estado 102
 
-   64 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp . ';'
+   66 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp . ';'
 
-    ';'  desplazar e ir al estado 157
+    ';'  desplazar e ir al estado 158
 
 
 estado 103
@@ -1557,41 +1602,61 @@ estado 103
 
 estado 104
 
-   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR . ';'
+   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR . opcional1 ';'
    56                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' ';'
    57                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' '=' '{' auxi '}' ';'
-   70 parametro: TIPO_DATO IDENTIFICADOR .
-   74 identificadorA: IDENTIFICADOR .
-   75               | IDENTIFICADOR . '=' exp
-   76               | IDENTIFICADOR . MAS_IGUAL exp
-   77               | IDENTIFICADOR . MENOS_IGUAL exp
-   78               | IDENTIFICADOR . POR_IGUAL exp
-   79               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
+   75 identificadorA: IDENTIFICADOR .
+   76               | IDENTIFICADOR . '=' exp
+   77               | IDENTIFICADOR . MAS_IGUAL exp
+   78               | IDENTIFICADOR . MENOS_IGUAL exp
+   79               | IDENTIFICADOR . POR_IGUAL exp
+   80               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
 
     MAS_IGUAL       desplazar e ir al estado 87
     MENOS_IGUAL     desplazar e ir al estado 88
     POR_IGUAL       desplazar e ir al estado 89
     DIVIDIDO_IGUAL  desplazar e ir al estado 90
-    ';'             desplazar e ir al estado 92
-    '['             desplazar e ir al estado 93
-    '='             desplazar e ir al estado 94
+    '['             desplazar e ir al estado 92
+    '='             desplazar e ir al estado 93
 
-    MAS_IGUAL       [reduce usando la regla 70 (parametro)]
-    MENOS_IGUAL     [reduce usando la regla 70 (parametro)]
-    POR_IGUAL       [reduce usando la regla 70 (parametro)]
-    DIVIDIDO_IGUAL  [reduce usando la regla 70 (parametro)]
-    ';'             [reduce usando la regla 74 (identificadorA)]
-    '='             [reduce usando la regla 70 (parametro)]
-    $default        reduce usando la regla 74 (identificadorA)
+    ';'       reduce usando la regla 62 (opcional1)
+    ';'       [reduce usando la regla 75 (identificadorA)]
+    ','       reduce usando la regla 75 (identificadorA)
+    $default  reduce usando la regla 62 (opcional1)
+
+    opcional1                    ir al estado 94
+    sentenciaAsignacionAuxiliar  ir al estado 95
 
 
 estado 105
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig . incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC . ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
 
-    IDENTIFICADOR  desplazar e ir al estado 158
-
-    incrementoParaFor  ir al estado 159
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    ';'          desplazar e ir al estado 159
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
 
 
 estado 106
@@ -1607,7 +1672,7 @@ estado 106
 
 estado 107
 
-  118 expC: expC MAYOR_IGUAL . expC
+  119 expC: expC MAYOR_IGUAL . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1621,7 +1686,7 @@ estado 107
 
 estado 108
 
-  119 expC: expC MENOR_IGUAL . expC
+  120 expC: expC MENOR_IGUAL . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1635,7 +1700,7 @@ estado 108
 
 estado 109
 
-  117 expC: expC IGUALDAD . expC
+  118 expC: expC IGUALDAD . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1649,7 +1714,7 @@ estado 109
 
 estado 110
 
-  121 expC: expC AND . expC
+  122 expC: expC AND . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1663,7 +1728,7 @@ estado 110
 
 estado 111
 
-  122 expC: expC OR . expC
+  123 expC: expC OR . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1677,7 +1742,7 @@ estado 111
 
 estado 112
 
-  120 expC: expC DESIGUALDAD . expC
+  121 expC: expC DESIGUALDAD . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1691,7 +1756,7 @@ estado 112
 
 estado 113
 
-  127 expC: expC '*' . expC
+  128 expC: expC '*' . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1705,7 +1770,7 @@ estado 113
 
 estado 114
 
-  113 expC: expC '+' . expC
+  114 expC: expC '+' . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1719,7 +1784,7 @@ estado 114
 
 estado 115
 
-  114 expC: expC '-' . expC
+  115 expC: expC '-' . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1733,7 +1798,7 @@ estado 115
 
 estado 116
 
-  115 expC: expC '>' . expC
+  116 expC: expC '>' . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1747,7 +1812,7 @@ estado 116
 
 estado 117
 
-  116 expC: expC '<' . expC
+  117 expC: expC '<' . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1761,7 +1826,7 @@ estado 117
 
 estado 118
 
-  128 expC: expC '/' . expC
+  129 expC: expC '/' . expC
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -1793,7 +1858,7 @@ estado 120
 
 estado 121
 
-   89 listaParametrosInvocacionAuxiliar: ',' . noTerminal listaParametrosInvocacionAuxiliar
+   90 listaParametrosInvocacionAuxiliar: ',' . noTerminal listaParametrosInvocacionAuxiliar
 
     DECIMAL        desplazar e ir al estado 78
     HEXA           desplazar e ir al estado 79
@@ -1808,14 +1873,14 @@ estado 121
 
 estado 122
 
-   88 listaParametrosInvocacion: noTerminal listaParametrosInvocacionAuxiliar .
+   89 listaParametrosInvocacion: noTerminal listaParametrosInvocacionAuxiliar .
 
-    $default  reduce usando la regla 88 (listaParametrosInvocacion)
+    $default  reduce usando la regla 89 (listaParametrosInvocacion)
 
 
 estado 123
 
-   98 noTerminal: noTerminalFinal MAYOR_IGUAL . noTerminalFinal
+   99 noTerminal: noTerminalFinal MAYOR_IGUAL . noTerminalFinal
 
     DECIMAL        desplazar e ir al estado 176
     HEXA           desplazar e ir al estado 177
@@ -1829,7 +1894,7 @@ estado 123
 
 estado 124
 
-   99 noTerminal: noTerminalFinal MENOR_IGUAL . noTerminalFinal
+  100 noTerminal: noTerminalFinal MENOR_IGUAL . noTerminalFinal
 
     DECIMAL        desplazar e ir al estado 176
     HEXA           desplazar e ir al estado 177
@@ -1843,7 +1908,7 @@ estado 124
 
 estado 125
 
-   97 noTerminal: noTerminalFinal IGUALDAD . noTerminalFinal
+   98 noTerminal: noTerminalFinal IGUALDAD . noTerminalFinal
 
     DECIMAL        desplazar e ir al estado 176
     HEXA           desplazar e ir al estado 177
@@ -1857,7 +1922,7 @@ estado 125
 
 estado 126
 
-  101 noTerminal: noTerminalFinal AND . noTerminalFinal
+  102 noTerminal: noTerminalFinal AND . noTerminalFinal
 
     DECIMAL        desplazar e ir al estado 176
     HEXA           desplazar e ir al estado 177
@@ -1871,7 +1936,7 @@ estado 126
 
 estado 127
 
-  102 noTerminal: noTerminalFinal OR . noTerminalFinal
+  103 noTerminal: noTerminalFinal OR . noTerminalFinal
 
     DECIMAL        desplazar e ir al estado 176
     HEXA           desplazar e ir al estado 177
@@ -1885,7 +1950,7 @@ estado 127
 
 estado 128
 
-  100 noTerminal: noTerminalFinal DESIGUALDAD . noTerminalFinal
+  101 noTerminal: noTerminalFinal DESIGUALDAD . noTerminalFinal
 
     DECIMAL        desplazar e ir al estado 176
     HEXA           desplazar e ir al estado 177
@@ -1899,43 +1964,43 @@ estado 128
 
 estado 129
 
-   76 identificadorA: IDENTIFICADOR MAS_IGUAL exp .
-
-    $default  reduce usando la regla 76 (identificadorA)
-
-
-estado 130
-
-   77 identificadorA: IDENTIFICADOR MENOS_IGUAL exp .
+   77 identificadorA: IDENTIFICADOR MAS_IGUAL exp .
 
     $default  reduce usando la regla 77 (identificadorA)
 
 
-estado 131
+estado 130
 
-   78 identificadorA: IDENTIFICADOR POR_IGUAL exp .
+   78 identificadorA: IDENTIFICADOR MENOS_IGUAL exp .
 
     $default  reduce usando la regla 78 (identificadorA)
 
 
-estado 132
+estado 131
 
-   79 identificadorA: IDENTIFICADOR DIVIDIDO_IGUAL exp .
+   79 identificadorA: IDENTIFICADOR POR_IGUAL exp .
 
     $default  reduce usando la regla 79 (identificadorA)
 
 
+estado 132
+
+   80 identificadorA: IDENTIFICADOR DIVIDIDO_IGUAL exp .
+
+    $default  reduce usando la regla 80 (identificadorA)
+
+
 estado 133
 
-   81 listaParametrosPrototipo: TIPO_DATO .
-   82                         | TIPO_DATO . ',' listaParametrosPrototipo
-   85 listaParametrosFuncion: TIPO_DATO . IDENTIFICADOR
-   86                       | TIPO_DATO . IDENTIFICADOR ',' listaParametrosFuncion
+   82 listaParametrosPrototipo: TIPO_DATO .
+   83                         | TIPO_DATO . ',' listaParametrosPrototipo
+   86 listaParametrosFuncion: TIPO_DATO . IDENTIFICADOR
+   87                       | TIPO_DATO . IDENTIFICADOR ',' listaParametrosFuncion
 
     IDENTIFICADOR  desplazar e ir al estado 188
     ','            desplazar e ir al estado 189
 
-    $default  reduce usando la regla 81 (listaParametrosPrototipo)
+    $default  reduce usando la regla 82 (listaParametrosPrototipo)
 
 
 estado 134
@@ -1948,29 +2013,29 @@ estado 134
 estado 135
 
    60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion . ')' saltoOpcional '{' listadoDeSentencias '}' ';'
-   83 listaParametrosPrototipo: listaParametrosFuncion .
+   84 listaParametrosPrototipo: listaParametrosFuncion .
 
     ')'  desplazar e ir al estado 191
 
-    ')'  [reduce usando la regla 83 (listaParametrosPrototipo)]
+    ')'  [reduce usando la regla 84 (listaParametrosPrototipo)]
 
 
 estado 136
 
    56 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC . ']' ';'
    57                     | TIPO_DATO IDENTIFICADOR '[' expC . ']' '=' '{' auxi '}' ';'
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
 
     MAYOR_IGUAL  desplazar e ir al estado 107
     MENOR_IGUAL  desplazar e ir al estado 108
@@ -1989,44 +2054,58 @@ estado 136
 
 estado 137
 
-   75 identificadorA: IDENTIFICADOR '=' exp .
+   76 identificadorA: IDENTIFICADOR '=' exp .
 
-    $default  reduce usando la regla 75 (identificadorA)
+    $default  reduce usando la regla 76 (identificadorA)
 
 
 estado 138
+
+   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR opcional1 ';' .
+
+    $default  reduce usando la regla 54 (sentenciaDeclaracion)
+
+
+estado 139
+
+   63 opcional1: sentenciaAsignacionAuxiliar exp .
+
+    $default  reduce usando la regla 63 (opcional1)
+
+
+estado 140
 
    58 sentenciaDeclaracion: TIPO_DATO '*' IDENTIFICADOR ';' .
 
     $default  reduce usando la regla 58 (sentenciaDeclaracion)
 
 
-estado 139
-
-   74 identificadorA: IDENTIFICADOR .
-   75               | IDENTIFICADOR . '=' exp
-   76               | IDENTIFICADOR . MAS_IGUAL exp
-   77               | IDENTIFICADOR . MENOS_IGUAL exp
-   78               | IDENTIFICADOR . POR_IGUAL exp
-   79               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
-
-    MAS_IGUAL       desplazar e ir al estado 87
-    MENOS_IGUAL     desplazar e ir al estado 88
-    POR_IGUAL       desplazar e ir al estado 89
-    DIVIDIDO_IGUAL  desplazar e ir al estado 90
-    '='             desplazar e ir al estado 94
-
-    $default  reduce usando la regla 74 (identificadorA)
-
-
-estado 140
-
-   73 listaIdentificadores: listaIdentificadores ',' identificadorA .
-
-    $default  reduce usando la regla 73 (listaIdentificadores)
-
-
 estado 141
+
+   75 identificadorA: IDENTIFICADOR .
+   76               | IDENTIFICADOR . '=' exp
+   77               | IDENTIFICADOR . MAS_IGUAL exp
+   78               | IDENTIFICADOR . MENOS_IGUAL exp
+   79               | IDENTIFICADOR . POR_IGUAL exp
+   80               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
+
+    MAS_IGUAL       desplazar e ir al estado 193
+    MENOS_IGUAL     desplazar e ir al estado 194
+    POR_IGUAL       desplazar e ir al estado 195
+    DIVIDIDO_IGUAL  desplazar e ir al estado 196
+    '='             desplazar e ir al estado 197
+
+    $default  reduce usando la regla 75 (identificadorA)
+
+
+estado 142
+
+   74 listaIdentificadores: listaIdentificadores ',' identificadorA .
+
+    $default  reduce usando la regla 74 (listaIdentificadores)
+
+
+estado 143
 
    42 sentenciaIfElse: error . saltoOpcional
    59 sentenciaDeclaracion: error . saltoOpcional
@@ -2036,10 +2115,10 @@ estado 141
     '\n'      [reduce usando la regla 17 (saltoOpcional)]
     $default  reduce usando la regla 17 (saltoOpcional)
 
-    saltoOpcional  ir al estado 193
+    saltoOpcional  ir al estado 198
 
 
-estado 142
+estado 144
 
    50 sentenciaReturn: RETURN . exp ';'
 
@@ -2051,24 +2130,24 @@ estado 142
     CHAR            desplazar e ir al estado 71
     LITERAL_CADENA  desplazar e ir al estado 72
 
-    exp   ir al estado 194
+    exp   ir al estado 199
     expC  ir al estado 74
 
 
-estado 143
+estado 145
 
    31 listadoDeSentencias: '\n' . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2087,22 +2166,22 @@ estado 143
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 195
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 200
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
-estado 144
+estado 146
 
    29 listadoDeSentencias: invocacionFuncion . saltoOpcional
 
@@ -2110,124 +2189,30 @@ estado 144
 
     $default  reduce usando la regla 17 (saltoOpcional)
 
-    saltoOpcional  ir al estado 196
-
-
-estado 145
-
-   32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias . '}' WHILE '(' exp ')' ';'
-
-    '}'  desplazar e ir al estado 197
-
-
-estado 146
-
-   22 listadoDeSentencias: sentenciaDoWhile . listadoDeSentencias
-
-    error          desplazar e ir al estado 141
-    FOR            desplazar e ir al estado 5
-    IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
-    SWITCH         desplazar e ir al estado 7
-    IDENTIFICADOR  desplazar e ir al estado 8
-    TIPO_DATO      desplazar e ir al estado 62
-    DO             desplazar e ir al estado 10
-    WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
-
-    error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    IF             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    RETURN         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    SWITCH         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    IDENTIFICADOR  [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    TIPO_DATO      [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    DO             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    WHILE          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    BREAK          reduce usando la regla 20 (listadoDeSentencias)
-    BREAK          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    DEFAULT        reduce usando la regla 20 (listadoDeSentencias)
-    DEFAULT        [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    '}'            reduce usando la regla 20 (listadoDeSentencias)
-    '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 198
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
-    sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
-    parametro                         ir al estado 26
+    saltoOpcional  ir al estado 201
 
 
 estado 147
 
-   23 listadoDeSentencias: sentenciaFor . listadoDeSentencias
+   32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias . '}' WHILE '(' exp ')' ';'
 
-    error          desplazar e ir al estado 141
-    FOR            desplazar e ir al estado 5
-    IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
-    SWITCH         desplazar e ir al estado 7
-    IDENTIFICADOR  desplazar e ir al estado 8
-    TIPO_DATO      desplazar e ir al estado 62
-    DO             desplazar e ir al estado 10
-    WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
-
-    error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    IF             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    RETURN         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    SWITCH         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    IDENTIFICADOR  [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    TIPO_DATO      [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    DO             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    WHILE          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    BREAK          reduce usando la regla 20 (listadoDeSentencias)
-    BREAK          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    DEFAULT        reduce usando la regla 20 (listadoDeSentencias)
-    DEFAULT        [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    '}'            reduce usando la regla 20 (listadoDeSentencias)
-    '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 199
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
-    sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
-    parametro                         ir al estado 26
+    '}'  desplazar e ir al estado 202
 
 
 estado 148
 
-   30 listadoDeSentencias: incrementoDecremento . listadoDeSentencias
+   22 listadoDeSentencias: sentenciaDoWhile . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2246,35 +2231,35 @@ estado 148
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 200
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 203
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 149
 
-   25 listadoDeSentencias: sentenciaIfElse . listadoDeSentencias
+   23 listadoDeSentencias: sentenciaFor . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2293,35 +2278,35 @@ estado 149
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 201
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 204
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 150
 
-   24 listadoDeSentencias: sentenciaWhile . listadoDeSentencias
+   30 listadoDeSentencias: incrementoDecremento . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2340,35 +2325,35 @@ estado 150
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 202
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 205
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 151
 
-   21 listadoDeSentencias: sentenciaSwitch . listadoDeSentencias
+   25 listadoDeSentencias: sentenciaIfElse . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2387,35 +2372,35 @@ estado 151
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 203
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 206
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 152
 
-   27 listadoDeSentencias: sentenciaReturn . listadoDeSentencias
+   24 listadoDeSentencias: sentenciaWhile . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2434,35 +2419,35 @@ estado 152
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 204
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 207
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 153
 
-   28 listadoDeSentencias: listadoDeSentenciasDeDeclaracion . listadoDeSentencias
+   21 listadoDeSentencias: sentenciaSwitch . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2481,35 +2466,35 @@ estado 153
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 205
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 208
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 154
 
-   26 listadoDeSentencias: sentenciaAsignacion . listadoDeSentencias
+   27 listadoDeSentencias: sentenciaReturn . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -2528,22 +2513,116 @@ estado 154
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 206
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 209
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
 estado 155
+
+   28 listadoDeSentencias: listadoDeSentenciasDeDeclaracion . listadoDeSentencias
+
+    error          desplazar e ir al estado 143
+    FOR            desplazar e ir al estado 5
+    IF             desplazar e ir al estado 6
+    RETURN         desplazar e ir al estado 144
+    SWITCH         desplazar e ir al estado 7
+    IDENTIFICADOR  desplazar e ir al estado 8
+    TIPO_DATO      desplazar e ir al estado 62
+    DO             desplazar e ir al estado 10
+    WHILE          desplazar e ir al estado 11
+    '\n'           desplazar e ir al estado 145
+
+    error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    IF             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    RETURN         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    SWITCH         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    IDENTIFICADOR  [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    TIPO_DATO      [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    DO             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    WHILE          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    BREAK          reduce usando la regla 20 (listadoDeSentencias)
+    BREAK          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    DEFAULT        reduce usando la regla 20 (listadoDeSentencias)
+    DEFAULT        [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    '}'            reduce usando la regla 20 (listadoDeSentencias)
+    '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 210
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
+    sentenciaDeclaracion              ir al estado 22
+    sentenciaAsignacion               ir al estado 156
+    parametro                         ir al estado 26
+
+
+estado 156
+
+   26 listadoDeSentencias: sentenciaAsignacion . listadoDeSentencias
+
+    error          desplazar e ir al estado 143
+    FOR            desplazar e ir al estado 5
+    IF             desplazar e ir al estado 6
+    RETURN         desplazar e ir al estado 144
+    SWITCH         desplazar e ir al estado 7
+    IDENTIFICADOR  desplazar e ir al estado 8
+    TIPO_DATO      desplazar e ir al estado 62
+    DO             desplazar e ir al estado 10
+    WHILE          desplazar e ir al estado 11
+    '\n'           desplazar e ir al estado 145
+
+    error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    IF             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    RETURN         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    SWITCH         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    IDENTIFICADOR  [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    TIPO_DATO      [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    DO             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    WHILE          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    BREAK          reduce usando la regla 20 (listadoDeSentencias)
+    BREAK          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    DEFAULT        reduce usando la regla 20 (listadoDeSentencias)
+    DEFAULT        [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    '}'            reduce usando la regla 20 (listadoDeSentencias)
+    '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 211
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
+    sentenciaDeclaracion              ir al estado 22
+    sentenciaAsignacion               ir al estado 156
+    parametro                         ir al estado 26
+
+
+estado 157
 
    45 sentenciaWhile: WHILE '(' exp ')' . saltoOpcional '{' listadoDeSentencias '}'
 
@@ -2551,122 +2630,47 @@ estado 155
 
     $default  reduce usando la regla 17 (saltoOpcional)
 
-    saltoOpcional  ir al estado 207
-
-
-estado 156
-
-   54 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR . ';'
-   56                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' ';'
-   57                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' '=' '{' auxi '}' ';'
-   74 identificadorA: IDENTIFICADOR .
-   75               | IDENTIFICADOR . '=' exp
-   76               | IDENTIFICADOR . MAS_IGUAL exp
-   77               | IDENTIFICADOR . MENOS_IGUAL exp
-   78               | IDENTIFICADOR . POR_IGUAL exp
-   79               | IDENTIFICADOR . DIVIDIDO_IGUAL exp
-
-    MAS_IGUAL       desplazar e ir al estado 87
-    MENOS_IGUAL     desplazar e ir al estado 88
-    POR_IGUAL       desplazar e ir al estado 89
-    DIVIDIDO_IGUAL  desplazar e ir al estado 90
-    ';'             desplazar e ir al estado 92
-    '['             desplazar e ir al estado 93
-    '='             desplazar e ir al estado 94
-
-    ';'       [reduce usando la regla 74 (identificadorA)]
-    $default  reduce usando la regla 74 (identificadorA)
-
-
-estado 157
-
-   64 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';' .
-
-    $default  reduce usando la regla 64 (sentenciaAsignacion)
+    saltoOpcional  ir al estado 212
 
 
 estado 158
 
-   36 incrementoParaFor: IDENTIFICADOR . incrementoParaForAuxiliar
+   66 sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';' .
 
-    MAS_MAS  desplazar e ir al estado 208
-
-    incrementoParaForAuxiliar  ir al estado 209
+    $default  reduce usando la regla 66 (sentenciaAsignacion)
 
 
 estado 159
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor . ')' saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' . incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'
 
-    ')'  desplazar e ir al estado 210
+    IDENTIFICADOR  desplazar e ir al estado 213
+
+    incrementoParaFor  ir al estado 214
 
 
 estado 160
 
    41 sentenciaIfElse: IF '(' exp ')' saltoOpcional . '{' listadoDeSentencias '}' $@1 sentenciaElse
 
-    '{'  desplazar e ir al estado 211
+    '{'  desplazar e ir al estado 215
 
 
 estado 161
 
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  118     | expC MAYOR_IGUAL expC .
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 118 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 118 (expC)]
-    IGUALDAD     [reduce usando la regla 118 (expC)]
-    AND          [reduce usando la regla 118 (expC)]
-    OR           [reduce usando la regla 118 (expC)]
-    DESIGUALDAD  [reduce usando la regla 118 (expC)]
-    '*'          [reduce usando la regla 118 (expC)]
-    '+'          [reduce usando la regla 118 (expC)]
-    '-'          [reduce usando la regla 118 (expC)]
-    '>'          [reduce usando la regla 118 (expC)]
-    '<'          [reduce usando la regla 118 (expC)]
-    '/'          [reduce usando la regla 118 (expC)]
-    $default     reduce usando la regla 118 (expC)
-
-
-estado 162
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  119     | expC MENOR_IGUAL expC .
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  119     | expC MAYOR_IGUAL expC .
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
 
     MAYOR_IGUAL  desplazar e ir al estado 107
     MENOR_IGUAL  desplazar e ir al estado 108
@@ -2696,153 +2700,21 @@ estado 162
     $default     reduce usando la regla 119 (expC)
 
 
-estado 163
+estado 162
 
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  117     | expC IGUALDAD expC .
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 117 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 117 (expC)]
-    IGUALDAD     [reduce usando la regla 117 (expC)]
-    AND          [reduce usando la regla 117 (expC)]
-    OR           [reduce usando la regla 117 (expC)]
-    DESIGUALDAD  [reduce usando la regla 117 (expC)]
-    '*'          [reduce usando la regla 117 (expC)]
-    '+'          [reduce usando la regla 117 (expC)]
-    '-'          [reduce usando la regla 117 (expC)]
-    '>'          [reduce usando la regla 117 (expC)]
-    '<'          [reduce usando la regla 117 (expC)]
-    '/'          [reduce usando la regla 117 (expC)]
-    $default     reduce usando la regla 117 (expC)
-
-
-estado 164
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  121     | expC AND expC .
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 121 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 121 (expC)]
-    IGUALDAD     [reduce usando la regla 121 (expC)]
-    AND          [reduce usando la regla 121 (expC)]
-    OR           [reduce usando la regla 121 (expC)]
-    DESIGUALDAD  [reduce usando la regla 121 (expC)]
-    '*'          [reduce usando la regla 121 (expC)]
-    '+'          [reduce usando la regla 121 (expC)]
-    '-'          [reduce usando la regla 121 (expC)]
-    '>'          [reduce usando la regla 121 (expC)]
-    '<'          [reduce usando la regla 121 (expC)]
-    '/'          [reduce usando la regla 121 (expC)]
-    $default     reduce usando la regla 121 (expC)
-
-
-estado 165
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  122     | expC OR expC .
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 122 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 122 (expC)]
-    IGUALDAD     [reduce usando la regla 122 (expC)]
-    AND          [reduce usando la regla 122 (expC)]
-    OR           [reduce usando la regla 122 (expC)]
-    DESIGUALDAD  [reduce usando la regla 122 (expC)]
-    '*'          [reduce usando la regla 122 (expC)]
-    '+'          [reduce usando la regla 122 (expC)]
-    '-'          [reduce usando la regla 122 (expC)]
-    '>'          [reduce usando la regla 122 (expC)]
-    '<'          [reduce usando la regla 122 (expC)]
-    '/'          [reduce usando la regla 122 (expC)]
-    $default     reduce usando la regla 122 (expC)
-
-
-estado 166
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  120     | expC DESIGUALDAD expC .
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  120     | expC MENOR_IGUAL expC .
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
 
     MAYOR_IGUAL  desplazar e ir al estado 107
     MENOR_IGUAL  desplazar e ir al estado 108
@@ -2872,241 +2744,197 @@ estado 166
     $default     reduce usando la regla 120 (expC)
 
 
+estado 163
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  118     | expC IGUALDAD expC .
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 118 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 118 (expC)]
+    IGUALDAD     [reduce usando la regla 118 (expC)]
+    AND          [reduce usando la regla 118 (expC)]
+    OR           [reduce usando la regla 118 (expC)]
+    DESIGUALDAD  [reduce usando la regla 118 (expC)]
+    '*'          [reduce usando la regla 118 (expC)]
+    '+'          [reduce usando la regla 118 (expC)]
+    '-'          [reduce usando la regla 118 (expC)]
+    '>'          [reduce usando la regla 118 (expC)]
+    '<'          [reduce usando la regla 118 (expC)]
+    '/'          [reduce usando la regla 118 (expC)]
+    $default     reduce usando la regla 118 (expC)
+
+
+estado 164
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  122     | expC AND expC .
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 122 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 122 (expC)]
+    IGUALDAD     [reduce usando la regla 122 (expC)]
+    AND          [reduce usando la regla 122 (expC)]
+    OR           [reduce usando la regla 122 (expC)]
+    DESIGUALDAD  [reduce usando la regla 122 (expC)]
+    '*'          [reduce usando la regla 122 (expC)]
+    '+'          [reduce usando la regla 122 (expC)]
+    '-'          [reduce usando la regla 122 (expC)]
+    '>'          [reduce usando la regla 122 (expC)]
+    '<'          [reduce usando la regla 122 (expC)]
+    '/'          [reduce usando la regla 122 (expC)]
+    $default     reduce usando la regla 122 (expC)
+
+
+estado 165
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  123     | expC OR expC .
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 123 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 123 (expC)]
+    IGUALDAD     [reduce usando la regla 123 (expC)]
+    AND          [reduce usando la regla 123 (expC)]
+    OR           [reduce usando la regla 123 (expC)]
+    DESIGUALDAD  [reduce usando la regla 123 (expC)]
+    '*'          [reduce usando la regla 123 (expC)]
+    '+'          [reduce usando la regla 123 (expC)]
+    '-'          [reduce usando la regla 123 (expC)]
+    '>'          [reduce usando la regla 123 (expC)]
+    '<'          [reduce usando la regla 123 (expC)]
+    '/'          [reduce usando la regla 123 (expC)]
+    $default     reduce usando la regla 123 (expC)
+
+
+estado 166
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  121     | expC DESIGUALDAD expC .
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 121 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 121 (expC)]
+    IGUALDAD     [reduce usando la regla 121 (expC)]
+    AND          [reduce usando la regla 121 (expC)]
+    OR           [reduce usando la regla 121 (expC)]
+    DESIGUALDAD  [reduce usando la regla 121 (expC)]
+    '*'          [reduce usando la regla 121 (expC)]
+    '+'          [reduce usando la regla 121 (expC)]
+    '-'          [reduce usando la regla 121 (expC)]
+    '>'          [reduce usando la regla 121 (expC)]
+    '<'          [reduce usando la regla 121 (expC)]
+    '/'          [reduce usando la regla 121 (expC)]
+    $default     reduce usando la regla 121 (expC)
+
+
 estado 167
 
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  127     | expC '*' expC .
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 127 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 127 (expC)]
-    IGUALDAD     [reduce usando la regla 127 (expC)]
-    AND          [reduce usando la regla 127 (expC)]
-    OR           [reduce usando la regla 127 (expC)]
-    DESIGUALDAD  [reduce usando la regla 127 (expC)]
-    '*'          [reduce usando la regla 127 (expC)]
-    '+'          [reduce usando la regla 127 (expC)]
-    '-'          [reduce usando la regla 127 (expC)]
-    '>'          [reduce usando la regla 127 (expC)]
-    '<'          [reduce usando la regla 127 (expC)]
-    '/'          [reduce usando la regla 127 (expC)]
-    $default     reduce usando la regla 127 (expC)
-
-
-estado 168
-
-  113 expC: expC . '+' expC
-  113     | expC '+' expC .
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 113 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 113 (expC)]
-    IGUALDAD     [reduce usando la regla 113 (expC)]
-    AND          [reduce usando la regla 113 (expC)]
-    OR           [reduce usando la regla 113 (expC)]
-    DESIGUALDAD  [reduce usando la regla 113 (expC)]
-    '*'          [reduce usando la regla 113 (expC)]
-    '+'          [reduce usando la regla 113 (expC)]
-    '-'          [reduce usando la regla 113 (expC)]
-    '>'          [reduce usando la regla 113 (expC)]
-    '<'          [reduce usando la regla 113 (expC)]
-    '/'          [reduce usando la regla 113 (expC)]
-    $default     reduce usando la regla 113 (expC)
-
-
-estado 169
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  114     | expC '-' expC .
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 114 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 114 (expC)]
-    IGUALDAD     [reduce usando la regla 114 (expC)]
-    AND          [reduce usando la regla 114 (expC)]
-    OR           [reduce usando la regla 114 (expC)]
-    DESIGUALDAD  [reduce usando la regla 114 (expC)]
-    '*'          [reduce usando la regla 114 (expC)]
-    '+'          [reduce usando la regla 114 (expC)]
-    '-'          [reduce usando la regla 114 (expC)]
-    '>'          [reduce usando la regla 114 (expC)]
-    '<'          [reduce usando la regla 114 (expC)]
-    '/'          [reduce usando la regla 114 (expC)]
-    $default     reduce usando la regla 114 (expC)
-
-
-estado 170
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  115     | expC '>' expC .
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 115 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 115 (expC)]
-    IGUALDAD     [reduce usando la regla 115 (expC)]
-    AND          [reduce usando la regla 115 (expC)]
-    OR           [reduce usando la regla 115 (expC)]
-    DESIGUALDAD  [reduce usando la regla 115 (expC)]
-    '*'          [reduce usando la regla 115 (expC)]
-    '+'          [reduce usando la regla 115 (expC)]
-    '-'          [reduce usando la regla 115 (expC)]
-    '>'          [reduce usando la regla 115 (expC)]
-    '<'          [reduce usando la regla 115 (expC)]
-    '/'          [reduce usando la regla 115 (expC)]
-    $default     reduce usando la regla 115 (expC)
-
-
-estado 171
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  116     | expC '<' expC .
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-
-    MAYOR_IGUAL  desplazar e ir al estado 107
-    MENOR_IGUAL  desplazar e ir al estado 108
-    IGUALDAD     desplazar e ir al estado 109
-    AND          desplazar e ir al estado 110
-    OR           desplazar e ir al estado 111
-    DESIGUALDAD  desplazar e ir al estado 112
-    '*'          desplazar e ir al estado 113
-    '+'          desplazar e ir al estado 114
-    '-'          desplazar e ir al estado 115
-    '>'          desplazar e ir al estado 116
-    '<'          desplazar e ir al estado 117
-    '/'          desplazar e ir al estado 118
-
-    MAYOR_IGUAL  [reduce usando la regla 116 (expC)]
-    MENOR_IGUAL  [reduce usando la regla 116 (expC)]
-    IGUALDAD     [reduce usando la regla 116 (expC)]
-    AND          [reduce usando la regla 116 (expC)]
-    OR           [reduce usando la regla 116 (expC)]
-    DESIGUALDAD  [reduce usando la regla 116 (expC)]
-    '*'          [reduce usando la regla 116 (expC)]
-    '+'          [reduce usando la regla 116 (expC)]
-    '-'          [reduce usando la regla 116 (expC)]
-    '>'          [reduce usando la regla 116 (expC)]
-    '<'          [reduce usando la regla 116 (expC)]
-    '/'          [reduce usando la regla 116 (expC)]
-    $default     reduce usando la regla 116 (expC)
-
-
-estado 172
-
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
-  128     | expC '/' expC .
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  128     | expC '*' expC .
+  129     | expC . '/' expC
 
     MAYOR_IGUAL  desplazar e ir al estado 107
     MENOR_IGUAL  desplazar e ir al estado 108
@@ -3136,11 +2964,231 @@ estado 172
     $default     reduce usando la regla 128 (expC)
 
 
+estado 168
+
+  114 expC: expC . '+' expC
+  114     | expC '+' expC .
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 114 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 114 (expC)]
+    IGUALDAD     [reduce usando la regla 114 (expC)]
+    AND          [reduce usando la regla 114 (expC)]
+    OR           [reduce usando la regla 114 (expC)]
+    DESIGUALDAD  [reduce usando la regla 114 (expC)]
+    '*'          [reduce usando la regla 114 (expC)]
+    '+'          [reduce usando la regla 114 (expC)]
+    '-'          [reduce usando la regla 114 (expC)]
+    '>'          [reduce usando la regla 114 (expC)]
+    '<'          [reduce usando la regla 114 (expC)]
+    '/'          [reduce usando la regla 114 (expC)]
+    $default     reduce usando la regla 114 (expC)
+
+
+estado 169
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  115     | expC '-' expC .
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 115 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 115 (expC)]
+    IGUALDAD     [reduce usando la regla 115 (expC)]
+    AND          [reduce usando la regla 115 (expC)]
+    OR           [reduce usando la regla 115 (expC)]
+    DESIGUALDAD  [reduce usando la regla 115 (expC)]
+    '*'          [reduce usando la regla 115 (expC)]
+    '+'          [reduce usando la regla 115 (expC)]
+    '-'          [reduce usando la regla 115 (expC)]
+    '>'          [reduce usando la regla 115 (expC)]
+    '<'          [reduce usando la regla 115 (expC)]
+    '/'          [reduce usando la regla 115 (expC)]
+    $default     reduce usando la regla 115 (expC)
+
+
+estado 170
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  116     | expC '>' expC .
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 116 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 116 (expC)]
+    IGUALDAD     [reduce usando la regla 116 (expC)]
+    AND          [reduce usando la regla 116 (expC)]
+    OR           [reduce usando la regla 116 (expC)]
+    DESIGUALDAD  [reduce usando la regla 116 (expC)]
+    '*'          [reduce usando la regla 116 (expC)]
+    '+'          [reduce usando la regla 116 (expC)]
+    '-'          [reduce usando la regla 116 (expC)]
+    '>'          [reduce usando la regla 116 (expC)]
+    '<'          [reduce usando la regla 116 (expC)]
+    '/'          [reduce usando la regla 116 (expC)]
+    $default     reduce usando la regla 116 (expC)
+
+
+estado 171
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  117     | expC '<' expC .
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 117 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 117 (expC)]
+    IGUALDAD     [reduce usando la regla 117 (expC)]
+    AND          [reduce usando la regla 117 (expC)]
+    OR           [reduce usando la regla 117 (expC)]
+    DESIGUALDAD  [reduce usando la regla 117 (expC)]
+    '*'          [reduce usando la regla 117 (expC)]
+    '+'          [reduce usando la regla 117 (expC)]
+    '-'          [reduce usando la regla 117 (expC)]
+    '>'          [reduce usando la regla 117 (expC)]
+    '<'          [reduce usando la regla 117 (expC)]
+    '/'          [reduce usando la regla 117 (expC)]
+    $default     reduce usando la regla 117 (expC)
+
+
+estado 172
+
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
+  129     | expC '/' expC .
+
+    MAYOR_IGUAL  desplazar e ir al estado 107
+    MENOR_IGUAL  desplazar e ir al estado 108
+    IGUALDAD     desplazar e ir al estado 109
+    AND          desplazar e ir al estado 110
+    OR           desplazar e ir al estado 111
+    DESIGUALDAD  desplazar e ir al estado 112
+    '*'          desplazar e ir al estado 113
+    '+'          desplazar e ir al estado 114
+    '-'          desplazar e ir al estado 115
+    '>'          desplazar e ir al estado 116
+    '<'          desplazar e ir al estado 117
+    '/'          desplazar e ir al estado 118
+
+    MAYOR_IGUAL  [reduce usando la regla 129 (expC)]
+    MENOR_IGUAL  [reduce usando la regla 129 (expC)]
+    IGUALDAD     [reduce usando la regla 129 (expC)]
+    AND          [reduce usando la regla 129 (expC)]
+    OR           [reduce usando la regla 129 (expC)]
+    DESIGUALDAD  [reduce usando la regla 129 (expC)]
+    '*'          [reduce usando la regla 129 (expC)]
+    '+'          [reduce usando la regla 129 (expC)]
+    '-'          [reduce usando la regla 129 (expC)]
+    '>'          [reduce usando la regla 129 (expC)]
+    '<'          [reduce usando la regla 129 (expC)]
+    '/'          [reduce usando la regla 129 (expC)]
+    $default     reduce usando la regla 129 (expC)
+
+
 estado 173
 
    46 sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional . '{' sentenciaCase '}'
 
-    '{'  desplazar e ir al estado 212
+    '{'  desplazar e ir al estado 216
 
 
 estado 174
@@ -3152,128 +3200,128 @@ estado 174
 
 estado 175
 
-   89 listaParametrosInvocacionAuxiliar: ',' noTerminal . listaParametrosInvocacionAuxiliar
+   90 listaParametrosInvocacionAuxiliar: ',' noTerminal . listaParametrosInvocacionAuxiliar
 
     ','  desplazar e ir al estado 121
 
-    $default  reduce usando la regla 90 (listaParametrosInvocacionAuxiliar)
+    $default  reduce usando la regla 91 (listaParametrosInvocacionAuxiliar)
 
-    listaParametrosInvocacionAuxiliar  ir al estado 213
+    listaParametrosInvocacionAuxiliar  ir al estado 217
 
 
 estado 176
 
-  105 noTerminalFinal: DECIMAL .
-
-    $default  reduce usando la regla 105 (noTerminalFinal)
-
-
-estado 177
-
-  106 noTerminalFinal: HEXA .
+  106 noTerminalFinal: DECIMAL .
 
     $default  reduce usando la regla 106 (noTerminalFinal)
 
 
-estado 178
+estado 177
 
-  107 noTerminalFinal: OCTAL .
+  107 noTerminalFinal: HEXA .
 
     $default  reduce usando la regla 107 (noTerminalFinal)
 
 
-estado 179
+estado 178
 
-  108 noTerminalFinal: NUM_R .
+  108 noTerminalFinal: OCTAL .
 
     $default  reduce usando la regla 108 (noTerminalFinal)
 
 
+estado 179
+
+  109 noTerminalFinal: NUM_R .
+
+    $default  reduce usando la regla 109 (noTerminalFinal)
+
+
 estado 180
 
-  103 noTerminalFinal: IDENTIFICADOR .
-
-    $default  reduce usando la regla 103 (noTerminalFinal)
-
-
-estado 181
-
-  104 noTerminalFinal: CHAR .
+  104 noTerminalFinal: IDENTIFICADOR .
 
     $default  reduce usando la regla 104 (noTerminalFinal)
 
 
+estado 181
+
+  105 noTerminalFinal: CHAR .
+
+    $default  reduce usando la regla 105 (noTerminalFinal)
+
+
 estado 182
 
-   98 noTerminal: noTerminalFinal MAYOR_IGUAL noTerminalFinal .
-
-    $default  reduce usando la regla 98 (noTerminal)
-
-
-estado 183
-
-   99 noTerminal: noTerminalFinal MENOR_IGUAL noTerminalFinal .
+   99 noTerminal: noTerminalFinal MAYOR_IGUAL noTerminalFinal .
 
     $default  reduce usando la regla 99 (noTerminal)
 
 
-estado 184
+estado 183
 
-   97 noTerminal: noTerminalFinal IGUALDAD noTerminalFinal .
-
-    $default  reduce usando la regla 97 (noTerminal)
-
-
-estado 185
-
-  101 noTerminal: noTerminalFinal AND noTerminalFinal .
-
-    $default  reduce usando la regla 101 (noTerminal)
-
-
-estado 186
-
-  102 noTerminal: noTerminalFinal OR noTerminalFinal .
-
-    $default  reduce usando la regla 102 (noTerminal)
-
-
-estado 187
-
-  100 noTerminal: noTerminalFinal DESIGUALDAD noTerminalFinal .
+  100 noTerminal: noTerminalFinal MENOR_IGUAL noTerminalFinal .
 
     $default  reduce usando la regla 100 (noTerminal)
 
 
+estado 184
+
+   98 noTerminal: noTerminalFinal IGUALDAD noTerminalFinal .
+
+    $default  reduce usando la regla 98 (noTerminal)
+
+
+estado 185
+
+  102 noTerminal: noTerminalFinal AND noTerminalFinal .
+
+    $default  reduce usando la regla 102 (noTerminal)
+
+
+estado 186
+
+  103 noTerminal: noTerminalFinal OR noTerminalFinal .
+
+    $default  reduce usando la regla 103 (noTerminal)
+
+
+estado 187
+
+  101 noTerminal: noTerminalFinal DESIGUALDAD noTerminalFinal .
+
+    $default  reduce usando la regla 101 (noTerminal)
+
+
 estado 188
 
-   85 listaParametrosFuncion: TIPO_DATO IDENTIFICADOR .
-   86                       | TIPO_DATO IDENTIFICADOR . ',' listaParametrosFuncion
+   86 listaParametrosFuncion: TIPO_DATO IDENTIFICADOR .
+   87                       | TIPO_DATO IDENTIFICADOR . ',' listaParametrosFuncion
 
-    ','  desplazar e ir al estado 214
+    ','  desplazar e ir al estado 218
 
-    $default  reduce usando la regla 85 (listaParametrosFuncion)
+    $default  reduce usando la regla 86 (listaParametrosFuncion)
 
 
 estado 189
 
-   82 listaParametrosPrototipo: TIPO_DATO ',' . listaParametrosPrototipo
+   83 listaParametrosPrototipo: TIPO_DATO ',' . listaParametrosPrototipo
 
     TIPO_DATO  desplazar e ir al estado 133
 
-    ')'       reduce usando la regla 80 (listaParametrosPrototipo)
-    ')'       [reduce usando la regla 84 (listaParametrosFuncion)]
-    $default  reduce usando la regla 80 (listaParametrosPrototipo)
+    ')'       reduce usando la regla 81 (listaParametrosPrototipo)
+    ')'       [reduce usando la regla 85 (listaParametrosFuncion)]
+    $default  reduce usando la regla 81 (listaParametrosPrototipo)
 
-    listaParametrosPrototipo  ir al estado 215
-    listaParametrosFuncion    ir al estado 216
+    listaParametrosPrototipo  ir al estado 219
+    listaParametrosFuncion    ir al estado 220
 
 
 estado 190
 
    61 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' . ';'
 
-    ';'  desplazar e ir al estado 217
+    ';'  desplazar e ir al estado 221
 
 
 estado 191
@@ -3284,7 +3332,7 @@ estado 191
 
     $default  reduce usando la regla 17 (saltoOpcional)
 
-    saltoOpcional  ir al estado 218
+    saltoOpcional  ir al estado 222
 
 
 estado 192
@@ -3292,11 +3340,91 @@ estado 192
    56 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' . ';'
    57                     | TIPO_DATO IDENTIFICADOR '[' expC ']' . '=' '{' auxi '}' ';'
 
-    ';'  desplazar e ir al estado 219
-    '='  desplazar e ir al estado 220
+    ';'  desplazar e ir al estado 223
+    '='  desplazar e ir al estado 224
 
 
 estado 193
+
+   77 identificadorA: IDENTIFICADOR MAS_IGUAL . exp
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 129
+    expC  ir al estado 74
+
+
+estado 194
+
+   78 identificadorA: IDENTIFICADOR MENOS_IGUAL . exp
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 130
+    expC  ir al estado 74
+
+
+estado 195
+
+   79 identificadorA: IDENTIFICADOR POR_IGUAL . exp
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 131
+    expC  ir al estado 74
+
+
+estado 196
+
+   80 identificadorA: IDENTIFICADOR DIVIDIDO_IGUAL . exp
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 132
+    expC  ir al estado 74
+
+
+estado 197
+
+   76 identificadorA: IDENTIFICADOR '=' . exp
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 137
+    expC  ir al estado 74
+
+
+estado 198
 
    42 sentenciaIfElse: error saltoOpcional .
    59 sentenciaDeclaracion: error saltoOpcional .
@@ -3331,143 +3459,134 @@ estado 193
     $default       reduce usando la regla 42 (sentenciaIfElse)
 
 
-estado 194
+estado 199
 
    50 sentenciaReturn: RETURN exp . ';'
 
-    ';'  desplazar e ir al estado 221
+    ';'  desplazar e ir al estado 225
 
 
-estado 195
+estado 200
 
    31 listadoDeSentencias: '\n' listadoDeSentencias .
 
     $default  reduce usando la regla 31 (listadoDeSentencias)
 
 
-estado 196
+estado 201
 
    29 listadoDeSentencias: invocacionFuncion saltoOpcional .
 
     $default  reduce usando la regla 29 (listadoDeSentencias)
 
 
-estado 197
+estado 202
 
    32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' . WHILE '(' exp ')' ';'
 
-    WHILE  desplazar e ir al estado 222
+    WHILE  desplazar e ir al estado 226
 
 
-estado 198
+estado 203
 
    22 listadoDeSentencias: sentenciaDoWhile listadoDeSentencias .
 
     $default  reduce usando la regla 22 (listadoDeSentencias)
 
 
-estado 199
+estado 204
 
    23 listadoDeSentencias: sentenciaFor listadoDeSentencias .
 
     $default  reduce usando la regla 23 (listadoDeSentencias)
 
 
-estado 200
+estado 205
 
    30 listadoDeSentencias: incrementoDecremento listadoDeSentencias .
 
     $default  reduce usando la regla 30 (listadoDeSentencias)
 
 
-estado 201
+estado 206
 
    25 listadoDeSentencias: sentenciaIfElse listadoDeSentencias .
 
     $default  reduce usando la regla 25 (listadoDeSentencias)
 
 
-estado 202
+estado 207
 
    24 listadoDeSentencias: sentenciaWhile listadoDeSentencias .
 
     $default  reduce usando la regla 24 (listadoDeSentencias)
 
 
-estado 203
+estado 208
 
    21 listadoDeSentencias: sentenciaSwitch listadoDeSentencias .
 
     $default  reduce usando la regla 21 (listadoDeSentencias)
 
 
-estado 204
+estado 209
 
    27 listadoDeSentencias: sentenciaReturn listadoDeSentencias .
 
     $default  reduce usando la regla 27 (listadoDeSentencias)
 
 
-estado 205
+estado 210
 
    28 listadoDeSentencias: listadoDeSentenciasDeDeclaracion listadoDeSentencias .
 
     $default  reduce usando la regla 28 (listadoDeSentencias)
 
 
-estado 206
+estado 211
 
    26 listadoDeSentencias: sentenciaAsignacion listadoDeSentencias .
 
     $default  reduce usando la regla 26 (listadoDeSentencias)
 
 
-estado 207
+estado 212
 
    45 sentenciaWhile: WHILE '(' exp ')' saltoOpcional . '{' listadoDeSentencias '}'
 
-    '{'  desplazar e ir al estado 223
+    '{'  desplazar e ir al estado 227
 
 
-estado 208
+estado 213
 
-   37 incrementoParaForAuxiliar: MAS_MAS . MENOS_MENOS
+   36 incrementoParaFor: IDENTIFICADOR . incrementoParaForAuxiliar
 
-    MENOS_MENOS  desplazar e ir al estado 224
+    MAS_MAS  desplazar e ir al estado 228
 
-
-estado 209
-
-   36 incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar .
-
-    $default  reduce usando la regla 36 (incrementoParaFor)
+    incrementoParaForAuxiliar  ir al estado 229
 
 
-estado 210
+estado 214
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' . saltoOpcional '{' listadoDeSentencias '}'
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor . ')' saltoOpcional '{' listadoDeSentencias '}'
 
-    '\n'  desplazar e ir al estado 27
-
-    $default  reduce usando la regla 17 (saltoOpcional)
-
-    saltoOpcional  ir al estado 225
+    ')'  desplazar e ir al estado 230
 
 
-estado 211
+estado 215
 
    41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' . listadoDeSentencias '}' $@1 sentenciaElse
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -3482,224 +3601,120 @@ estado 211
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 226
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 231
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
-
-
-estado 212
-
-   46 sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' . sentenciaCase '}'
-
-    CASE  desplazar e ir al estado 227
-
-    $default  reduce usando la regla 47 (sentenciaCase)
-
-    sentenciaCase  ir al estado 228
-
-
-estado 213
-
-   89 listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar .
-
-    $default  reduce usando la regla 89 (listaParametrosInvocacionAuxiliar)
-
-
-estado 214
-
-   86 listaParametrosFuncion: TIPO_DATO IDENTIFICADOR ',' . listaParametrosFuncion
-
-    TIPO_DATO  desplazar e ir al estado 229
-
-    $default  reduce usando la regla 84 (listaParametrosFuncion)
-
-    listaParametrosFuncion  ir al estado 230
-
-
-estado 215
-
-   82 listaParametrosPrototipo: TIPO_DATO ',' listaParametrosPrototipo .
-
-    $default  reduce usando la regla 82 (listaParametrosPrototipo)
 
 
 estado 216
 
-   83 listaParametrosPrototipo: listaParametrosFuncion .
+   46 sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' . sentenciaCase '}'
+
+    CASE  desplazar e ir al estado 232
+
+    $default  reduce usando la regla 47 (sentenciaCase)
+
+    sentenciaCase  ir al estado 233
+
+
+estado 217
+
+   90 listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar .
+
+    $default  reduce usando la regla 90 (listaParametrosInvocacionAuxiliar)
+
+
+estado 218
+
+   87 listaParametrosFuncion: TIPO_DATO IDENTIFICADOR ',' . listaParametrosFuncion
+
+    TIPO_DATO  desplazar e ir al estado 234
+
+    $default  reduce usando la regla 85 (listaParametrosFuncion)
+
+    listaParametrosFuncion  ir al estado 235
+
+
+estado 219
+
+   83 listaParametrosPrototipo: TIPO_DATO ',' listaParametrosPrototipo .
 
     $default  reduce usando la regla 83 (listaParametrosPrototipo)
 
 
-estado 217
+estado 220
+
+   84 listaParametrosPrototipo: listaParametrosFuncion .
+
+    $default  reduce usando la regla 84 (listaParametrosPrototipo)
+
+
+estado 221
 
    61 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';' .
 
     $default  reduce usando la regla 61 (prototipoFuncion)
 
 
-estado 218
+estado 222
 
    60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional . '{' listadoDeSentencias '}' ';'
 
-    '{'  desplazar e ir al estado 231
+    '{'  desplazar e ir al estado 236
 
 
-estado 219
+estado 223
 
    56 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' ';' .
 
     $default  reduce usando la regla 56 (sentenciaDeclaracion)
 
 
-estado 220
+estado 224
 
    57 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' . '{' auxi '}' ';'
 
-    '{'  desplazar e ir al estado 232
+    '{'  desplazar e ir al estado 237
 
 
-estado 221
+estado 225
 
    50 sentenciaReturn: RETURN exp ';' .
 
     $default  reduce usando la regla 50 (sentenciaReturn)
 
 
-estado 222
+estado 226
 
    32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE . '(' exp ')' ';'
 
-    '('  desplazar e ir al estado 233
-
-
-estado 223
-
-   45 sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{' . listadoDeSentencias '}'
-
-    error          desplazar e ir al estado 141
-    FOR            desplazar e ir al estado 5
-    IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
-    SWITCH         desplazar e ir al estado 7
-    IDENTIFICADOR  desplazar e ir al estado 8
-    TIPO_DATO      desplazar e ir al estado 62
-    DO             desplazar e ir al estado 10
-    WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
-
-    error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    IF             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    RETURN         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    SWITCH         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    IDENTIFICADOR  [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    TIPO_DATO      [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    DO             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    WHILE          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-    '}'            reduce usando la regla 20 (listadoDeSentencias)
-    '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
-
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 234
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
-    sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
-    parametro                         ir al estado 26
-
-
-estado 224
-
-   37 incrementoParaForAuxiliar: MAS_MAS MENOS_MENOS .
-
-    $default  reduce usando la regla 37 (incrementoParaForAuxiliar)
-
-
-estado 225
-
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional . '{' listadoDeSentencias '}'
-
-    '{'  desplazar e ir al estado 235
-
-
-estado 226
-
-   41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias . '}' $@1 sentenciaElse
-
-    '}'  desplazar e ir al estado 236
+    '('  desplazar e ir al estado 238
 
 
 estado 227
 
-   48 sentenciaCase: CASE . exp ':' listadoDeSentencias BREAK ';'
+   45 sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{' . listadoDeSentencias '}'
 
-    DECIMAL         desplazar e ir al estado 66
-    HEXA            desplazar e ir al estado 67
-    OCTAL           desplazar e ir al estado 68
-    NUM_R           desplazar e ir al estado 69
-    IDENTIFICADOR   desplazar e ir al estado 70
-    CHAR            desplazar e ir al estado 71
-    LITERAL_CADENA  desplazar e ir al estado 72
-
-    exp   ir al estado 237
-    expC  ir al estado 74
-
-
-estado 228
-
-   46 sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' sentenciaCase . '}'
-   49 sentenciaCase: sentenciaCase . DEFAULT ':' listadoDeSentencias
-
-    DEFAULT  desplazar e ir al estado 238
-    '}'      desplazar e ir al estado 239
-
-
-estado 229
-
-   85 listaParametrosFuncion: TIPO_DATO . IDENTIFICADOR
-   86                       | TIPO_DATO . IDENTIFICADOR ',' listaParametrosFuncion
-
-    IDENTIFICADOR  desplazar e ir al estado 188
-
-
-estado 230
-
-   86 listaParametrosFuncion: TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion .
-
-    $default  reduce usando la regla 86 (listaParametrosFuncion)
-
-
-estado 231
-
-   60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' . listadoDeSentencias '}' ';'
-
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -3714,39 +3729,56 @@ estado 231
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 240
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 239
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
+
+
+estado 228
+
+   37 incrementoParaForAuxiliar: MAS_MAS . MENOS_MENOS
+
+    MENOS_MENOS  desplazar e ir al estado 240
+
+
+estado 229
+
+   36 incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar .
+
+    $default  reduce usando la regla 36 (incrementoParaFor)
+
+
+estado 230
+
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' . saltoOpcional '{' listadoDeSentencias '}'
+
+    '\n'  desplazar e ir al estado 27
+
+    $default  reduce usando la regla 17 (saltoOpcional)
+
+    saltoOpcional  ir al estado 241
+
+
+estado 231
+
+   41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias . '}' $@1 sentenciaElse
+
+    '}'  desplazar e ir al estado 242
 
 
 estado 232
 
-   57 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' . auxi '}' ';'
-
-    DECIMAL        desplazar e ir al estado 66
-    HEXA           desplazar e ir al estado 67
-    OCTAL          desplazar e ir al estado 68
-    NUM_R          desplazar e ir al estado 69
-    IDENTIFICADOR  desplazar e ir al estado 70
-    CHAR           desplazar e ir al estado 71
-
-    auxi  ir al estado 241
-    expC  ir al estado 242
-
-
-estado 233
-
-   32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' . exp ')' ';'
+   48 sentenciaCase: CASE . exp ':' listadoDeSentencias BREAK ';'
 
     DECIMAL         desplazar e ir al estado 66
     HEXA            desplazar e ir al estado 67
@@ -3760,27 +3792,44 @@ estado 233
     expC  ir al estado 74
 
 
+estado 233
+
+   46 sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' sentenciaCase . '}'
+   49 sentenciaCase: sentenciaCase . DEFAULT ':' listadoDeSentencias
+
+    DEFAULT  desplazar e ir al estado 244
+    '}'      desplazar e ir al estado 245
+
+
 estado 234
 
-   45 sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{' listadoDeSentencias . '}'
+   86 listaParametrosFuncion: TIPO_DATO . IDENTIFICADOR
+   87                       | TIPO_DATO . IDENTIFICADOR ',' listaParametrosFuncion
 
-    '}'  desplazar e ir al estado 244
+    IDENTIFICADOR  desplazar e ir al estado 188
 
 
 estado 235
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' . listadoDeSentencias '}'
+   87 listaParametrosFuncion: TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion .
 
-    error          desplazar e ir al estado 141
+    $default  reduce usando la regla 87 (listaParametrosFuncion)
+
+
+estado 236
+
+   60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' . listadoDeSentencias '}' ';'
+
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -3795,81 +3844,133 @@ estado 235
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 245
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 246
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
-estado 236
+estado 237
+
+   57 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' . auxi '}' ';'
+
+    DECIMAL        desplazar e ir al estado 66
+    HEXA           desplazar e ir al estado 67
+    OCTAL          desplazar e ir al estado 68
+    NUM_R          desplazar e ir al estado 69
+    IDENTIFICADOR  desplazar e ir al estado 70
+    CHAR           desplazar e ir al estado 71
+
+    auxi  ir al estado 247
+    expC  ir al estado 248
+
+
+estado 238
+
+   32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' . exp ')' ';'
+
+    DECIMAL         desplazar e ir al estado 66
+    HEXA            desplazar e ir al estado 67
+    OCTAL           desplazar e ir al estado 68
+    NUM_R           desplazar e ir al estado 69
+    IDENTIFICADOR   desplazar e ir al estado 70
+    CHAR            desplazar e ir al estado 71
+    LITERAL_CADENA  desplazar e ir al estado 72
+
+    exp   ir al estado 249
+    expC  ir al estado 74
+
+
+estado 239
+
+   45 sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{' listadoDeSentencias . '}'
+
+    '}'  desplazar e ir al estado 250
+
+
+estado 240
+
+   37 incrementoParaForAuxiliar: MAS_MAS MENOS_MENOS .
+
+    $default  reduce usando la regla 37 (incrementoParaForAuxiliar)
+
+
+estado 241
+
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional . '{' listadoDeSentencias '}'
+
+    '{'  desplazar e ir al estado 251
+
+
+estado 242
 
    41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias '}' . $@1 sentenciaElse
 
     $default  reduce usando la regla 40 ($@1)
 
-    $@1  ir al estado 246
+    $@1  ir al estado 252
 
 
-estado 237
+estado 243
 
    48 sentenciaCase: CASE exp . ':' listadoDeSentencias BREAK ';'
 
-    ':'  desplazar e ir al estado 247
+    ':'  desplazar e ir al estado 253
 
 
-estado 238
+estado 244
 
    49 sentenciaCase: sentenciaCase DEFAULT . ':' listadoDeSentencias
 
-    ':'  desplazar e ir al estado 248
+    ':'  desplazar e ir al estado 254
 
 
-estado 239
+estado 245
 
    46 sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' sentenciaCase '}' .
 
     $default  reduce usando la regla 46 (sentenciaSwitch)
 
 
-estado 240
+estado 246
 
    60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias . '}' ';'
 
-    '}'  desplazar e ir al estado 249
+    '}'  desplazar e ir al estado 255
 
 
-estado 241
+estado 247
 
    57 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi . '}' ';'
 
-    '}'  desplazar e ir al estado 250
+    '}'  desplazar e ir al estado 256
 
 
-estado 242
+estado 248
 
-   62 auxi: expC . ',' auxi
-   63     | expC .
-  113 expC: expC . '+' expC
-  114     | expC . '-' expC
-  115     | expC . '>' expC
-  116     | expC . '<' expC
-  117     | expC . IGUALDAD expC
-  118     | expC . MAYOR_IGUAL expC
-  119     | expC . MENOR_IGUAL expC
-  120     | expC . DESIGUALDAD expC
-  121     | expC . AND expC
-  122     | expC . OR expC
-  127     | expC . '*' expC
-  128     | expC . '/' expC
+   64 auxi: expC . ',' auxi
+   65     | expC .
+  114 expC: expC . '+' expC
+  115     | expC . '-' expC
+  116     | expC . '>' expC
+  117     | expC . '<' expC
+  118     | expC . IGUALDAD expC
+  119     | expC . MAYOR_IGUAL expC
+  120     | expC . MENOR_IGUAL expC
+  121     | expC . DESIGUALDAD expC
+  122     | expC . AND expC
+  123     | expC . OR expC
+  128     | expC . '*' expC
+  129     | expC . '/' expC
 
     MAYOR_IGUAL  desplazar e ir al estado 107
     MENOR_IGUAL  desplazar e ir al estado 108
@@ -3878,62 +3979,98 @@ estado 242
     OR           desplazar e ir al estado 111
     DESIGUALDAD  desplazar e ir al estado 112
     '*'          desplazar e ir al estado 113
-    ','          desplazar e ir al estado 251
+    ','          desplazar e ir al estado 257
     '+'          desplazar e ir al estado 114
     '-'          desplazar e ir al estado 115
     '>'          desplazar e ir al estado 116
     '<'          desplazar e ir al estado 117
     '/'          desplazar e ir al estado 118
 
-    $default  reduce usando la regla 63 (auxi)
+    $default  reduce usando la regla 65 (auxi)
 
 
-estado 243
+estado 249
 
    32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp . ')' ';'
 
-    ')'  desplazar e ir al estado 252
+    ')'  desplazar e ir al estado 258
 
 
-estado 244
+estado 250
 
    45 sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{' listadoDeSentencias '}' .
 
     $default  reduce usando la regla 45 (sentenciaWhile)
 
 
-estado 245
+estado 251
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias . '}'
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional '{' . listadoDeSentencias '}'
 
-    '}'  desplazar e ir al estado 253
-
-
-estado 246
-
-   41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias '}' $@1 . sentenciaElse
-
-    ELSE  desplazar e ir al estado 254
-
-    $default  reduce usando la regla 43 (sentenciaElse)
-
-    sentenciaElse  ir al estado 255
-
-
-estado 247
-
-   48 sentenciaCase: CASE exp ':' . listadoDeSentencias BREAK ';'
-
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
+
+    error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    IF             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    RETURN         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    SWITCH         [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    IDENTIFICADOR  [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    TIPO_DATO      [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    DO             [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    WHILE          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+    '}'            reduce usando la regla 20 (listadoDeSentencias)
+    '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
+
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 259
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
+    sentenciaDeclaracion              ir al estado 22
+    sentenciaAsignacion               ir al estado 156
+    parametro                         ir al estado 26
+
+
+estado 252
+
+   41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias '}' $@1 . sentenciaElse
+
+    ELSE  desplazar e ir al estado 260
+
+    $default  reduce usando la regla 43 (sentenciaElse)
+
+    sentenciaElse  ir al estado 261
+
+
+estado 253
+
+   48 sentenciaCase: CASE exp ':' . listadoDeSentencias BREAK ';'
+
+    error          desplazar e ir al estado 143
+    FOR            desplazar e ir al estado 5
+    IF             desplazar e ir al estado 6
+    RETURN         desplazar e ir al estado 144
+    SWITCH         desplazar e ir al estado 7
+    IDENTIFICADOR  desplazar e ir al estado 8
+    TIPO_DATO      desplazar e ir al estado 62
+    DO             desplazar e ir al estado 10
+    WHILE          desplazar e ir al estado 11
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -3948,35 +4085,35 @@ estado 247
     BREAK          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     '\n'           [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 256
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 262
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
-estado 248
+estado 254
 
    49 sentenciaCase: sentenciaCase DEFAULT ':' . listadoDeSentencias
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -3993,38 +4130,38 @@ estado 248
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 257
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 263
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
-estado 249
+estado 255
 
    60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}' . ';'
 
-    ';'  desplazar e ir al estado 258
+    ';'  desplazar e ir al estado 264
 
 
-estado 250
+estado 256
 
    57 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' . ';'
 
-    ';'  desplazar e ir al estado 259
+    ';'  desplazar e ir al estado 265
 
 
-estado 251
+estado 257
 
-   62 auxi: expC ',' . auxi
+   64 auxi: expC ',' . auxi
 
     DECIMAL        desplazar e ir al estado 66
     HEXA           desplazar e ir al estado 67
@@ -4033,25 +4170,25 @@ estado 251
     IDENTIFICADOR  desplazar e ir al estado 70
     CHAR           desplazar e ir al estado 71
 
-    auxi  ir al estado 260
-    expC  ir al estado 242
+    auxi  ir al estado 266
+    expC  ir al estado 248
 
 
-estado 252
+estado 258
 
    32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp ')' . ';'
 
-    ';'  desplazar e ir al estado 261
+    ';'  desplazar e ir al estado 267
 
 
-estado 253
+estado 259
 
-   33 sentenciaFor: FOR '(' sentenciaDecOAsig sentenciaDecOAsig incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}' .
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias . '}'
 
-    $default  reduce usando la regla 33 (sentenciaFor)
+    '}'  desplazar e ir al estado 268
 
 
-estado 254
+estado 260
 
    44 sentenciaElse: ELSE . saltoOpcional '{' listadoDeSentencias '}'
 
@@ -4059,86 +4196,93 @@ estado 254
 
     $default  reduce usando la regla 17 (saltoOpcional)
 
-    saltoOpcional  ir al estado 262
+    saltoOpcional  ir al estado 269
 
 
-estado 255
+estado 261
 
    41 sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias '}' $@1 sentenciaElse .
 
     $default  reduce usando la regla 41 (sentenciaIfElse)
 
 
-estado 256
+estado 262
 
    48 sentenciaCase: CASE exp ':' listadoDeSentencias . BREAK ';'
 
-    BREAK  desplazar e ir al estado 263
+    BREAK  desplazar e ir al estado 270
 
 
-estado 257
+estado 263
 
    49 sentenciaCase: sentenciaCase DEFAULT ':' listadoDeSentencias .
 
     $default  reduce usando la regla 49 (sentenciaCase)
 
 
-estado 258
+estado 264
 
    60 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}' ';' .
 
     $default  reduce usando la regla 60 (desarrolloFuncion)
 
 
-estado 259
+estado 265
 
    57 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';' .
 
     $default  reduce usando la regla 57 (sentenciaDeclaracion)
 
 
-estado 260
+estado 266
 
-   62 auxi: expC ',' auxi .
+   64 auxi: expC ',' auxi .
 
-    $default  reduce usando la regla 62 (auxi)
+    $default  reduce usando la regla 64 (auxi)
 
 
-estado 261
+estado 267
 
    32 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp ')' ';' .
 
     $default  reduce usando la regla 32 (sentenciaDoWhile)
 
 
-estado 262
+estado 268
+
+   33 sentenciaFor: FOR '(' sentenciaDecOAsig expC ';' incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}' .
+
+    $default  reduce usando la regla 33 (sentenciaFor)
+
+
+estado 269
 
    44 sentenciaElse: ELSE saltoOpcional . '{' listadoDeSentencias '}'
 
-    '{'  desplazar e ir al estado 264
+    '{'  desplazar e ir al estado 271
 
 
-estado 263
+estado 270
 
    48 sentenciaCase: CASE exp ':' listadoDeSentencias BREAK . ';'
 
-    ';'  desplazar e ir al estado 265
+    ';'  desplazar e ir al estado 272
 
 
-estado 264
+estado 271
 
    44 sentenciaElse: ELSE saltoOpcional '{' . listadoDeSentencias '}'
 
-    error          desplazar e ir al estado 141
+    error          desplazar e ir al estado 143
     FOR            desplazar e ir al estado 5
     IF             desplazar e ir al estado 6
-    RETURN         desplazar e ir al estado 142
+    RETURN         desplazar e ir al estado 144
     SWITCH         desplazar e ir al estado 7
     IDENTIFICADOR  desplazar e ir al estado 8
     TIPO_DATO      desplazar e ir al estado 62
     DO             desplazar e ir al estado 10
     WHILE          desplazar e ir al estado 11
-    '\n'           desplazar e ir al estado 143
+    '\n'           desplazar e ir al estado 145
 
     error          [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
     FOR            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
@@ -4153,36 +4297,36 @@ estado 264
     '}'            reduce usando la regla 20 (listadoDeSentencias)
     '}'            [reduce usando la regla 51 (listadoDeSentenciasDeDeclaracion)]
 
-    invocacionFuncion                 ir al estado 144
-    listadoDeSentencias               ir al estado 266
-    sentenciaDoWhile                  ir al estado 146
-    sentenciaFor                      ir al estado 147
-    incrementoDecremento              ir al estado 148
-    sentenciaIfElse                   ir al estado 149
-    sentenciaWhile                    ir al estado 150
-    sentenciaSwitch                   ir al estado 151
-    sentenciaReturn                   ir al estado 152
-    listadoDeSentenciasDeDeclaracion  ir al estado 153
+    invocacionFuncion                 ir al estado 146
+    listadoDeSentencias               ir al estado 273
+    sentenciaDoWhile                  ir al estado 148
+    sentenciaFor                      ir al estado 149
+    incrementoDecremento              ir al estado 150
+    sentenciaIfElse                   ir al estado 151
+    sentenciaWhile                    ir al estado 152
+    sentenciaSwitch                   ir al estado 153
+    sentenciaReturn                   ir al estado 154
+    listadoDeSentenciasDeDeclaracion  ir al estado 155
     sentenciaDeclaracion              ir al estado 22
-    sentenciaAsignacion               ir al estado 154
+    sentenciaAsignacion               ir al estado 156
     parametro                         ir al estado 26
 
 
-estado 265
+estado 272
 
    48 sentenciaCase: CASE exp ':' listadoDeSentencias BREAK ';' .
 
     $default  reduce usando la regla 48 (sentenciaCase)
 
 
-estado 266
+estado 273
 
    44 sentenciaElse: ELSE saltoOpcional '{' listadoDeSentencias . '}'
 
-    '}'  desplazar e ir al estado 267
+    '}'  desplazar e ir al estado 274
 
 
-estado 267
+estado 274
 
    44 sentenciaElse: ELSE saltoOpcional '{' listadoDeSentencias '}' .
 

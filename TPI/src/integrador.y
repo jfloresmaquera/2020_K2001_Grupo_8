@@ -131,7 +131,7 @@ listadoDeSentencias: /* vacio */
 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp ')' ';' {printf( "Se ha declarado una sentencia do-while \n");}
 
 ;
-sentenciaFor:	FOR  '(' sentenciaDecOAsig   sentenciaDecOAsig  incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
+sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC ';'  incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
 ;
 
 
@@ -141,7 +141,8 @@ sentenciaDecOAsig: sentenciaAsignacion
 ;
 
 
-incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar 		 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar/decrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}
+incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar 	{if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar/decrementar una variable no existente");}else{if(esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}	
+
 ;
 
 incrementoParaForAuxiliar: 	MAS_MAS			
@@ -182,7 +183,7 @@ listadoDeSentenciasDeDeclaracion:	/* vacío */
 									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion 
 ;
 
-sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				 					 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);} 
+sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1 ';'						 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);} 
 						| TIPO_DATO listaIdentificadores  ';'	                      /*accion se realiza en no terminal listaIdentificadores*/
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';'  				 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'  {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
@@ -196,6 +197,13 @@ desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  salto
 
 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,0)}
 ;
+
+opcional1: /* vacio */
+	     | sentenciaAsignacionAuxiliar exp; 
+
+;
+
+
 
 
 auxi: expC ',' auxi 
@@ -215,8 +223,7 @@ sentenciaAsignacionAuxiliar: '='
 
 
 
-parametro:	 TIPO_DATO IDENTIFICADOR  					{printf("aber ci yega");agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s  ",$<s.cadena>2,$<s.cadena>1);}
-			| IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s o ",$<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
+parametro:	 IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s",$<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
 
 ;
 
