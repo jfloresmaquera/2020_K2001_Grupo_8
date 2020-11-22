@@ -80,6 +80,7 @@
 %type <s> listaParametrosInvocacionAuxiliar
 %type <s> sentenciaAsignacionAuxiliar
 
+
 %%
 
 
@@ -101,6 +102,7 @@ line:   '\n'    {my_line++;}
 		| sentenciaIfElse saltoOpcional
 		| sentenciaAsignacion saltoOpcional
 		| incrementoDecremento saltoOpcional
+		| listadoDeSentenciasDeAsignacion saltoOpcional
 		| error saltoOpcional { yyerrok;}
 ;
 
@@ -136,8 +138,10 @@ sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC ';'  incrementoParaFor ')' salto
 
 
 
-sentenciaDecOAsig: sentenciaAsignacion 
-				|  sentenciaDeclaracion 
+sentenciaDecOAsig: sentenciaDeclaracionParaFor
+				  | IDENTIFICADOR ';'
+				  | sentenciaAsignacion
+				 
 ;
 
 
@@ -146,7 +150,7 @@ incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar 	{if(idYaSeDeclaro($<
 ;
 
 incrementoParaForAuxiliar: 	MAS_MAS			
-							MENOS_MENOS
+						|   MENOS_MENOS
 
 
 incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}
@@ -183,12 +187,25 @@ listadoDeSentenciasDeDeclaracion:	/* vacío */
 									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion 
 ;
 
-sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1 ';'						 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);} 
+listadoDeSentenciasDeAsignacion: /* vacío */ 	
+								| sentenciaAsignacion
+								| sentenciaAsignacion ';' listadoDeSentenciasDeAsignacion
+
+;
+
+sentenciaDeclaracionParaFor:	TIPO_DATO IDENTIFICADOR '=' exp ';' {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
+
+;
+
+
+
+
+sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1';'						 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO listaIdentificadores  ';'	                      /*accion se realiza en no terminal listaIdentificadores*/
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';'  				 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'  {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO '*' IDENTIFICADOR ';'          				     {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
-						| error saltoOpcional { yyerrok; }
+						| error saltoOpcional {yyerrok; }
 ; 
 
 
@@ -198,19 +215,17 @@ desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  salto
 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,0)}
 ;
 
-opcional1: /* vacio */
-	     | sentenciaAsignacionAuxiliar exp; 
-
+opcional1:	/* vacío */ 
+		 | sentenciaAsignacionAuxiliar exp 
 ;
 
 
-
-
+		
 auxi: expC ',' auxi 
 	| expC 
 ;
 
-sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'  {if(!flag()){printf("y se le asigno (podria cambiarse a algo mas general) %s \n ",$<s.cadena>3);}else{bajarFlag();}} 
+sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'  {if(!flag()){printf("se realizo una asignacion");}else{bajarFlag();}} 
 ;
 
 
@@ -223,7 +238,7 @@ sentenciaAsignacionAuxiliar: '='
 
 
 
-parametro:	 IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s",$<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
+parametro:	 IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
 
 ;
 
@@ -250,7 +265,7 @@ listaParametrosPrototipo: 	/* vacio */
 
 listaParametrosFuncion: 	/* vacio */ 
 							|TIPO_DATO IDENTIFICADOR							{agregarParametro($<s.tipo>1);}
-							|TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion	{agregarParametro($<s.tipo>1);} //AREGLAR CON LO Q DIJO JUAN
+							|TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion	{agregarParametro($<s.tipo>1);} 
 
 ;
 
@@ -303,7 +318,7 @@ expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSema
 			| expC DESIGUALDAD expC   {printf ("Se escribio una expresion con signo de distinto \n");}          
 			| expC AND expC       	  {printf ("Se escribio una expresion con la operacion logica and \n");}             
 			| expC OR expC         	  {printf ("Se escribio una expresion con la operacion logica or \n");}             
-			| DECIMAL
+			| DECIMAL				  
 			| HEXA
 			| OCTAL
 			| NUM_R

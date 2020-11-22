@@ -571,7 +571,7 @@ int esNumerica(char* iden){
 int sonOperablesODelMismoTipo(int unTipo, int otroTipo){
     // 1: operables 2: mismo tipo 0: no operables
     // resumen: 1 y 2 son operables
-    if (unTipo==otroTipo) {return 2;} else if(unTipo <= 4 && otroTipo <= 4) {return 1;}  else {return 0;}
+    if (unTipo==otroTipo) {return 2;} else if(unTipo < 4 && otroTipo < 4) {return 1;}  else {return 0;}
 }
 
 
