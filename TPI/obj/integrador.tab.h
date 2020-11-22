@@ -80,7 +80,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 27 "../src/integrador.y"
+#line 28 "../src/integrador.y"
 
 	struct{
 		char cadena[50];

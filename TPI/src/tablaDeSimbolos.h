@@ -80,6 +80,15 @@ struct nodoControlTipos{
 typedef struct nodoControlTipos NodoCT;
 
 
+
+struct nodoErrorIdentificador {
+    char* id;
+    char* tipoError;
+    struct nodoErrorIdentificador* next;
+};
+typedef struct nodoErrorIdentificador NodoEI;
+
+
 // prototipos de funciones 
 void ultimoTipoDato(int tipo);
 
@@ -115,7 +124,7 @@ int cantidadNodos(NodoParametrosFuncion*);
 
 int idEncontrado(NodoId*,char* id);
 
-int esOperable(char* id);
+int esNumerica(char* iden);
 
 int buscarTipo(char* id); 
 
@@ -146,5 +155,7 @@ void invocacionesIncorrectas();
 void variablesCorrectamenteDeclaradas();
 void funcionDePrueba();
 void agregarErrorDeTipos(char*,int, char,char*,int);
+void agregarErrorSemanticoIdentificador(char*, int);
+void errorEnIdentificadores(); 
 
 #endif

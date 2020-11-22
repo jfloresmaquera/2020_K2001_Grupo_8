@@ -8,6 +8,7 @@
 	#include "tablaDeSimbolos.h"
 	#include "tablaDeSimbolos.c"
 	#define YYERROR_VERBOSE
+
 	extern FILE* yyin; 
 	extern FILE* yyout;
 	int my_line=1;
@@ -108,7 +109,7 @@ saltoOpcional:  /* vacío */ {}
 ;
 
 
-invocacionFuncion: IDENTIFICADOR '(' listaParametrosInvocacion ')' ';'  {/*verificaciones de prototipo*/}
+invocacionFuncion: IDENTIFICADOR '(' listaParametrosInvocacion ')' ';'  {verificaFuncion($<s.cadena>1)}
 ;
 
 
@@ -137,13 +138,13 @@ sentenciaDecOAsig: sentenciaAsignacion
 ;
 
 
-incrementoParaFor: IDENTIFICADOR MAS_MAS       {printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}
-				  |IDENTIFICADOR MENOS_MENOS  {printf("Se ha decrementado la variable %s\n",$<s.cadena>1);}
+incrementoParaFor: IDENTIFICADOR MAS_MAS 		{if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una varibale no operable")}})                     		
+				  |IDENTIFICADOR MENOS_MENOS  	{if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha decrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento decrementado una varibale no operable")}}) 
 ;
 
 
-incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  		 {printf("Se ha incrementado la variable %s \n",$<s.cadena>1);} 
-					  |IDENTIFICADOR MENOS_MENOS ';'     {printf("Se ha decrementado la variable %s\n",$<s.cadena>1);} 
+incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una varibale no operable")}})
+					  |IDENTIFICADOR MENOS_MENOS ';' {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha decrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento decrementado una varibale no operable")}})
 ;
 
 
@@ -179,7 +180,7 @@ listadoDeSentenciasDeDeclaracion:	/* vacío */
 ;
 
 sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				 					 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);} 
-						| TIPO_DATO listaIdentificadores  ';'	    
+						| TIPO_DATO listaIdentificadores  ';'	                      /*accion se realiza en no terminal listaIdentificadores*/
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';'  				 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'  {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO '*' IDENTIFICADOR ';'          				     {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
@@ -187,10 +188,10 @@ sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				 					 {agregarIdentificad
 ; 
 
 
-desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  saltoOpcional '{' listadoDeSentencias '}' ';'  
+desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  saltoOpcional '{' listadoDeSentencias '}' ';'  {agregarFuncion($<s.cadena>1,$<s.cadena>2,1)}
 ;
 
-prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  
+prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.cadena>1,$<s.cadena>2,0)}
 ;
 
 
@@ -205,8 +206,8 @@ sentenciaAsignacion: parametro '=' exp ';'  			 {if(flag()){printf("y se le asig
 					|parametro DIVIDIDO_IGUAL exp ';'    {if(flag()){printf("y se le asigno el mismo dividido por %s \n",$<s.cadena>3);}else{bajarFlag();}} 
 ;
 
-parametro:	 TIPO_DATO IDENTIFICADOR  					{agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s y se le asigno ",$<s.cadena>2,$<s.cadena>1);}
-			| IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se le asigno a %s y se le asigno ",$<s.cadena>1);}/* else{agregar a error semantico;levantarFlag();} */}
+parametro:	 TIPO_DATO IDENTIFICADOR  					{agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s  ",$<s.cadena>2,$<s.cadena>1);}
+			| IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s o ",$<s.cadena>1);}else{agregarErrorSemanticoIdentificador($<s.cadena>1);levantarFlag();}}
 
 ;
 
@@ -268,8 +269,7 @@ exp: 		LITERAL_CADENA
 			
 ;
 
-
-expC:		IDENTIFICADOR
+expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}}
 			| CHAR			
 			| expC '+' expC           {int tipo1=calcularTipo($<s.cadena>1, $<s.tipo>1); int tipo2=calcularTipo($<s.cadena>3, $<s.tipo>3); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, tipo1, '+' ,$<s.cadena>3, tipo2);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
@@ -298,16 +298,13 @@ expC:		IDENTIFICADOR
 
 int main ()
 {
-
 	yyin=fopen("entrada.c","r");
-   	printf("pruebaPreParse\n");
 	yyparse();
  	#ifdef BISON_DEBUG
         yydebug = 1;
 	#endif
-	printf("prueba\n");
+
 	generarReporte();
-	printf("otraPrueba\n");
 	fclose(yyin);
 	system("pause");	
 	return 0;
