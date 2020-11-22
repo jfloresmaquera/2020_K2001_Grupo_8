@@ -138,7 +138,6 @@ void agregarIdentificador(char* id, int tipo){
             }
             auxiliar->next=nuevoNodo;
         }else{
-            //lo encuentra en la lista de identificadores declarados
             encontrado -> cantidad += 1;
         }
     }
@@ -238,27 +237,34 @@ void agregarErrorSintactico(char const *errorSintactico, int linea){
 //funciones relacionadas con los errores semanticos
 
 
-void verificaFuncion(char* id){
+int verificaFuncion(char* id){
     NodoFuncion* auxiliar=raizFuncion;
     if(raizFuncion==NULL){
             agregarErrorFuncionInvocacion(id,3);
+            return 0;
     }else{
         while(auxiliar!=NULL&&strcmp(auxiliar->identificador,id)!=0){
             auxiliar=auxiliar->next;
         }
         if(auxiliar==NULL){
             agregarErrorFuncionInvocacion(id,3);
+            return 0;
         }else{
             if(auxiliar->cantidadParametros!=cantidadNodos(raizParametro)){
                     agregarErrorFuncionInvocacion(id,0);
+                    return 0;
             }else{
-                  verificarTiposDeParametros(auxiliar,auxiliar->listaParametros,raizParametro);
+                  if(verificarTiposDeParametro(id,auxiliar->listaParametros,raizParametro)){
+                    return 1;
+                  }
             }
             }
         }   
-    }
+}
 
-void verificarTiposDeParametro (NodoFuncion* auxiliar, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro){
+
+
+int verificarTiposDeParametro (char* identificador, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro){
 
     NodoParametrosFuncion * auxiliarListaParam = listaParametros;
     NodoParametrosFuncion * auxiliarRaizParam = raizParametro;
@@ -268,10 +274,10 @@ void verificarTiposDeParametro (NodoFuncion* auxiliar, NodoParametrosFuncion * l
       raizParametro= raizParametro->next;
     }
     if(listaParametros!=NULL || raizParametro!=NULL){
-
-        //agregarErrorFuncionInvocacion(auxiliar->id, 1);
+        agregarErrorFuncionInvocacion(identificador, 1);
+        return 0; //error
     }
-
+    return 1;
     
     
 }
@@ -321,10 +327,9 @@ void generarReporte(){
     printf("\n");
     variablesCorrectamenteDeclaradas();
     funcionesCorrectamenteDeclaradas();
-    invocacionesCorrectamenteHecha();
     erroresLexicos();
-     erroresSintacticos();
-     erroresSemanticos();
+    erroresSintacticos();
+    erroresSemanticos();
     system("pause");
 }
 

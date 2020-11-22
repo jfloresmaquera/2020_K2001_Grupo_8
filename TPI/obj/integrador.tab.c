@@ -537,9 +537,9 @@ static const yytype_uint16 yyrline[] =
      203,   204,   205,   206,   209,   210,   216,   217,   220,   221,
      222,   223,   224,   225,   229,   230,   231,   232,   237,   238,
      239,   243,   244,   245,   249,   250,   251,   252,   253,   254,
-     255,   256,   257,   258,   259,   260,   267,   268,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290
+     255,   256,   257,   258,   259,   260,   267,   268,   272,   273,
+     274,   275,   276,   277,   278,   279,   280,   281,   282,   283,
+     284,   285,   286,   287,   288,   289
 };
 #endif
 
@@ -1680,7 +1680,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 112 "../src/integrador.y"
-    {/*verificaciones de prototipo*/;}
+    {if(verificaFuncion((yyvsp[(1) - (5)].s.cadena))){printf( "Se incovoco correcamente a la funcion %s \n",(yyvsp[(1) - (5)].s.cadena));};}
     break;
 
   case 34:
@@ -1708,28 +1708,28 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 141 "../src/integrador.y"
-    {printf("Se ha incrementado la variable %s \n",(yyvsp[(1) - (2)].s.cadena));;}
+    {if(idYaSeDeclaro((yyvsp[(1) - (2)].s.cadena))==NULL){agregarErrorSemanticoIdentificadores((yyvsp[(1) - (2)].s.cadena), "se intento incrementar una variable no existente");}else{if (esNumerica((yyvsp[(1) - (2)].s.cadena))){printf("Se ha incrementado la variable %s \n", (yyvsp[(1) - (2)].s.cadena));}else{agregarErrorSemanticoIdentificadores((yyvsp[(1) - (2)].s.cadena), "se intento incrementar una varibale no operable");}};}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
 #line 142 "../src/integrador.y"
-    {printf("Se ha decrementado la variable %s\n",(yyvsp[(1) - (2)].s.cadena));;}
+    {if(idYaSeDeclaro((yyvsp[(1) - (2)].s.cadena))==NULL){agregarErrorSemanticoIdentificadores((yyvsp[(1) - (2)].s.cadena), "se intento decrementar una variable no existente");}else{if (esNumerica((yyvsp[(1) - (2)].s.cadena))){printf("Se ha incrementado la variable %s \n", (yyvsp[(1) - (2)].s.cadena));}else{agregarErrorSemanticoIdentificadores((yyvsp[(1) - (2)].s.cadena), "se intento decrementar una varibale no operable");}};}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
 #line 146 "../src/integrador.y"
-    {printf("Se ha incrementado la variable %s \n",(yyvsp[(1) - (3)].s.cadena));;}
+    {if(idYaSeDeclaro((yyvsp[(1) - (3)].s.cadena))==NULL){agregarErrorSemanticoIdentificadores((yyvsp[(1) - (3)].s.cadena), "se intento incrementar una variable no existente");}else{if (esNumerica((yyvsp[(1) - (3)].s.cadena))){printf("Se ha incrementado la variable %s \n", (yyvsp[(1) - (3)].s.cadena));}else{agregarErrorSemanticoIdentificadores((yyvsp[(1) - (3)].s.cadena), "se intento incrementar una varibale no operable");}};}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
 #line 147 "../src/integrador.y"
-    {printf("Se ha decrementado la variable %s\n",(yyvsp[(1) - (3)].s.cadena));;}
+    {if(idYaSeDeclaro((yyvsp[(1) - (3)].s.cadena))==NULL){agregarErrorSemanticoIdentificadores((yyvsp[(1) - (3)].s.cadena), "se intento decrementar una variable no existente");}else{if (esNumerica((yyvsp[(1) - (3)].s.cadena))){printf("Se ha incrementado la variable %s \n", (yyvsp[(1) - (3)].s.cadena));}else{agregarErrorSemanticoIdentificadores((yyvsp[(1) - (3)].s.cadena), "se intento decrementar una varibale no operable");}};}
     break;
 
   case 43:
@@ -1823,6 +1823,20 @@ yyreduce:
     { yyerrok; ;}
     break;
 
+  case 65:
+
+/* Line 1455 of yacc.c  */
+#line 191 "../src/integrador.y"
+    {agregarFuncion((yyvsp[(1) - (10)].s.tipo),(yyvsp[(2) - (10)].s.cadena),1);}
+    break;
+
+  case 66:
+
+/* Line 1455 of yacc.c  */
+#line 194 "../src/integrador.y"
+    {agregarFuncion((yyvsp[(1) - (6)].s.tipo),(yyvsp[(2) - (6)].s.cadena),0);}
+    break;
+
   case 69:
 
 /* Line 1455 of yacc.c  */
@@ -1862,14 +1876,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 209 "../src/integrador.y"
-    {agregarIdentificador((yyvsp[(2) - (2)].s.cadena),(yyvsp[(1) - (2)].s.tipo));printf("Se declaro  %s del tipo %s y se le asigno ",(yyvsp[(2) - (2)].s.cadena),(yyvsp[(1) - (2)].s.cadena));;}
+    {agregarIdentificador((yyvsp[(2) - (2)].s.cadena),(yyvsp[(1) - (2)].s.tipo));printf("Se declaro  %s del tipo %s  ",(yyvsp[(2) - (2)].s.cadena),(yyvsp[(1) - (2)].s.cadena));;}
     break;
 
   case 75:
 
 /* Line 1455 of yacc.c  */
 #line 210 "../src/integrador.y"
-    {if(idYaSeDeclaro((yyvsp[(1) - (1)].s.cadena))!=NULL){printf ("Se le asigno a %s y se le asigno ",(yyvsp[(1) - (1)].s.cadena));}/* else{agregar a error semantico;levantarFlag();} */;}
+    {if(idYaSeDeclaro((yyvsp[(1) - (1)].s.cadena))!=NULL){printf ("Se declaro %s o ",(yyvsp[(1) - (1)].s.cadena));}else{agregarErrorSemanticoIdentificadores((yyvsp[(1) - (1)].s.cadena),"debido a que no fue declarado");levantarFlag();};}
     break;
 
   case 78:
@@ -2026,94 +2040,101 @@ yyreduce:
     {agregarParametro(0);;}
     break;
 
+  case 108:
+
+/* Line 1455 of yacc.c  */
+#line 272 "../src/integrador.y"
+    {if(idYaSeDeclaro((yyvsp[(1) - (1)].s.cadena))==NULL){agregarErrorSemanticoIdentificadores((yyvsp[(1) - (1)].s.cadena),"se intento incrementar una variable no existente");};}
+    break;
+
   case 110:
 
 /* Line 1455 of yacc.c  */
-#line 275 "../src/integrador.y"
+#line 274 "../src/integrador.y"
     {int tipo1=calcularTipo((yyvsp[(1) - (3)].s.cadena), (yyvsp[(1) - (3)].s.tipo)); int tipo2=calcularTipo((yyvsp[(3) - (3)].s.cadena), (yyvsp[(3) - (3)].s.tipo)); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos((yyvsp[(1) - (3)].s.cadena), tipo1, '+' ,(yyvsp[(3) - (3)].s.cadena), tipo2);};}
     break;
 
   case 111:
 
 /* Line 1455 of yacc.c  */
-#line 276 "../src/integrador.y"
+#line 275 "../src/integrador.y"
     {printf ("Se escribio una expresion usando una resta \n");;}
     break;
 
   case 112:
 
 /* Line 1455 of yacc.c  */
-#line 277 "../src/integrador.y"
+#line 276 "../src/integrador.y"
     {printf ("Se escribio una expresion con signo de desigualdad \n");;}
     break;
 
   case 113:
 
 /* Line 1455 of yacc.c  */
-#line 278 "../src/integrador.y"
+#line 277 "../src/integrador.y"
     {printf ("Se escribio una expresion con signo de desigualdad \n");;}
     break;
 
   case 114:
 
 /* Line 1455 of yacc.c  */
-#line 279 "../src/integrador.y"
+#line 278 "../src/integrador.y"
     {printf ("Se escribio una expresion con signo de igualdad \n");;}
     break;
 
   case 115:
 
 /* Line 1455 of yacc.c  */
-#line 280 "../src/integrador.y"
+#line 279 "../src/integrador.y"
     {printf ("Se escribio una expresion con signo de desigualdad \n");;}
     break;
 
   case 116:
 
 /* Line 1455 of yacc.c  */
-#line 281 "../src/integrador.y"
+#line 280 "../src/integrador.y"
     {printf ("Se escribio una expresion con signo de desigualdad \n");;}
     break;
 
   case 117:
 
 /* Line 1455 of yacc.c  */
-#line 282 "../src/integrador.y"
+#line 281 "../src/integrador.y"
     {printf ("Se escribio una expresion con signo de distinto \n");;}
     break;
 
   case 118:
 
 /* Line 1455 of yacc.c  */
-#line 283 "../src/integrador.y"
+#line 282 "../src/integrador.y"
     {printf ("Se escribio una expresion con la operacion logica and \n");;}
     break;
 
   case 119:
 
 /* Line 1455 of yacc.c  */
-#line 284 "../src/integrador.y"
+#line 283 "../src/integrador.y"
     {printf ("Se escribio una expresion con la operacion logica or \n");;}
     break;
 
   case 124:
 
 /* Line 1455 of yacc.c  */
-#line 289 "../src/integrador.y"
+#line 288 "../src/integrador.y"
     {printf ("Se escribio una expresion  \n");;}
     break;
 
   case 125:
 
 /* Line 1455 of yacc.c  */
-#line 290 "../src/integrador.y"
+#line 289 "../src/integrador.y"
     {printf ("Se escribio una expresion  \n");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2117 "integrador.tab.c"
+#line 2138 "integrador.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2325,20 +2346,18 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 298 "../src/integrador.y"
+#line 297 "../src/integrador.y"
 
 
 int main ()
 {
-
 	yyin=fopen("entrada.c","r");
-   	printf("puntoA\n");
 	yyparse();
  	#ifdef BISON_DEBUG
         yydebug = 1;
 	#endif
+
 	generarReporte();
-	printf("puntoB\n");
 	fclose(yyin);
 	system("pause");	
 	return 0;

@@ -109,7 +109,7 @@ saltoOpcional:  /* vacío */ {}
 ;
 
 
-invocacionFuncion: IDENTIFICADOR '(' listaParametrosInvocacion ')' ';'  {verificaFuncion($<s.cadena>1)}
+invocacionFuncion: IDENTIFICADOR '(' listaParametrosInvocacion ')' ';'  {if(verificaFuncion($<s.cadena>1)){printf( "Se incovoco correcamente a la funcion %s \n",$<s.cadena>1);}}
 ;
 
 
@@ -138,13 +138,13 @@ sentenciaDecOAsig: sentenciaAsignacion
 ;
 
 
-incrementoParaFor: IDENTIFICADOR MAS_MAS 		{if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una varibale no operable")}})                     		
-				  |IDENTIFICADOR MENOS_MENOS  	{if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha decrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento decrementado una varibale no operable")}}) 
+incrementoParaFor: IDENTIFICADOR MAS_MAS 		 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}                    		
+				  |IDENTIFICADOR MENOS_MENOS  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento decrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento decrementar una varibale no operable");}}}
 ;
 
 
-incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una varibale no operable")}})
-					  |IDENTIFICADOR MENOS_MENOS ';' {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}else{if(esNumerica($<s.cadena>1)){printf("Se ha decrementado la variable %s \n",$<s.cadena>1);}else{agregarErrorFuncionInvocacion($<s.cadena>1,"se intento decrementado una varibale no operable")}})
+incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  	 {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}
+					  |IDENTIFICADOR MENOS_MENOS ';' {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento decrementar una variable no existente");}else{if (esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento decrementar una varibale no operable");}}}
 ;
 
 
@@ -188,10 +188,10 @@ sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR ';'				 					 {agregarIdentificad
 ; 
 
 
-desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  saltoOpcional '{' listadoDeSentencias '}' ';'  {agregarFuncion($<s.cadena>1,$<s.cadena>2,1)}
+desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  saltoOpcional '{' listadoDeSentencias '}' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,1)}
 ;
 
-prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.cadena>1,$<s.cadena>2,0)}
+prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,0)}
 ;
 
 
@@ -207,7 +207,7 @@ sentenciaAsignacion: parametro '=' exp ';'  			 {if(flag()){printf("y se le asig
 ;
 
 parametro:	 TIPO_DATO IDENTIFICADOR  					{agregarIdentificador($<s.cadena>2,$<s.tipo>1);printf("Se declaro  %s del tipo %s  ",$<s.cadena>2,$<s.cadena>1);}
-			| IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s o ",$<s.cadena>1);}else{agregarErrorSemanticoIdentificador($<s.cadena>1);levantarFlag();}}
+			| IDENTIFICADOR 	      					{if(idYaSeDeclaro($<s.cadena>1)!=NULL){printf ("Se declaro %s o ",$<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1,"debido a que no fue declarado");levantarFlag();}}
 
 ;
 
@@ -269,7 +269,7 @@ exp: 		LITERAL_CADENA
 			
 ;
 
-expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorFuncionInvocacion($<s.cadena>1,"se intento incrementar una variable no existente")}}
+expC:		IDENTIFICADOR			  {if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1,"se intento incrementar una variable no existente");}}
 			| CHAR			
 			| expC '+' expC           {int tipo1=calcularTipo($<s.cadena>1, $<s.tipo>1); int tipo2=calcularTipo($<s.cadena>3, $<s.tipo>3); if(sonOperablesODelMismoTipo(tipo1,tipo2)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, tipo1, '+' ,$<s.cadena>3, tipo2);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         

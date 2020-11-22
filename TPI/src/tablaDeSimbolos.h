@@ -128,9 +128,9 @@ int esNumerica(char* iden);
 
 int buscarTipo(char* id); 
 
-void verificaFuncion(char*);
+int verificaFuncion(char*);
 
-void verificarTiposDeParametro(NodoFuncion* auxiliar, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro);
+int verificarTiposDeParametro(char* identificador, NodoParametrosFuncion * listaParametros, NodoParametrosFuncion* raizParametro);
 
 NodoId* idYaSeDeclaro(char*);
 
@@ -155,7 +155,7 @@ void invocacionesIncorrectas();
 void variablesCorrectamenteDeclaradas();
 void funcionDePrueba();
 void agregarErrorDeTipos(char*,int, char,char*,int);
-void agregarErrorSemanticoIdentificador(char*, int);
+void agregarErrorSemanticoIdentificadores(char*, char*);
 void errorEnIdentificadores(); 
-
+void controlTipos();
 #endif
