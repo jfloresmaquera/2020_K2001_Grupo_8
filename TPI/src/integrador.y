@@ -83,6 +83,7 @@
 %type <s> prototipoFuncion
 %type <s> invocacionFuncion
 %type <s> auxiliarN
+%type <s> puntoYComa
 
 %%
 
@@ -139,7 +140,7 @@ listadoDeSentencias: /* vacio */
 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')' ';' {printf( "Se ha declarado una sentencia do-while \n");}
 
 ;
-sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC ';'  incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
+sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC puntoYComa  incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
 			
 ;
 
@@ -148,9 +149,12 @@ sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC ';'  incrementoParaFor ')' salto
 sentenciaDecOAsig: sentenciaDeclaracionParaFor
 				  | IDENTIFICADOR ';'
 				  | sentenciaAsignacion
-				 
+				  | error {yyerrok;}	
 ;
 
+puntoYComa: ';'
+		| error {yyerrok;}
+;
 
 incrementoParaFor: IDENTIFICADOR incrementoParaForAuxiliar 	{if(idYaSeDeclaro($<s.cadena>1)==NULL){agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar/decrementar una variable no existente");}else{if(esNumerica($<s.cadena>1)){printf("Se ha incrementado la variable %s \n", $<s.cadena>1);}else{agregarErrorSemanticoIdentificadores($<s.cadena>1, "se intento incrementar una varibale no operable");}}}	
 
@@ -191,15 +195,15 @@ sentenciaReturn: RETURN expC ';' {printf ("Se declaro un return \n ");}
 
 listadoDeSentenciasDeDeclaracion:	/* vacío */ 
 									| sentenciaDeclaracion
-									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion
+									| sentenciaDeclaracion ';' saltoOpcional listadoDeSentenciasDeDeclaracion
 									| error listadoDeSentenciasDeDeclaracion {yyerrok;}
 
 ;
 
 listadoDeSentenciasDeAsignacion: /* vacío */ 	
 								| sentenciaAsignacion
-								| sentenciaAsignacion ';' listadoDeSentenciasDeAsignacion
-
+								| sentenciaAsignacion ';' saltoOpcional listadoDeSentenciasDeAsignacion
+								| error listadoDeSentenciasDeAsignacion {yyerrok;}
 ;
 
 sentenciaDeclaracionParaFor:	TIPO_DATO IDENTIFICADOR '=' expC ';' {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
@@ -209,11 +213,10 @@ sentenciaDeclaracionParaFor:	TIPO_DATO IDENTIFICADOR '=' expC ';' {agregarIdenti
 
 
 
-sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1';'						 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
+sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1 ';'						 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO listaIdentificadores  ';'	                      /*accion se realiza en no terminal listaIdentificadores*/
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';'  				 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'  {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
-						| TIPO_DATO '*' IDENTIFICADOR ';'          				     {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 ; 
 
 
@@ -267,10 +270,14 @@ identificadorA:		IDENTIFICADOR 				    	{agregarIdentificador($<s.cadena>1,mostr
 ;
 
 listaParametrosPrototipo: 	/* vacio */
-							|TIPO_DATO 												{agregarParametro($<s.tipo>1);}
-							|listaParametrosPrototipo ',' TIPO_DATO 			    {agregarParametro($<s.tipo>3);}
+							|TIPO_DATO auxiliarM									{agregarParametro($<s.tipo>1);}
  
 ;
+
+auxiliarM: /* vacio */ 
+		  | ',' TIPO_DATO    auxiliarM {agregarParametro($<s.tipo>2);}
+;
+
 
 
 listaParametrosFuncion: 	/* vacio */ 
@@ -278,14 +285,16 @@ listaParametrosFuncion: 	/* vacio */
 							|error listaParametrosFuncion                   {yyerrok;} 											
 ;
 
-auxiliarN:    	',' TIPO_DATO IDENTIFICADOR					 {agregarParametro($<s.tipo>3);agregarIdentificador($<s.cadena>3,$<s.tipo>2)}
-				| auxiliarN ',' TIPO_DATO IDENTIFICADOR   {agregarParametro($<s.tipo>2);agregarIdentificador($<s.cadena>4,$<s.tipo>3)} 
+auxiliarN:   /* vacio */  	
+			| ',' TIPO_DATO IDENTIFICADOR	auxiliarN				 {agregarParametro($<s.tipo>2);agregarIdentificador($<s.cadena>3,$<s.tipo>2)}
+		 
 
 ;
 
 
 listaParametrosInvocacion: /* vacio */ 
 				    	  | noTerminal listaParametrosInvocacionAuxiliar
+						  
 ;
 
 listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar
