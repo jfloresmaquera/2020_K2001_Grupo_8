@@ -102,7 +102,7 @@ void agregarErrorLexico(char* errorLexico);
 
 void erroresLexicos();
 
-void agregarErrorSintactico(char const *errorSintactico, int linea);
+void agregarErrorSintactico(char  *errorSintactico, int linea);
 
 void erroresSintacticos();
 

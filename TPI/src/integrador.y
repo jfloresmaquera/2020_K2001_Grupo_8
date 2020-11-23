@@ -18,7 +18,7 @@
 	int yylex();
 
 	void yyerror (char const *s) {
-		agregarErrorSintactico(s,my_line);
+		agregarErrorSintactico("se encontro un error en la linea",my_line);
 		//fprintf(stderr, "hay un error \n", s); 
 	}
 
@@ -82,7 +82,7 @@
 %type <s> desarrolloFuncion
 %type <s> prototipoFuncion
 %type <s> invocacionFuncion
-
+%type <s> auxiliarN
 
 %%
 
@@ -91,6 +91,7 @@
 input:	/* vacio */
 		| input line 
 		| ERROR_LEXICO { agregarErrorLexico($<s.cadena>1);}
+		| error input {yyerrok;}
 ;
 
 line:   '\n'    {my_line++;}     
@@ -106,7 +107,6 @@ line:   '\n'    {my_line++;}
 		| sentenciaAsignacion saltoOpcional
 		| incrementoDecremento saltoOpcional
 		| listadoDeSentenciasDeAsignacion saltoOpcional
-		| error saltoOpcional { yyerrok;}
 ;
 
 
@@ -138,6 +138,7 @@ sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')
 
 ;
 sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC ';'  incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
+			
 ;
 
 
@@ -269,12 +270,12 @@ listaParametrosPrototipo: 	/* vacio */
 
 
 listaParametrosFuncion: 	/* vacio */ 
-							|TIPO_DATO IDENTIFICADOR  auxiliarNick				{agregarParametro($<s.tipo>1);agregarIdentificador($<s.cadena>2,$<s.tipo>1)} 
+							|TIPO_DATO IDENTIFICADOR  auxiliarN				{agregarParametro($<s.tipo>1);agregarIdentificador($<s.cadena>2,$<s.tipo>1)} 
 
 ;
 
-auxiliarNick:	',' TIPO_DATO IDENTIFICADOR					 {agregarParametro($<s.tipo>3);agregarIdentificador($<s.cadena>3,$<s.tipo>2)}
-				| auxiliarNick ',' TIPO_DATO IDENTIFICADOR   {agregarParametro($<s.tipo>2);agregarIdentificador($<s.cadena>4,$<s.tipo>3)} 
+auxiliarN:    	',' TIPO_DATO IDENTIFICADOR					 {agregarParametro($<s.tipo>3);agregarIdentificador($<s.cadena>3,$<s.tipo>2)}
+				| auxiliarN ',' TIPO_DATO IDENTIFICADOR   {agregarParametro($<s.tipo>2);agregarIdentificador($<s.cadena>4,$<s.tipo>3)} 
 
 ;
 

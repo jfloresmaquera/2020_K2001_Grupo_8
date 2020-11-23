@@ -215,7 +215,7 @@ void agregarErrorLexico(char* errorLexico){
 
 // funciones relacionadas a los errores sintacticos
 
-void agregarErrorSintactico(char const *errorSintactico, int linea){
+void agregarErrorSintactico(char *errorSintactico, int linea){
     NodoErrorSintactico *nuevoNodo,*auxiliar;
     nuevoNodo= (NodoErrorSintactico *) malloc (sizeof(NodoErrorSintactico));
     nuevoNodo -> error =strdup(errorSintactico); 
@@ -329,7 +329,7 @@ void generarReporte(){
     variablesCorrectamenteDeclaradas();
     funcionesCorrectamenteDeclaradas();
     erroresLexicos();
-   // erroresSintacticos();
+    erroresSintacticos();
     erroresSemanticos();
     system("pause");
 }
@@ -388,7 +388,7 @@ void erroresSintacticos(){
 void invocacionesIncorrectas(){
     NodoErrorFuncionInvocacion* auxiliar=raizErrorFuncionInvocacion;
     while(auxiliar!=NULL){
-        printf("La funcion %s tuvo un error al invocarse debido a");
+        printf("La funcion %s tuvo un error al invocarse debido a",auxiliar->identificadorFuncion);
         switch (auxiliar->errorDeInvocacion)
         {
         case 0:
