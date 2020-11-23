@@ -339,7 +339,7 @@ void erroresSemanticos(){
     controlTipos();
     dobleDeclaracion();
     errorEnIdentificadores();
-    system("pause");
+
 }
 
 
@@ -417,9 +417,9 @@ void errorEnIdentificadores(){
 }
 
 void controlTipos(){
-    NodoET *auxiliar;
+    NodoET *auxiliar=raizErroresTipos;
     if(auxiliar!=NULL){
-        while(auxiliar->next!=NULL){
+        while(auxiliar!=NULL){
             printf("Hubo un error de tipos en donde el dato %s del tipo %s ",auxiliar->dato1,auxiliar->tipo1);
             printf("quiso relacionarse a travez de la operacion %c ",auxiliar->operacion);
             printf("con el dato %s del tipo %s \n",auxiliar->dato2,auxiliar->tipo2);
@@ -433,7 +433,7 @@ void controlTipos(){
 void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* informacion2,int tipoInf2){
     NodoET *auxiliar;
     auxiliar=raizErroresTipos;
-    if(auxiliar==NULL){
+    if(raizErroresTipos==NULL){
         NodoET *nuevoNodo;
         nuevoNodo = (NodoET *) malloc (sizeof(NodoET));
         nuevoNodo -> dato1=strdup(informacion1);
@@ -442,7 +442,7 @@ void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* in
         nuevoNodo -> dato2=strdup(informacion2);
         nuevoNodo -> tipo2=strdup(tipoRepresentado(tipoInf2));
         nuevoNodo ->next=NULL;
-        raizErroresTipos=auxiliar;
+        raizErroresTipos=nuevoNodo;
     }else{
         while(auxiliar->next!=NULL){
             auxiliar=auxiliar->next;
@@ -484,7 +484,7 @@ void dobleDeclaracion(){
             if(auxiliarRecorridos->cantidadVecesDesarrollada>1){
                  printf("Se desarrollo mas de una vez la funcion %s \n",auxiliarRecorridos->identificador);   
             }
-            if(auxiliarRecorridos->cantidadVecesDesarrollada>1){
+            if(auxiliarRecorridos->cantidadVecesDeclarado>1){
                     printf("Se realizo mas de una vez el prototipo de la funcion %s \n",auxiliarRecorridos->identificador); 
             }
         

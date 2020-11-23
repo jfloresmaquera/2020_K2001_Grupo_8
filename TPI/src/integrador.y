@@ -294,7 +294,7 @@ auxiliarN:   /* vacio */
 
 listaParametrosInvocacion: /* vacio */ 
 				    	  | noTerminal listaParametrosInvocacionAuxiliar
-						  
+
 ;
 
 listaParametrosInvocacionAuxiliar: ',' noTerminal listaParametrosInvocacionAuxiliar
@@ -330,7 +330,7 @@ noTerminalFinal:IDENTIFICADOR 							{int tipo=buscarTipo($<s.cadena>1);if(tipo>
 expC:		LITERAL_CADENA            {$<s.tipo>1=4;}
 			|IDENTIFICADOR			  {$<s.tipo>$=buscarTipo($<s.cadena>1);} 
 			| CHAR					  {$<s.tipo>$=0;}
-			| expC '+' expC           {$<s.tipo>1=calcularTipo($<s.cadena>1, $<s.tipo>1); $<s.tipo>3=calcularTipo($<s.cadena>3, $<s.tipo>3); printf("tipo del primer operando %d y tipo del segundo operando %d",$<s.tipo>1,$<s.tipo>3); if(sonOperables($<s.tipo>1,$<s.tipo>3)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, $<s.tipo>1, '+' ,$<s.cadena>3, $<s.tipo>3);}}
+			| expC '+' expC           {$<s.tipo>1=calcularTipo($<s.cadena>1, $<s.tipo>1); $<s.tipo>3=calcularTipo($<s.cadena>3, $<s.tipo>3);if(sonOperables($<s.tipo>1,$<s.tipo>3)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, $<s.tipo>1, '+' ,$<s.cadena>3, $<s.tipo>3);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
 			| expC '>' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
 			| expC '<' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         

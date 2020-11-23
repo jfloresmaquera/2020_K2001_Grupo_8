@@ -1,3 +1,4 @@
-for(int a=5;a<10; a++){
-        int b;
-}
+int a=5;
+void b="hola";
+
+int c=a+b;
