@@ -108,6 +108,7 @@ line:   '\n'    {my_line++;}
 		| sentenciaAsignacion saltoOpcional
 		| incrementoDecremento saltoOpcional
 		| listadoDeSentenciasDeAsignacion saltoOpcional
+		| ERROR_LEXICO { agregarErrorLexico($<s.cadena>1);}
 ;
 
 
@@ -193,11 +194,12 @@ sentenciaCase:  /* vacío */
 sentenciaReturn: RETURN expC ';' {printf ("Se declaro un return \n ");}
 ;
 
-listadoDeSentenciasDeDeclaracion:	/* vacío */ 
+listadoDeSentenciasDeDecla
+
+racion:	/* vacío */ 
 									| sentenciaDeclaracion
 									| sentenciaDeclaracion ';' saltoOpcional listadoDeSentenciasDeDeclaracion
 									| error listadoDeSentenciasDeDeclaracion {yyerrok;}
-
 ;
 
 listadoDeSentenciasDeAsignacion: /* vacío */ 	
