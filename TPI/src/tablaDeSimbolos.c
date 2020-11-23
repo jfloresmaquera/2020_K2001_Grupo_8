@@ -215,11 +215,11 @@ void agregarErrorLexico(char* errorLexico){
 
 // funciones relacionadas a los errores sintacticos
 
-void agregarErrorSintactico(char *errorSintactico, int linea){
+void agregarErrorSintactico(int linea){
     NodoErrorSintactico *nuevoNodo,*auxiliar;
-    nuevoNodo= (NodoErrorSintactico *) malloc (sizeof(NodoErrorSintactico));
-    nuevoNodo -> error =strdup(errorSintactico); 
+    nuevoNodo= (NodoErrorSintactico *) malloc (sizeof(NodoErrorSintactico)); 
     nuevoNodo ->lineaError=linea;
+    nuevoNodo ->next = NULL;
     auxiliar=raizErrorSintactico;
     if(raizErrorSintactico==NULL){
         raizErrorSintactico=nuevoNodo;  
@@ -377,9 +377,13 @@ void erroresLexicos(){
 
 void erroresSintacticos(){
     NodoErrorSintactico *auxiliarRecorrido=raizErrorSintactico;
-    while(auxiliarRecorrido!=NULL){
-        printf("Se encontro el error sintactico %s en la linea %d \n",auxiliarRecorrido->error,auxiliarRecorrido->lineaError);
-        auxiliarRecorrido=auxiliarRecorrido->next;
+    if(raizErrorSintactico!=NULL){
+        printf("Se encontraron errores sintacticos en las lineas");
+        while(auxiliarRecorrido!=NULL){
+            printf( " %d ",auxiliarRecorrido->lineaError);
+            auxiliarRecorrido=auxiliarRecorrido->next;
+        }
+        printf("\n");
     }
 }
 

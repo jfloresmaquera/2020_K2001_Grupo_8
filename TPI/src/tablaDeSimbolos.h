@@ -65,11 +65,9 @@ typedef struct nodoErrorLexico NodoErrorLexico;
 
 struct nodoErrorSintactico{
     int lineaError;
-    char* error;
     struct nodoErrorSintactico* next;
 };
 typedef struct nodoErrorSintactico NodoErrorSintactico;
-
 
 struct nodoControlTipos{
     char *exp1;
@@ -102,7 +100,7 @@ void agregarErrorLexico(char* errorLexico);
 
 void erroresLexicos();
 
-void agregarErrorSintactico(char  *errorSintactico, int linea);
+void agregarErrorSintactico(int linea);
 
 void erroresSintacticos();
 

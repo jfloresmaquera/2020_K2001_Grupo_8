@@ -18,9 +18,9 @@
 	int yylex();
 
 	void yyerror (char const *s) {
-		agregarErrorSintactico("se encontro un error en la linea",my_line);
-		//fprintf(stderr, "hay un error \n", s); 
-	}
+        agregarErrorSintactico(my_line);
+        //fprintf(stderr, "hay un error \n", s); 
+    }
 
 %}
 
@@ -223,11 +223,13 @@ sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1 ';'						 {agregarIdent
 
 
 
-desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional  '{'  listadoDeSentencias '}'   {agregarFuncion($<s.tipo>1,$<s.cadena>2,1)}
+desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  '{'  listadoDeSentencias '}'   {agregarFuncion($<s.tipo>1,$<s.cadena>2,1)}
 ;
 
 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,0)}
 ;
+
+
 
 opcional1:	/* vacío */ 
 		 | sentenciaAsignacionAuxiliar expC 

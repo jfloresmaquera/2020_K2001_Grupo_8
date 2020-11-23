@@ -58,12 +58,12 @@ Estado 188 conflictos: 12 desplazamiento(s)/reducción(ones)
 Estado 218 conflictos: 10 desplazamiento/reducción, 13 reducción/reducción
 Estado 219 conflictos: 10 desplazamiento/reducción, 13 reducción/reducción
 Estado 238 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
+Estado 245 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
 Estado 250 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
-Estado 261 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
 Estado 276 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
 Estado 278 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
 Estado 279 conflictos: 10 desplazamiento/reducción, 12 reducción/reducción
-Estado 296 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
+Estado 295 conflictos: 10 desplazamiento/reducción, 11 reducción/reducción
 
 
 Gramática
@@ -163,7 +163,7 @@ Gramática
    69                     | TIPO_DATO IDENTIFICADOR '[' expC ']' ';'
    70                     | TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' '{' listadoDeSentencias '}'
 
    72 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'
 
@@ -319,7 +319,7 @@ line (53)
     2
 saltoOpcional (54)
     en la izquierda: 18 19, en la derecha: 6 7 8 9 10 11 12 13 14 15
-    16 17 19 31 35 36 49 51 52 53 60 64 71
+    16 17 19 31 35 36 49 51 52 53 60 64
 invocacionFuncion (55)
     en la izquierda: 20, en la derecha: 7 31
 listadoDeSentencias (56)
@@ -655,7 +655,7 @@ estado 11
    68                     | TIPO_DATO . listaIdentificadores ';'
    69                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' ';'
    70                     | TIPO_DATO . IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'
-   71 desarrolloFuncion: TIPO_DATO . IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO . IDENTIFICADOR '(' listaParametrosFuncion ')' '{' listadoDeSentencias '}'
    72 prototipoFuncion: TIPO_DATO . IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'
 
     IDENTIFICADOR  desplazar e ir al estado 41
@@ -1010,7 +1010,7 @@ estado 41
    67 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR . opcional1 ';'
    69                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' ';'
    70                     | TIPO_DATO IDENTIFICADOR . '[' expC ']' '=' '{' auxi '}' ';'
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR . '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR . '(' listaParametrosFuncion ')' '{' listadoDeSentencias '}'
    72 prototipoFuncion: TIPO_DATO IDENTIFICADOR . '(' listaParametrosPrototipo ')' ';'
    86 identificadorA: IDENTIFICADOR .
    87               | IDENTIFICADOR . '=' expC
@@ -1643,7 +1643,7 @@ estado 97
 
 estado 98
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' . listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' . listaParametrosFuncion ')' '{' listadoDeSentencias '}'
    72 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' . listaParametrosPrototipo ')' ';'
 
     error      desplazar e ir al estado 141
@@ -2436,7 +2436,7 @@ estado 143
 
 estado 144
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion . ')' saltoOpcional '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion . ')' '{' listadoDeSentencias '}'
 
     ')'  desplazar e ir al estado 210
 
@@ -4167,13 +4167,9 @@ estado 209
 
 estado 210
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' . saltoOpcional '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' . '{' listadoDeSentencias '}'
 
-    '\n'  desplazar e ir al estado 44
-
-    $default  reduce usando la regla 18 (saltoOpcional)
-
-    saltoOpcional  ir al estado 245
+    '{'  desplazar e ir al estado 245
 
 
 estado 211
@@ -4701,9 +4697,57 @@ estado 244
 
 estado 245
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional . '{' listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' '{' . listadoDeSentencias '}'
 
-    '{'  desplazar e ir al estado 261
+    error          desplazar e ir al estado 151
+    FOR            desplazar e ir al estado 7
+    IF             desplazar e ir al estado 8
+    RETURN         desplazar e ir al estado 152
+    SWITCH         desplazar e ir al estado 9
+    IDENTIFICADOR  desplazar e ir al estado 10
+    TIPO_DATO      desplazar e ir al estado 31
+    DO             desplazar e ir al estado 12
+    WHILE          desplazar e ir al estado 13
+    '\n'           desplazar e ir al estado 153
+
+    error          [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    error          [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    FOR            [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    FOR            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    IF             [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    IF             [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    RETURN         [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    RETURN         [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    SWITCH         [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    SWITCH         [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    IDENTIFICADOR  [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    IDENTIFICADOR  [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    TIPO_DATO      [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    TIPO_DATO      [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    DO             [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    DO             [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    WHILE          [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    WHILE          [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    '\n'           [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    '\n'           [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+    '}'            reduce usando la regla 21 (listadoDeSentencias)
+    '}'            [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
+    '}'            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
+
+    invocacionFuncion                 ir al estado 154
+    listadoDeSentencias               ir al estado 261
+    sentenciaDoWhile                  ir al estado 156
+    sentenciaFor                      ir al estado 157
+    incrementoDecremento              ir al estado 158
+    sentenciaIfElse                   ir al estado 159
+    sentenciaWhile                    ir al estado 160
+    sentenciaSwitch                   ir al estado 161
+    sentenciaReturn                   ir al estado 162
+    listadoDeSentenciasDeDeclaracion  ir al estado 163
+    listadoDeSentenciasDeAsignacion   ir al estado 164
+    sentenciaDeclaracion              ir al estado 25
+    sentenciaAsignacion               ir al estado 165
+    parametro                         ir al estado 29
 
 
 estado 246
@@ -4875,57 +4919,9 @@ estado 260
 
 estado 261
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' . listadoDeSentencias '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' '{' listadoDeSentencias . '}'
 
-    error          desplazar e ir al estado 151
-    FOR            desplazar e ir al estado 7
-    IF             desplazar e ir al estado 8
-    RETURN         desplazar e ir al estado 152
-    SWITCH         desplazar e ir al estado 9
-    IDENTIFICADOR  desplazar e ir al estado 10
-    TIPO_DATO      desplazar e ir al estado 31
-    DO             desplazar e ir al estado 12
-    WHILE          desplazar e ir al estado 13
-    '\n'           desplazar e ir al estado 153
-
-    error          [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    error          [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    FOR            [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    FOR            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    IF             [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    IF             [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    RETURN         [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    RETURN         [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    SWITCH         [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    SWITCH         [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    IDENTIFICADOR  [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    IDENTIFICADOR  [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    TIPO_DATO      [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    TIPO_DATO      [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    DO             [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    DO             [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    WHILE          [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    WHILE          [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    '\n'           [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    '\n'           [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-    '}'            reduce usando la regla 21 (listadoDeSentencias)
-    '}'            [reduce usando la regla 58 (listadoDeSentenciasDeDeclaracion)]
-    '}'            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
-
-    invocacionFuncion                 ir al estado 154
-    listadoDeSentencias               ir al estado 271
-    sentenciaDoWhile                  ir al estado 156
-    sentenciaFor                      ir al estado 157
-    incrementoDecremento              ir al estado 158
-    sentenciaIfElse                   ir al estado 159
-    sentenciaWhile                    ir al estado 160
-    sentenciaSwitch                   ir al estado 161
-    sentenciaReturn                   ir al estado 162
-    listadoDeSentenciasDeDeclaracion  ir al estado 163
-    listadoDeSentenciasDeAsignacion   ir al estado 164
-    sentenciaDeclaracion              ir al estado 25
-    sentenciaAsignacion               ir al estado 165
-    parametro                         ir al estado 29
+    '}'  desplazar e ir al estado 271
 
 
 estado 262
@@ -5040,16 +5036,16 @@ estado 270
 
 estado 271
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias . '}'
+   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' '{' listadoDeSentencias '}' .
 
-    '}'  desplazar e ir al estado 281
+    $default  reduce usando la regla 71 (desarrolloFuncion)
 
 
 estado 272
 
    70 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi . '}' ';'
 
-    '}'  desplazar e ir al estado 282
+    '}'  desplazar e ir al estado 281
 
 
 estado 273
@@ -5075,7 +5071,7 @@ estado 273
     AND          desplazar e ir al estado 117
     OR           desplazar e ir al estado 118
     DESIGUALDAD  desplazar e ir al estado 119
-    ','          desplazar e ir al estado 283
+    ','          desplazar e ir al estado 282
     '+'          desplazar e ir al estado 121
     '-'          desplazar e ir al estado 122
     '>'          desplazar e ir al estado 123
@@ -5108,7 +5104,7 @@ estado 274
     AND          desplazar e ir al estado 117
     OR           desplazar e ir al estado 118
     DESIGUALDAD  desplazar e ir al estado 119
-    ')'          desplazar e ir al estado 284
+    ')'          desplazar e ir al estado 283
     '+'          desplazar e ir al estado 121
     '-'          desplazar e ir al estado 122
     '>'          desplazar e ir al estado 123
@@ -5164,7 +5160,7 @@ estado 276
     '}'            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
 
     invocacionFuncion                 ir al estado 154
-    listadoDeSentencias               ir al estado 285
+    listadoDeSentencias               ir al estado 284
     sentenciaDoWhile                  ir al estado 156
     sentenciaFor                      ir al estado 157
     incrementoDecremento              ir al estado 158
@@ -5183,11 +5179,11 @@ estado 277
 
    49 sentenciaIfElse: IF '(' expC ')' saltoOpcional '{' listadoDeSentencias '}' $@1 . sentenciaElse
 
-    ELSE  desplazar e ir al estado 286
+    ELSE  desplazar e ir al estado 285
 
     $default  reduce usando la regla 50 (sentenciaElse)
 
-    sentenciaElse  ir al estado 287
+    sentenciaElse  ir al estado 286
 
 
 estado 278
@@ -5230,7 +5226,7 @@ estado 278
     '\n'           [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
 
     invocacionFuncion                 ir al estado 154
-    listadoDeSentencias               ir al estado 288
+    listadoDeSentencias               ir al estado 287
     sentenciaDoWhile                  ir al estado 156
     sentenciaFor                      ir al estado 157
     incrementoDecremento              ir al estado 158
@@ -5288,7 +5284,7 @@ estado 279
     '}'            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
 
     invocacionFuncion                 ir al estado 154
-    listadoDeSentencias               ir al estado 289
+    listadoDeSentencias               ir al estado 288
     sentenciaDoWhile                  ir al estado 156
     sentenciaFor                      ir al estado 157
     incrementoDecremento              ir al estado 158
@@ -5312,19 +5308,12 @@ estado 280
 
 estado 281
 
-   71 desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional '{' listadoDeSentencias '}' .
+   70 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' . ';'
 
-    $default  reduce usando la regla 71 (desarrolloFuncion)
+    ';'  desplazar e ir al estado 289
 
 
 estado 282
-
-   70 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' . ';'
-
-    ';'  desplazar e ir al estado 290
-
-
-estado 283
 
    75 auxi: expC ',' . auxi
 
@@ -5336,25 +5325,25 @@ estado 283
     CHAR            desplazar e ir al estado 79
     LITERAL_CADENA  desplazar e ir al estado 80
 
-    auxi  ir al estado 291
+    auxi  ir al estado 290
     expC  ir al estado 273
+
+
+estado 283
+
+   35 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')' . ';'
+
+    ';'  desplazar e ir al estado 291
 
 
 estado 284
 
-   35 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')' . ';'
+   36 sentenciaFor: FOR '(' sentenciaDecOAsig expC puntoYComa incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias . '}'
 
-    ';'  desplazar e ir al estado 292
+    '}'  desplazar e ir al estado 292
 
 
 estado 285
-
-   36 sentenciaFor: FOR '(' sentenciaDecOAsig expC puntoYComa incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias . '}'
-
-    '}'  desplazar e ir al estado 293
-
-
-estado 286
 
    51 sentenciaElse: ELSE . saltoOpcional '{' listadoDeSentencias '}'
 
@@ -5362,73 +5351,73 @@ estado 286
 
     $default  reduce usando la regla 18 (saltoOpcional)
 
-    saltoOpcional  ir al estado 294
+    saltoOpcional  ir al estado 293
 
 
-estado 287
+estado 286
 
    49 sentenciaIfElse: IF '(' expC ')' saltoOpcional '{' listadoDeSentencias '}' $@1 sentenciaElse .
 
     $default  reduce usando la regla 49 (sentenciaIfElse)
 
 
-estado 288
+estado 287
 
    55 sentenciaCase: CASE expC ':' listadoDeSentencias . BREAK ';'
 
-    BREAK  desplazar e ir al estado 295
+    BREAK  desplazar e ir al estado 294
 
 
-estado 289
+estado 288
 
    56 sentenciaCase: sentenciaCase DEFAULT ':' listadoDeSentencias .
 
     $default  reduce usando la regla 56 (sentenciaCase)
 
 
-estado 290
+estado 289
 
    70 sentenciaDeclaracion: TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';' .
 
     $default  reduce usando la regla 70 (sentenciaDeclaracion)
 
 
-estado 291
+estado 290
 
    75 auxi: expC ',' auxi .
 
     $default  reduce usando la regla 75 (auxi)
 
 
-estado 292
+estado 291
 
    35 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')' ';' .
 
     $default  reduce usando la regla 35 (sentenciaDoWhile)
 
 
-estado 293
+estado 292
 
    36 sentenciaFor: FOR '(' sentenciaDecOAsig expC puntoYComa incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}' .
 
     $default  reduce usando la regla 36 (sentenciaFor)
 
 
-estado 294
+estado 293
 
    51 sentenciaElse: ELSE saltoOpcional . '{' listadoDeSentencias '}'
 
-    '{'  desplazar e ir al estado 296
+    '{'  desplazar e ir al estado 295
 
 
-estado 295
+estado 294
 
    55 sentenciaCase: CASE expC ':' listadoDeSentencias BREAK . ';'
 
-    ';'  desplazar e ir al estado 297
+    ';'  desplazar e ir al estado 296
 
 
-estado 296
+estado 295
 
    51 sentenciaElse: ELSE saltoOpcional '{' . listadoDeSentencias '}'
 
@@ -5468,7 +5457,7 @@ estado 296
     '}'            [reduce usando la regla 62 (listadoDeSentenciasDeAsignacion)]
 
     invocacionFuncion                 ir al estado 154
-    listadoDeSentencias               ir al estado 298
+    listadoDeSentencias               ir al estado 297
     sentenciaDoWhile                  ir al estado 156
     sentenciaFor                      ir al estado 157
     incrementoDecremento              ir al estado 158
@@ -5483,21 +5472,21 @@ estado 296
     parametro                         ir al estado 29
 
 
-estado 297
+estado 296
 
    55 sentenciaCase: CASE expC ':' listadoDeSentencias BREAK ';' .
 
     $default  reduce usando la regla 55 (sentenciaCase)
 
 
-estado 298
+estado 297
 
    51 sentenciaElse: ELSE saltoOpcional '{' listadoDeSentencias . '}'
 
-    '}'  desplazar e ir al estado 299
+    '}'  desplazar e ir al estado 298
 
 
-estado 299
+estado 298
 
    51 sentenciaElse: ELSE saltoOpcional '{' listadoDeSentencias '}' .
 

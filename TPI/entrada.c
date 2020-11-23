@@ -1,4 +1,5 @@
-int a=5;
-void b="hola";
+int hola(int);
+int hola(int a){
 
-int c=a+b;
+}
+
