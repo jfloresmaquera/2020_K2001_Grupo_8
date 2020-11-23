@@ -1,5 +1,3 @@
-int hola(int ,int );
-for()
-int hola(int a int b){
-       int c
+
+for(int a=5;a<10 a++){
 }
