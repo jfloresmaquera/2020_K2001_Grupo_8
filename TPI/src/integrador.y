@@ -70,7 +70,7 @@
 %type <s> auxi
 %type <s> expC
 %type <s> identificadorA
-%type <s> exp
+
 %type <s> sentenciaDeclaracion
 %type <s> listaParametrosPrototipo
 %type <s> listaParametrosFuncion
@@ -79,6 +79,9 @@
 %type <s> sentenciaReturn
 %type <s> listaParametrosInvocacionAuxiliar
 %type <s> sentenciaAsignacionAuxiliar
+%type <s> desarrolloFuncion
+%type <s> prototipoFuncion
+%type <s> invocacionFuncion
 
 
 %%
@@ -117,6 +120,7 @@ invocacionFuncion: IDENTIFICADOR '(' listaParametrosInvocacion ')' ';'  {if(veri
 
 
 
+
 listadoDeSentencias: /* vacio */ 
 					| sentenciaSwitch listadoDeSentencias 
 					| sentenciaDoWhile listadoDeSentencias
@@ -130,7 +134,7 @@ listadoDeSentencias: /* vacio */
 					| incrementoDecremento listadoDeSentencias
 					| '\n' listadoDeSentencias {my_line++;} 
 ;
-sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' exp ')' ';' {printf( "Se ha declarado una sentencia do-while \n");}
+sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')' ';' {printf( "Se ha declarado una sentencia do-while \n");}
 
 ;
 sentenciaFor:	FOR  '(' sentenciaDecOAsig   expC ';'  incrementoParaFor ')' saltoOpcional '{' listadoDeSentencias '}'  {printf("Se ha declarado una sentencia for\n");}
@@ -158,28 +162,28 @@ incrementoDecremento: IDENTIFICADOR MAS_MAS ';'  	 {if(idYaSeDeclaro($<s.cadena>
 ;
 
 
-sentenciaIfElse: IF '(' exp ')' saltoOpcional '{' listadoDeSentencias '}' {printf ("Se declaro un if \n");} sentenciaElse
-				| error saltoOpcional { yyerrok; }
+sentenciaIfElse: IF '(' expC ')' saltoOpcional '{' listadoDeSentencias '}' {printf ("Se declaro un if \n");} sentenciaElse
+				
 ;
 
 sentenciaElse: 	/* vacío */ 
 				| ELSE saltoOpcional '{' listadoDeSentencias '}' {printf ("Se declaron un else \n");}
 ;
 
-sentenciaWhile: WHILE '(' exp ')' saltoOpcional '{'  listadoDeSentencias '}' {printf ("Se declaro un while \n");}
+sentenciaWhile: WHILE '(' expC ')' saltoOpcional '{'  listadoDeSentencias '}' {printf ("Se declaro un while \n");}
 
 ;
 
-sentenciaSwitch: SWITCH '(' exp ')' saltoOpcional '{' sentenciaCase '}' {printf ("Se declaro un switch \n");}
+sentenciaSwitch: SWITCH '(' expC ')' saltoOpcional '{' sentenciaCase '}' {printf ("Se declaro un switch \n");}
 
 ;
 
 sentenciaCase:  /* vacío */ 
-				| CASE exp ':' listadoDeSentencias BREAK ';' {printf ("Se declaro un case \n");}
+				| CASE expC ':' listadoDeSentencias BREAK ';' {printf ("Se declaro un case \n");}
 				| sentenciaCase DEFAULT ':' listadoDeSentencias {printf ("Se declaro el default \n");}
 ;
 
-sentenciaReturn: RETURN exp ';' {printf ("Se declaro un return \n ");}
+sentenciaReturn: RETURN expC ';' {printf ("Se declaro un return \n ");}
 ;
 
 listadoDeSentenciasDeDeclaracion:	/* vacío */ 
@@ -193,7 +197,7 @@ listadoDeSentenciasDeAsignacion: /* vacío */
 
 ;
 
-sentenciaDeclaracionParaFor:	TIPO_DATO IDENTIFICADOR '=' exp ';' {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
+sentenciaDeclaracionParaFor:	TIPO_DATO IDENTIFICADOR '=' expC ';' {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 
 ;
 
@@ -205,18 +209,20 @@ sentenciaDeclaracion: 	TIPO_DATO IDENTIFICADOR opcional1';'						 {agregarIdenti
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' ';'  				 {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO IDENTIFICADOR '[' expC ']' '=' '{' auxi '}' ';'  {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
 						| TIPO_DATO '*' IDENTIFICADOR ';'          				     {agregarIdentificador($<s.cadena>2, $<s.tipo>1);}
-						| error saltoOpcional {yyerrok; }
 ; 
 
 
-desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')'  saltoOpcional '{' listadoDeSentencias '}' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,1)}
+
+
+
+desarrolloFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosFuncion ')' saltoOpcional  '{'  listadoDeSentencias '}'   {agregarFuncion($<s.tipo>1,$<s.cadena>2,1)}
 ;
 
 prototipoFuncion: TIPO_DATO IDENTIFICADOR '(' listaParametrosPrototipo ')' ';'  {agregarFuncion($<s.tipo>1,$<s.cadena>2,0)}
 ;
 
 opcional1:	/* vacío */ 
-		 | sentenciaAsignacionAuxiliar exp 
+		 | sentenciaAsignacionAuxiliar expC 
 ;
 
 
@@ -225,7 +231,7 @@ auxi: expC ',' auxi
 	| expC 
 ;
 
-sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar exp ';'  {if(!flag()){printf("se realizo una asignacion\n");}else{bajarFlag();}} 
+sentenciaAsignacion: parametro sentenciaAsignacionAuxiliar expC ';'  {if(!flag()){printf("se realizo una asignacion\n");}else{bajarFlag();}} 
 ;
 
 
@@ -247,27 +253,31 @@ listaIdentificadores: identificadorA
 ;
 
 identificadorA:		IDENTIFICADOR 				    	{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());} 
-					|IDENTIFICADOR '=' exp			    {agregarIdentificador($<s.cadena>1,mostrarUltimoDato());} 
-					|IDENTIFICADOR MAS_IGUAL exp 		{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
-					|IDENTIFICADOR MENOS_IGUAL exp  	{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
-					|IDENTIFICADOR POR_IGUAL exp  		{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
-					|IDENTIFICADOR DIVIDIDO_IGUAL exp  	{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
+					|IDENTIFICADOR '=' expC			    {agregarIdentificador($<s.cadena>1,mostrarUltimoDato());} 
+					|IDENTIFICADOR MAS_IGUAL expC 		{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
+					|IDENTIFICADOR MENOS_IGUAL expC  	{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
+					|IDENTIFICADOR POR_IGUAL expC  		{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
+					|IDENTIFICADOR DIVIDIDO_IGUAL expC  	{agregarIdentificador($<s.cadena>1,mostrarUltimoDato());}
 
 ;
 
 listaParametrosPrototipo: 	/* vacio */
-							| TIPO_DATO 							 {agregarParametro($<s.tipo>1);}
-							| TIPO_DATO ',' listaParametrosPrototipo {agregarParametro($<s.tipo>1);}
-							| listaParametrosFuncion
+							|TIPO_DATO 												{agregarParametro($<s.tipo>1);}
+							|listaParametrosPrototipo ',' TIPO_DATO 			    {agregarParametro($<s.tipo>3);}
+ 
 ;
-
 
 
 listaParametrosFuncion: 	/* vacio */ 
-							|TIPO_DATO IDENTIFICADOR							{agregarParametro($<s.tipo>1);}
-							|TIPO_DATO IDENTIFICADOR ',' listaParametrosFuncion	{agregarParametro($<s.tipo>1);} 
+							|TIPO_DATO IDENTIFICADOR  auxiliarNick				{agregarParametro($<s.tipo>1);agregarIdentificador($<s.cadena>2,$<s.tipo>1)} 
 
 ;
+
+auxiliarNick:	',' TIPO_DATO IDENTIFICADOR					 {agregarParametro($<s.tipo>3);agregarIdentificador($<s.cadena>3,$<s.tipo>2)}
+				| auxiliarNick ',' TIPO_DATO IDENTIFICADOR   {agregarParametro($<s.tipo>2);agregarIdentificador($<s.cadena>4,$<s.tipo>3)} 
+
+;
+
 
 listaParametrosInvocacion: /* vacio */ 
 				    	  | noTerminal listaParametrosInvocacionAuxiliar
@@ -300,15 +310,13 @@ noTerminalFinal:IDENTIFICADOR 							{int tipo=buscarTipo($<s.cadena>1);if(tipo>
 				| NUM_R   								{agregarParametro($<s.tipo>1);}
 
 
-exp: 		LITERAL_CADENA
-			| expC         
-			
-;
 
 
-expC:		IDENTIFICADOR			  {$<s.tipo>$=buscarTipo($<s.cadena>1);} 
-			| CHAR					  {$<s.tipo>$=4;}
-			| expC '+' expC           {$<s.tipo>1=calcularTipo($<s.cadena>1, $<s.tipo>1); $<s.tipo>3=calcularTipo($<s.cadena>3, $<s.tipo>3); printf("tipo del segundo operando %d",$<s.tipo>3); if(sonOperables($<s.tipo>1,$<s.tipo>3)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, $<s.tipo>1, '+' ,$<s.cadena>3, $<s.tipo>3);}}
+
+expC:		LITERAL_CADENA            {$<s.tipo>$=4;}
+			|IDENTIFICADOR			  {$<s.tipo>$=buscarTipo($<s.cadena>1);} 
+			| CHAR					  {$<s.tipo>$=0;}
+			| expC '+' expC           {$<s.tipo>1=calcularTipo($<s.cadena>1, $<s.tipo>1); $<s.tipo>3=calcularTipo($<s.cadena>3, $<s.tipo>3); printf("tipo del primer operando %d y tipo del segundo operando %d",$<s.tipo>1,$<s.tipo>3); if(sonOperables($<s.tipo>1,$<s.tipo>3)){printf ("Se escribio una expresion usando una suma \n");}else{agregarErrorDeTipos($<s.cadena>1, $<s.tipo>1, '+' ,$<s.cadena>3, $<s.tipo>3);}}
 			| expC '-' expC           {printf ("Se escribio una expresion usando una resta \n");}         
 			| expC '>' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
 			| expC '<' expC           {printf ("Se escribio una expresion con signo de desigualdad \n");}         
@@ -328,16 +336,16 @@ expC:		IDENTIFICADOR			  {$<s.tipo>$=buscarTipo($<s.cadena>1);}
 
 
 
+
 %%
 
 int main ()
 {
 	yyin=fopen("entrada.c","r");
-	yyparse();
- 	#ifdef BISON_DEBUG
+	#ifdef BISON_DEBUG
         yydebug = 1;
 	#endif
-
+	yyparse();
 	generarReporte();
 	fclose(yyin);
 	system("pause");	

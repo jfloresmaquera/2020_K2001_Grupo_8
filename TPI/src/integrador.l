@@ -51,7 +51,7 @@ void                                         { strcpy(yylval.s.cadena, yytext);y
 "&&"									     { strcpy(yylval.s.cadena, yytext); return AND;}
 "||"										 { strcpy(yylval.s.cadena, yytext); return OR;}
 "!="										 { strcpy(yylval.s.cadena, yytext); return DESIGUALDAD;}
-\"CARACTER_IMPRIMIBLE*\"			 		 { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=4; return  LITERAL_CADENA;}
+\"{CARACTER_IMPRIMIBLE}*\"			 		 { strcpy(yylval.s.cadena, yytext);yylval.s.tipo=4; return  LITERAL_CADENA;}
 "++"                                         { strcpy(yylval.s.cadena, yytext); return  MAS_MAS;}
 "--"                                         { strcpy(yylval.s.cadena, yytext); return  MENOS_MENOS;}
 ","     { return ','; }

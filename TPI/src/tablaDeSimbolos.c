@@ -55,7 +55,6 @@ void agregarFuncion(int tipo, char* id,int funcionalidad){ //funcionalidad=0 pro
         nuevoNodo -> cantidadVecesDeclarado = 0;   
         nuevoNodo -> cantidadVecesDesarrollada = 0;
         nuevoNodo -> cantidadParametros = cantidadNodos(nuevoNodo -> listaParametros);
-
         if(funcionalidad==0){
                 nuevoNodo -> cantidadVecesDeclarado+=1;
         }else{
@@ -91,7 +90,7 @@ void agregarFuncion(int tipo, char* id,int funcionalidad){ //funcionalidad=0 pro
             if(funcionalidad==0){
                 encontrado -> cantidadVecesDeclarado+=1;
             }else{
-                nuevoNodo -> cantidadVecesDesarrollada+=1;
+                encontrado -> cantidadVecesDesarrollada+=1;
             }
             raizParametro = NULL;
         }
@@ -330,7 +329,7 @@ void generarReporte(){
     variablesCorrectamenteDeclaradas();
     funcionesCorrectamenteDeclaradas();
     erroresLexicos();
-    erroresSintacticos();
+   // erroresSintacticos();
     erroresSemanticos();
     system("pause");
 }
@@ -464,30 +463,31 @@ void agregarErrorDeTipos(char* informacion1,int tipoInf1, char operador,char* in
 
 void dobleDeclaracion(){ 
     NodoId *auxiliarRecorrido=raizId;
-    NodoFuncion *auxiliarRecorridos=raizFuncion;
-    //doble declaraciones de variables
+    NodoFuncion *auxiliarRecorridos;
+    //con respecto a variables
     while(auxiliarRecorrido!=NULL){
         if(auxiliarRecorrido->cantidad!=1){
             printf("Se realizo una doble declaracion con el identificador %s \n",auxiliarRecorrido->identificador);
-            auxiliarRecorrido=auxiliarRecorrido->next;
+
         }
     auxiliarRecorrido=auxiliarRecorrido->next;
     }
-    //doble declaraciones de prototipos de funciones
-    while(auxiliarRecorridos!=NULL){
-        if(auxiliarRecorridos->cantidadVecesDeclarado!=1){
-            printf("Se realizo una doble declaracion de la funcion %s \n",auxiliarRecorridos->identificador);
-            auxiliarRecorridos=auxiliarRecorridos->next;
-        }
-    auxiliarRecorridos=auxiliarRecorridos->next;
-    }
-    //doble delcaraciones de desarrollo de funciones
+    //con respecto a funciones
     auxiliarRecorridos=raizFuncion;
     while(auxiliarRecorridos!=NULL){
-        if(auxiliarRecorridos->cantidadVecesDesarrollada!=1){
-            printf("Se realizo mas de un desarrollo  de la funcion %s \n",auxiliarRecorridos->identificador);
-            auxiliarRecorridos=auxiliarRecorridos->next;
-        }
+            if(auxiliarRecorridos->cantidadVecesDesarrollada==0){
+                 printf("Nunca se desarrollo la funcion %s \n",auxiliarRecorridos->identificador);
+            }
+            if(auxiliarRecorridos->cantidadVecesDeclarado==0){
+                 printf("Nunca se realizo el prototipo de la la funcion %s \n",auxiliarRecorridos->identificador);
+            }
+            if(auxiliarRecorridos->cantidadVecesDesarrollada>1){
+                 printf("Se desarrollo mas de una vez la funcion %s \n",auxiliarRecorridos->identificador);   
+            }
+            if(auxiliarRecorridos->cantidadVecesDesarrollada>1){
+                    printf("Se realizo mas de una vez el prototipo de la funcion %s \n",auxiliarRecorridos->identificador); 
+            }
+        
     auxiliarRecorridos=auxiliarRecorridos->next;
     }
 

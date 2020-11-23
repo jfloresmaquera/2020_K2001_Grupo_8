@@ -1,4 +1,7 @@
-int a=4,b=5,c=6;
-float x;
 
-int d = a + x;
+int a(int,int,int);
+int a(int a,int b,int c){
+   int z;
+}
+
+
