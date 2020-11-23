@@ -130,8 +130,10 @@ listadoDeSentencias: /* vacio */
 					| sentenciaAsignacion listadoDeSentencias
 					| sentenciaReturn listadoDeSentencias
 					| listadoDeSentenciasDeDeclaracion listadoDeSentencias
+					| listadoDeSentenciasDeAsignacion listadoDeSentencias
 					| invocacionFuncion saltoOpcional
 					| incrementoDecremento listadoDeSentencias
+					| error listadoDeSentencias{yyerrok;}
 					| '\n' listadoDeSentencias {my_line++;} 
 ;
 sentenciaDoWhile: DO saltoOpcional '{' listadoDeSentencias '}' WHILE '(' expC ')' ';' {printf( "Se ha declarado una sentencia do-while \n");}
@@ -189,7 +191,9 @@ sentenciaReturn: RETURN expC ';' {printf ("Se declaro un return \n ");}
 
 listadoDeSentenciasDeDeclaracion:	/* vacío */ 
 									| sentenciaDeclaracion
-									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion 
+									| sentenciaDeclaracion ';' listadoDeSentenciasDeDeclaracion
+									| error listadoDeSentenciasDeDeclaracion {yyerrok;}
+
 ;
 
 listadoDeSentenciasDeAsignacion: /* vacío */ 	
@@ -271,7 +275,7 @@ listaParametrosPrototipo: 	/* vacio */
 
 listaParametrosFuncion: 	/* vacio */ 
 							|TIPO_DATO IDENTIFICADOR  auxiliarN				{agregarParametro($<s.tipo>1);agregarIdentificador($<s.cadena>2,$<s.tipo>1)} 
-
+							|error listaParametrosFuncion                   {yyerrok;} 											
 ;
 
 auxiliarN:    	',' TIPO_DATO IDENTIFICADOR					 {agregarParametro($<s.tipo>3);agregarIdentificador($<s.cadena>3,$<s.tipo>2)}
